@@ -23,3 +23,17 @@
 - Previous commits: multi-threaded tcpReceiver.cpp, SetUpNewExp fix
 
 **Next heartbeat rotation:** Task B (self-maintenance)
+
+---
+
+## 2026-04-05 11:24 AM CDT — Task B: Self-Maintenance
+
+**Token/context:** 27k / 1.0m = **3%** — well within limits, no action needed.
+
+**Workspace .md files:** No conflicting rules found. All auto-loaded files look current.
+
+**Stale PNGs in workspace:** Found 28 PNG files (`magnet_out.png`, `Plot-001` through `Plot-027`) that had accumulated in `~/.openclaw/workspace/` — moved all to `~/screenshots/` where they belong. Workspace is now PNGs-free.
+
+**Memory files:** All `memory/*.md` files look current. No pre-March-26 topic files found (those had already been cleaned). No duplicates or stale content detected.
+
+**Next heartbeat rotation:** Task C (Organize HELIOS_MD)
