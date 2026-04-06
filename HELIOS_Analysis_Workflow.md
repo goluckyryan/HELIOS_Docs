@@ -348,6 +348,11 @@ Edit these before running to match the experiment:
 
 ## Notes
 
+- ⚠️ **Pi working directory (MANDATORY):** All analysis work on Pi lives in `~/digios_11C_2/analysis/working_Helios/`
+  - h095 files: root of that dir
+  - h094 files: `~/digios_11C_2/analysis/working_Helios/h094_cuts/`
+  - Future experiments: create `~/digios_11C_2/analysis/working_Helios/<expName>/` subdirs
+  - Generated PNGs → `~/screenshots/` only; never scatter to home dir or workspace
 - ⚠️ **`analysis/working/` is experiment-specific** — all files here (Monitors.C, GeneralSortMapping.h, reactionConfig.txt, detectorGeo.txt, correction_*.dat, rdtCut*.root, etc.) change per experiment
 - ⚠️ **`analysis/Armory/`, `Cleopatra/`, `EventBuilder/`, `Woods-Saxon/`** are general/shared — independent of experiment, do not edit casually
 - ⚠️ `GeneralSortMapping.h` on Mac2020 is the **true correct map** — verify it matches DAQ's copy each experiment
