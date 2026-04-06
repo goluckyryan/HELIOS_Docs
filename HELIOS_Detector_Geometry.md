@@ -156,3 +156,13 @@ VME04-MDIG4: DetMap= -1 x10  (unused)
 - `NRDT=8` — 8 RDT channels (4 E-dE pairs)
 - `MWIN=100` — M-window value for energy filter (from digitizer setting)
 - Each experiment: re-check `GeneralSortMapping.h` in `digios/analysis/working/`
+
+## Experiment-Specific Known Issues
+
+### h094 (¹⁹Ne(p,p))
+- **Det 07** — Xn anomalous: `xnCorr ≈ 2.38` (typical ~0.92–1.11). Cause: cable or preamp issue. Still usable for energy; flag xn-based position.
+- **Det 08, 09, 10** — Xn signal DEAD. Exclude from xnCorr fits and Xf+Xn sums. Xf-only position possible but degraded resolution.
+
+### h095 (¹¹C(d,p))
+- No known hardware dead channels beyond Det 11 (always dead).
+- Det 20: requires band cut `1900 < Xf+Xn < 2500` for xnCorr fit (position cluster issue).
