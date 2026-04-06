@@ -127,6 +127,20 @@ Det 05: +0.11    Det 11:  SKIP   Det 17:  SKIP    Det 23: +0.06
 
 ---
 
+## h094 (¹⁹Ne(p,p)) Detector Notes
+
+Known hardware issues for h094 — do NOT apply these to other experiments.
+
+### Det 07 — Anomalous xnCorr
+- **xnCorr ≈ 2.38** (typical range ~0.92–1.11)
+- Cause: cable or preamp issue causing unusual Xn gain
+- Treatment: still usable for energy, but xn-based position less reliable — flag in analysis
+
+### Det 08, 09, 10 — Xn DEAD
+- **Xn signal dead** on these three detectors
+- Can still use Xf-only position if needed, but position resolution degraded
+- Exclude from any Xf+Xn sum or xnCorr fits
+
 ---
 
 ## RDT Coincidence Timing — dE vs E Channel Behavior (Maybe General — Found in h095)
