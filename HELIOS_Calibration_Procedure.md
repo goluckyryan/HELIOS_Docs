@@ -7,10 +7,13 @@ Covers energy calibration, Xf/Xn gain matching, and position reconstruction.
 
 ## Overview
 
-Calibration has three main stages:
-1. **Energy calibration** — channel → MeV conversion
-2. **Xf/Xn gain matching** — correct for strip gain asymmetry
-3. **Position calibration** — reconstruct X position with edge recovery
+> ⚠️ **MANDATORY ORDER — do not skip or reorder steps:**
+> 1. **Energy calibration** → `correction_e_alpha.dat` (symlink `correction_e.dat`)
+> 2. **Xf/Xn gain match** → `correction_xf_xn.dat`
+> 3. **Xs→E linearity** → `correction_xfxn_e.dat`
+> 4. **X scale** → `correction_scaleX.dat`
+>
+> Each step depends on the previous one. Running out of order produces wrong results.
 
 Each stage is a sanity check on the previous one. Nothing is trusted until cross-checked visually and numerically.
 
