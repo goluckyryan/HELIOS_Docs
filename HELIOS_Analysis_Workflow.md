@@ -340,7 +340,7 @@ Edit these before running to match the experiment:
 | `eCalCut` | 0.5–50 MeV | Valid calibrated energy range |
 | `xGate` | 0.8 | Cut out edges of detector (|x| < xGate) |
 | `skipDetID` | {2, 11, 20, 21} | ⚠️ Detectors to skip — det 11 always here |
-| `rdtCutFile1/2` | `rdtCuts_Ne.root`, `rdtCuts_O.root` | RDT particle ID cuts |
+| `rdtCutFile1/2` | `rdtCuts_Ne.root`, `rdtCuts_O.root` | RDT particle ID cuts — ⚠️ must contain `TObjArray` named `cutList`; individual top-level TCutG keys **crash Monitors.C** |
 | `thetaCMGate` | 10 deg | Minimum CM angle cut |
 | `isUseRDTTrace` | true | Use RDT trace timing |
 
