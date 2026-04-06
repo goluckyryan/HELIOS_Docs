@@ -346,6 +346,18 @@ Edit these before running to match the experiment:
 
 ---
 
+## Plot Indexing Convention (MANDATORY)
+
+Every generated plot must have an index number so it can be easily referenced later.
+
+- **Format:** `Plot-NNN` (e.g. `Plot-001`, `Plot-042`) — sequential, zero-padded to 3 digits
+- **Appears in:** filename, plot title, and any notes/memory referencing it
+- **Index log:** maintain `plot_index.md` in the working dir for each experiment
+  - h095: `~/digios_11C_2/analysis/working_Helios/plot_index.md`
+  - h094: `~/digios_11C_2/analysis/working_Helios/h094_cuts/plot_index.md`
+  - Future: `~/digios_11C_2/analysis/working_Helios/<expName>/plot_index.md`
+- **Never reuse** index numbers — always increment
+
 ## Notes
 
 - ⚠️ **Pi working directory (MANDATORY):** All analysis work on Pi lives in `~/digios_11C_2/analysis/working_Helios/`
