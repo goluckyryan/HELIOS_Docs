@@ -249,3 +249,5 @@ LCRC archival + parallel analysis
 - The softIOC on digios1 hosts the `Online_CS_*`, `DAQG_*`, `GLBL:DAQ:*`, `DigFIFOSpeed` PVs
 - Hardware PVs (`VMExx:MDIGn:*`, `VME32:*`) live on VxWorks IOCs, reachable via CA broadcast
 - ⚠️ Many EDM screens are outdated or never used — do not treat them as authoritative. Ryan will confirm which screens are actively used.
+- ✅ **`HELIOSArraySettings_4sidesArray.edl`** — REAL threshold screen, actively in use
+- ❌ **`HELIOSThresholds.edl`** — STALE, wrong PVs, NOT used — do not reference

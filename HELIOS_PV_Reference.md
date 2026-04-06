@@ -53,6 +53,8 @@
 
 ## Global Digitizer PVs (GLBL:DIG:)
 
+> ⚠️ **DO NOT use GLBL:DIG:\* PVs to set individual channel parameters** — these broadcast to ALL digitizers and will overwrite specific settings. Always use `VMExx:MDIGn:*` individual module PVs directly.
+
 These broadcast to all digitizers system-wide via dfanout chains (F01–F05 per parameter).
 
 | PV Name | Type | Description |
