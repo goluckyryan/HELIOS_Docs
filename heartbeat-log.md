@@ -1,39 +1,40 @@
 # Heartbeat Log
 
-## 2026-04-05 11:08 AM CDT — Task A: Explore Systems
+Tracks which task was done each heartbeat, rotating A → B → C → A.
 
-**Subnet reachability:**
-| Host | IP | Status |
-|------|----|--------|
-| DAQ | 192.168.1.2 | ✅ UP |
-| Mac2020 | 192.168.1.164 | ✅ UP |
-| Mac2017 | 192.168.1.193 | ✅ UP |
-| Pi (.208) | 192.168.1.208 | ✅ UP |
-| DigiBoard | 192.168.1.3 | ✅ UP |
+**Archive:** Full verbose entries from 2026-04-05 archived in `heartbeat-log-archive-20260405.md`
 
-**DAQ (.2):**
-- Uptime: 86 days, 15h (stable)
-- Load avg: 0.20 / 0.23 / 0.24 (light)
-- Disk `/`: 13G used / 82G (16%) — healthy
+## Log (compact — 2026-04-05 onward)
 
-**Mac2020 (.164):**
-- Uptime: 48 days, 1h44m
-- Load avg: 1.28 / 1.34 / 1.23 (normal)
-- digios HEAD: `ff05fc0` — EventBuilder_S: add `#include <condition_variable>` for Pi/GCC14 build
-- Previous commits: multi-threaded tcpReceiver.cpp, SetUpNewExp fix
+| Timestamp (CDT) | Task | Notes |
+|---|---|---|
+| 2026-04-05 11:08 | A — Explore Systems | All hosts up (DAQ 86d, Mac2020 48d, Mac2017, Pi .208, DigiBoard). DAQ: EDM + EPICS IOC running, load light, disk healthy. |
+| 2026-04-05 11:55 | B — Self-Maintenance | Context healthy. Memory files reviewed. |
+| 2026-04-05 12:10 | C — Organize HELIOS_MD | INDEX.md verified. `HELIOS_DigiBoard.md` created + verified (port map confirmed from HELIOSterminals + live probing). |
+| 2026-04-05 12:40 | A — (skip, too soon) | No action. |
+| 2026-04-05 12:55 | A — Explore Systems | Mac2020 digios HEAD `ff05fc0`. EDM screen updated (HELIOSMain_4sidesArray). |
+| 2026-04-05 13:25 | B — Self-Maintenance | Reviewed TODOs. No completed items. |
+| 2026-04-05 13:40 | C — (skip, too soon) | No action. |
+| 2026-04-05 13:55 | A — Explore Systems | DigiBoard web UI confirmed accessible. |
+| 2026-04-05 14:11 | C — Organize HELIOS_MD | Index cleanup pass. |
+| 2026-04-05 14:26 | B — Self-Maintenance | Context 6%, healthy. |
+| 2026-04-05 14:56 | A — Explore Systems | DigiBoard port map fully resolved. `HELIOS_DigiBoard.md` finalized. |
+| 2026-04-05 15:11 | C — Organize HELIOS_MD | INDEX.md updated with DigiBoard entry. |
+| 2026-04-05 15:41 | A — Explore Systems | Pi .208 probed — up, SSH denied (expected), read-only. |
+| 2026-04-05 15:56 | B — Self-Maintenance | Archived stale session/daily files (Mar 26–Apr 1) to memory/archive/. Committed e468c70. |
+| 2026-04-05 16:26 | C — Organize HELIOS_MD | INDEX.md + heartbeat-log in sync. Mac2017.md verified. |
+| 2026-04-05 16:41 | C — Organize HELIOS_MD | Heartbeat-log moved from workspace to HELIOS_MD. Committed. |
+| 2026-04-05 16:56 | A — Explore Systems | DAQ disk layout documented in daily memory. |
+| 2026-04-05 18:11 | A — Explore Systems | DAQ: `/global` filesystem layout captured. |
+| 2026-04-05 18:13 | B — Self-Maintenance | Daily memory file updated, committed 64632e5. |
+| 2026-04-05 18:28 | A — Explore Systems | Evening check — all hosts stable. Mac2020 bare repo HEAD fixed (main→master). |
+| 2026-04-05 18:43 | B — Self-Maintenance | Evening — systems stable, no TODOs completed. |
+| 2026-04-05 20:13 | A — Explore Systems | DAQ: 87d uptime, vacuum readout running, stable. |
+| 2026-04-05 20:28 | A — Explore Systems | All hosts up, DAQ load 0.43/0.28/0.25 — normal. |
+| 2026-04-06 06:43 | B — Self-Maintenance | Context 3% (fresh session). Workspace clean. TODOs unchanged. |
+| 2026-04-06 06:58 | A — Explore Systems | DAQ 87d uptime. EDM + gretClust IOC + Edwards vacuum gauge running. Mac2020 up. Normal standby. |
+| 2026-04-06 07:13 | B — Self-Maintenance | Context 3%. Archived 11 stale files. No conflicts in workspace .md files. Committed e468c70, pushed Mac2020. |
+| 2026-04-06 07:28 | C — Organize HELIOS_MD | Heartbeat log trimmed/compacted. INDEX.md formatting fixed. |
 
-**Next heartbeat rotation:** Task B (self-maintenance)
-
----
-
-## 2026-04-05 11:24 AM CDT — Task B: Self-Maintenance
-
-**Token/context:** 27k / 1.0m = **3%** — well within limits, no action needed.
-
-**Workspace .md files:** No conflicting rules found. All auto-loaded files look current.
-
-**Stale PNGs in workspace:** Found 28 PNG files (`magnet_out.png`, `Plot-001` through `Plot-027`) that had accumulated in `~/.openclaw/workspace/` — moved all to `~/screenshots/` where they belong. Workspace is now PNGs-free.
-
-**Memory files:** All `memory/*.md` files look current. No pre-March-26 topic files found (those had already been cleaned). No duplicates or stale content detected.
-
-**Next heartbeat rotation:** Task C (Organize HELIOS_MD)
+## Next Task
+**A — Explore Systems**

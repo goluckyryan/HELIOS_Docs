@@ -24,7 +24,9 @@ All files located in `~/HELIOS_MD/`.
 | `HELIOS_Migration_Mac2020.md` | Mac2020 migration plan |
 | `voice-bridge-plan.md` | Discord voice bridge architecture for HELIOS AI |
 | `voice-terminal-plan.md` | Pi mic+speaker voice terminal plan |
-| `heartbeat-log.md` | Heartbeat task log |
+| `HELIOS_DigiBoard.md` | DigiBoard TS 16 MEI — verified port map, VME console access reference |
+| `HELIOS_Mac2017.md` | Mac2017 (.193) system reference — role, digios state, experiments, disk |
+| `heartbeat-log.md` | Heartbeat task log (compact; archive in heartbeat-log-archive-20260405.md) |
 
 ## When to load each
 
@@ -39,3 +41,5 @@ All files located in `~/HELIOS_MD/`.
 - Calibration lessons / exShift / xnCorr → `calibration_notes.md`
 - New experiment setup → `new_experiment_checklist.md`
 - RDT cuts, FOM, ML vs hand-drawn → `rdtCut_guideline.md`
+- DigiBoard port map, VME consoles → `HELIOS_DigiBoard.md`
+- Mac2017 system state → `HELIOS_Mac2017.md`
