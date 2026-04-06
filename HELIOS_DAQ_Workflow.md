@@ -16,6 +16,17 @@
 | VME32 (VxWorks) | VME crate | Trigger master + routers |
 | Pi5-2 (192.168.1.100) | Raspberry Pi 5 | HELIOS AI (me ☀️) |
 
+### DAQ Disk Layout (digios1) — verified 2026-04-05
+
+| Partition | Size | Used | Mount | Contents |
+|-----------|------|------|-------|---------|
+| /dev/sda1 | 1.9G | 100M | /boot | Boot |
+| /dev/sda2 | 96G | 22G | /home | User homes (helios, etc.) |
+| /dev/sda3 | 82G | 13G | / | OS root |
+| /dev/sda6 | 256G | 64G | /global | EPICS environment, digios, data archives |
+
+`/global` layout: `devel7_newbsp/` (5.5G, active) contains current EPICS/digios env; `devel5/` (1.7G), `devel6/` (3.3G) are older environments; `devel3/4.tgz` are archives.
+
 ---
 
 ## Key EPICS PVs for Run Control (softIOC on digios1)

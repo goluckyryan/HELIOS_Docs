@@ -36,6 +36,13 @@ HELIOS is a solenoidal spectrometer at the ATLAS facility (Argonne Tandem Linac 
 | [HELIOS_Analysis_Workflow.md](HELIOS_Analysis_Workflow.md) | ROOT analysis pipeline, Armory macros, TSelector framework |
 | [HELIOS_Simulation_Cleopatra.md](HELIOS_Simulation_Cleopatra.md) | Cleopatra/Ptolemy DWBA simulation, kinematics tools |
 
+### Systems & Hardware
+
+| File | Description |
+|------|-------------|
+| [HELIOS_DigiBoard.md](HELIOS_DigiBoard.md) | Terminal server (Digi PortServer TS 16 MEI) — verified port map, VME console access (✅ 2026-04-05) |
+| [HELIOS_Mac2017.md](HELIOS_Mac2017.md) | Mac2017 (.193) — role, digios state, disk usage, experiments |
+
 ### Infrastructure & Plans
 
 | File | Description |
@@ -52,7 +59,7 @@ The spectrometer is controlled via a dedicated subnet (192.168.1.0/24):
 |---|---|
 | .1 | Cisco gateway/router |
 | .2 | DAQ host (CentOS 6, EPICS soft IOC) |
-| .3 | DigiBoard serial/telnet gateway |
+| .3 | Terminal server (Digi PortServer TS 16 MEI) — 2001=TrigCPU, 2002–2006=VME1–5, 2007=VME6(off) |
 | .20–.24 | VME IOCs (VxWorks 5.5) |
 | .100 | HELIOS AI (Raspberry Pi 5) |
 | .155 | Iseg HV controller (SNMP) |

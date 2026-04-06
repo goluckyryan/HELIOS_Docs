@@ -1,6 +1,6 @@
 # new_experiment_checklist.md — New Experiment Setup (MANDATORY)
 
-When starting analysis on any new experiment, create `working_Helios/` (or equivalent).
+When starting analysis on any new experiment, create a subdir under `~/digios_11C_2/analysis/working_Helios/<expName>/`.
 
 ---
 
@@ -44,7 +44,7 @@ When starting analysis on any new experiment, create `working_Helios/` (or equiv
 
 ## Rules
 
-- `working_Helios/` is fully decoupled from `working/`
+- `~/digios_11C_2/analysis/working_Helios/<expName>/` is fully decoupled from `working/`
 - Config files: **real copies** (not symlinks to working/)
 - Code files (Monitors.C, Armory/): symlinks OK
 - Data files (root_data/): symlink OK
@@ -62,4 +62,4 @@ When starting analysis on any new experiment, create `working_Helios/` (or equiv
 
 ---
 
-_Updated: 2026-03-30_
+_Updated: 2026-04-05 — corrected working_Helios path to full absolute path_

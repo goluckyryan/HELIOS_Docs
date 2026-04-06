@@ -207,9 +207,9 @@ After applying xScale, apply an |X| < 0.95 cut to remove events in the edge pile
 - ✅ Xf/Xn gain match: `xnCorr = 0.9263`, `scaleE = 1.0263`
 - ✅ xScale: `1.3443` (right edge peak at X=0.7439, Gaussian fit)
 - ✅ Recommended X gate after scaling: `|X| < 0.95`
-- ⏳ Correction files not yet written to `analysis/working/`
-- ⏳ Only det 06 calibrated — 23 detectors remaining
+- ✅ Correction files written to `working_Helios/` (correction_e.dat, correction_xf_xn.dat, correction_xfxn_e.dat, correction_scaleX.dat) — verified 2026-04-05
+- ✅ Full 24-detector calibration completed for h095 — see `expMemory_h095.md` for final values
 
 ---
 
-*Last updated: 2026-03-13*
+*Last updated: 2026-04-05 (stale ⏳ notes removed — calibration complete)*
