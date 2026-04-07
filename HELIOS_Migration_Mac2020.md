@@ -3,6 +3,9 @@
 **Goal:** Move HELIOS AI (OpenClaw) from Pi (192.168.1.100) to Mac2020 (192.168.1.164),
 then decommission the Pi entirely from the HELIOS subnet.
 
+**Status (2026-04-06):** ⏸ Not started — Node.js and OpenClaw not yet installed on Mac2020.
+Mac2020 is reachable and healthy. Migration is planned but not scheduled.
+
 ---
 
 ## Phase 1 — Prepare Mac2020
