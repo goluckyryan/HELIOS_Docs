@@ -3,6 +3,11 @@
 A methodology guide for manual calibration of PSD silicon detectors using ²²⁸Th alpha sources.
 Covers energy calibration, Xf/Xn gain matching, and position reconstruction.
 
+> **See Also:**
+> - `HELIOS_Calibration_Workflow.md` — AutoFit/AutoCalibrationTrace scripts, automation pipeline
+> - `calibration_notes.md` ⭐ — lessons learned, xnCorr gotchas, exShift iteration procedure
+> - `new_experiment_checklist.md` — required files list for new experiments
+
 ---
 
 ## Overview
@@ -204,15 +209,13 @@ After applying xScale, apply an |X| < 0.95 cut to remove events in the edge pile
 
 ---
 
-## Current Status (h094, Det 06)
+## Experiment-Specific Calibration Records
 
-- ✅ Energy calibration: `E = 0.003836×ch − 0.0064`
-- ✅ Xf/Xn gain match: `xnCorr = 0.9263`, `scaleE = 1.0263`
-- ✅ xScale: `1.3443` (right edge peak at X=0.7439, Gaussian fit)
-- ✅ Recommended X gate after scaling: `|X| < 0.95`
-- ✅ Correction files written to `working_Helios/` (correction_e.dat, correction_xf_xn.dat, correction_xfxn_e.dat, correction_scaleX.dat) — verified 2026-04-05
-- ✅ Full 24-detector calibration completed for h095 — see `expMemory_h095.md` for final values
+Calibration results for individual experiments are **not** stored here.
+- h094 calibration: see `expMemory_h094.md` (channel #h094_19ne_pp)
+- h095 calibration: see `expMemory_h095.md` (channel #h095_11c_dp_2) and `calibration_notes.md`
+- Per-experiment correction files live in `~/digios_11C_2/analysis/working_Helios/<expName>/`
 
 ---
 
-*Last updated: 2026-04-05 (stale ⏳ notes removed — calibration complete)*
+*Last updated: 2026-04-07 — added See Also cross-references; moved stale status to expMemory files*
