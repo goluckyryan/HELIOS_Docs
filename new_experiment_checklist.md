@@ -62,4 +62,22 @@ When starting analysis on any new experiment, create a subdir under `~/digios_11
 
 ---
 
-_Updated: 2026-04-05 — corrected working_Helios path to full absolute path_
+## Plot Index Setup (do this first)
+
+Create `plot_index.md` in the experiment working dir before generating any plots:
+
+```markdown
+# Plot Index — <expName>
+
+| Plot | File | Description |
+|------|------|-------------|
+| Plot-001 | ... | ... |
+```
+
+- Format: `Plot-NNN` (zero-padded, sequential, never reused)
+- Every plot filename and title must include the index number
+- See `HELIOS_Analysis_Workflow.md` → Plot Indexing Convention
+
+---
+
+_Updated: 2026-04-06 — added plot index setup step_

@@ -25,6 +25,14 @@ chain->Add("../root_data/gen_run061.root");
 
 ## Typical Calibration Sequence
 
+> ⚠️ **MANDATORY ORDER — do not skip or reorder steps:**
+> 1. **Energy** → `correction_e_alpha.dat` (Option 0)
+> 2. **Xf/Xn gain match** → `correction_xf_xn.dat` (Option 0)
+> 3. **Xs→E linearity** → `correction_xfxn_e.dat` (Option 1)
+> 4. **X scale** → `correction_scaleX.dat` (Option 5)
+>
+> See `calibration_notes.md` for lessons learned and known issues per experiment.
+
 ### For Alpha Source Runs:
 1. **Option 0** — XF/XN position + energy calibration (alpha peaks)
 2. **Option 5** — X-scale normalization to (−1, +1)
