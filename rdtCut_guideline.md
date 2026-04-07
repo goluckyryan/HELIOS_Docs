@@ -315,5 +315,15 @@ Is the target species band well-separated from other bands?
 
 ---
 
+## See Also
+
+- `HELIOS_Analysis_Workflow.md` — RDT cut usage in Monitors.C, plot indexing convention
+- `HELIOS_Detector_Geometry.md` — RDT channel mapping (IDs 100–107, Module 3 HV)
+- `HELIOS_PV_Reference.md` — HV PV names for RDT channels (u300–u315)
+- `expMemory_h094.md` / `expMemory_h095.md` — experiment-specific cut files and FOM results
+- `MEMORY.md` → "RDT Cut Reference" — summary of hand-drawn vs ML FOM results
+
+---
+
 _Created: 2026-03-27 by HELIOS_  
 _Sources: h094 analysis (2026-03-26/27), h095 analysis (2026-03-13/14), MEMORY.md_
