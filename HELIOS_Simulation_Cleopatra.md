@@ -253,3 +253,13 @@ The finite-size correction (`fxList`) accounts for the fact that the detector is
 - `Knockout` class also exists for knockout reactions (A(a,a'2)B type) — not commonly used at HELIOS
 - SRIM files must be pre-generated with correct beam/target combination and placed in `SRIM/` subfolder relative to `working/`
 - The `reaction.dat` output file contains pre-computed kinematic constants used by `Cali_e_trace.C` for on-the-fly Ex reconstruction
+
+---
+
+## See Also
+
+- `HELIOS_Analysis_Workflow.md` — full analysis pipeline (where Cleopatra fits in)
+- `HELIOS_Calibration_Workflow.md` — exShift iteration using Cleopatra kinematics overlay
+- `calibration_notes.md` — lessons on X-scale, exShift, and transfer.root usage
+- `new_experiment_checklist.md` — Cleopatra setup steps at the start of a new experiment
+- `expMemory_h095.md` / `expMemory_h094.md` — experiment-specific Cleopatra configs and results

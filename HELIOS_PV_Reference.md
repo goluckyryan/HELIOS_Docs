@@ -246,3 +246,13 @@ AutoSave file: `dgs_vme32_HELIOS.sav` → `/global/devel7_newbsp/boot/autosave/v
 | `dgsGlobals_HELIOS_VME06.db` | VME06 crate + MDIG PVs |
 
 **DB Path:** `/global/devel7_newbsp/gretTop/9-22/dgsIoc/db/`
+
+---
+
+## See Also
+
+- `HELIOS_DAQ_Workflow.md` — using PVs in DAQ control (caget/caput, run control PVs)
+- `HELIOS_Detector_Geometry.md` — detector layout (channel → PV mapping context)
+- `rdtCut_guideline.md` — RDT detector PVs and HV channels for recoils
+- `HELIOS_Experiment_Switch.md` — PVs that change between experiments (thresholds, HV)
+- `expMemory_h095.md` / `expMemory_h094.md` — experiment-specific threshold and HV settings
