@@ -104,3 +104,12 @@ while True:
 - AirPods A2DP mode = high quality stereo but NO mic
 - PipeWire can auto-switch profiles but may need config
 - Consider adding a physical button (GPIO) as push-to-talk alternative to wake word
+
+---
+
+## See Also
+
+- `voice-bridge-plan.md` — Discord voice channel bridge (complementary approach)
+- `IDENTITY.md` — HELIOS identity
+- `HELIOS_DAQ_Workflow.md` — DAQ context for voice commands during runs
+- MEMORY.md — Voice terminal TODO item

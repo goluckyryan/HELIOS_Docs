@@ -134,3 +134,12 @@ sudo apt install ffmpeg espeak-ng
 ---
 
 _Pick this up whenever ready. All the hard design decisions are made — just needs building._
+
+---
+
+## See Also
+
+- `voice-terminal-plan.md` — Pi mic+speaker direct voice terminal (complementary approach)
+- `IDENTITY.md` — HELIOS identity, Discord username and bot IDs
+- `HELIOS_DAQ_Workflow.md` — DAQ context for voice commands during runs
+- MEMORY.md — Voice channel support TODO item
