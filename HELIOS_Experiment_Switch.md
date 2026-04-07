@@ -152,9 +152,18 @@ cd ~/digios && git fetch origin && git checkout master
 - **DAQ data path**: `/media/DIGIOSDATA6/<expName>/` (no subdirs — raw data only, no data/ or root_data/ on DAQ)
 - **DAQ symlink**: `analysis/data` symlink is NOT needed on DAQ — `start_run.sh` writes directly to `${daqDataPath}/${expName}/`; do not create it during SetUpNewExp
 - **Mac2020 data path**: `~/experiments/<expName>/data` and `~/experiments/<expName>/root_data` (no merged_data — GEBSort removed)
-- **InfluxDB**: `192.168.1.193:8086`, db=`testing`
+- **InfluxDB**: `192.168.1.193:8086` (Mac2017), db=`testing`
 - **DAQ origin**: Pi relay (`ryan@192.168.1.100:~/digios.git`)
-- **Mac2020 pi remote**: `ryan@192.168.1.100:~/digios.git`
+- **Mac2020 pi remote**: `ryan@192.168.1.100:~/digios.git`)
 - **DAQ and Mac2020 must always be on the same branch**
 - **master = ARR01** (between experiments)
 - **`expName.sh`** is the source of truth for current experiment name and last run number
+
+---
+
+## See Also
+- `HELIOS_DAQ_Workflow.md` — DAQ run control, EPICS, start/stop run procedures
+- `HELIOS_Analysis_Workflow.md` — sort/analysis pipeline after switching experiment
+- `new_experiment_checklist.md` — full checklist for starting a new experiment
+- `calibration_notes.md` — calibration pipeline for the new experiment
+- `MEMORY.md` → "Git Workflow Rules" — commit/push sequence and sync rules
