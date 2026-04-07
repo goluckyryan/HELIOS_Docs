@@ -150,6 +150,33 @@ Then sets **trigger routing** (X/Y plane maps) and final master logic:
 
 ---
 
+## Quick DAQ Status Check
+
+To check if a run is currently active (read-only, safe to run anytime):
+
+```bash
+# Check acquisition state
+EPICS_CA_ADDR_LIST=192.168.1.2 caget Online_CS_StartStop Online_CS_SaveData
+
+# Expected when running:
+#   Online_CS_StartStop   Start
+#   Online_CS_SaveData    Save
+
+# Expected when idle:
+#   Online_CS_StartStop   Stop
+#   Online_CS_SaveData    No Save
+```
+
+> ⚠️ `EPICS_CA_ADDR_LIST` must point to digios1 (192.168.1.2) since CA broadcast on wlan0 won't reach the HELIOS subnet automatically. Alternatively, ensure `eth0` (192.168.1.100) is active and `AUTO_ADDR_LIST=YES`.
+
+Check current run number:
+```bash
+# On DAQ (digios1) — read expName.sh
+cat /global/devel7_newbsp/gretTop/9-22/dgsIoc/scripts/expName.sh | grep LastRunNum
+```
+
+---
+
 ## Starting a Run — `start_run.sh`
 
 1. Reads `expName.sh` → increments `LastRunNum`
