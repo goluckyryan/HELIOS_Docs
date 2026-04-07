@@ -209,6 +209,19 @@ Repeat = -1 → infinite runs. Sends AutoProcess trigger to Mac2020 for online a
 | `push2Discord.sh` | Post run status to Discord |
 | `push2Elog.sh` | Post to electronic logbook |
 | `WriteComment` | Write comment to elog |
+| `tcpReceiver` | **Experimental** multi-threaded TCP receiver (HELIOS AI, 2026-03-12) — see below |
+
+---
+
+## tcpReceiver (Experimental)
+
+- **Location:** `~/digios/daq/Receiver/tcpReceiver.cpp` (pre-built binary: `tcpReceiver`)
+- **Purpose:** Multi-threaded drop-in replacement for `gtReceiver4` — one thread per IOC, no shared mutable state
+- **Build:** `cd ~/digios/daq/Receiver && g++ -O2 -pthread -o tcpReceiver tcpReceiver.cpp`
+- **Usage:** `tcpReceiver <filename_base> <maxfilesize> <GEBID> <server1> [server2] ...`
+- **Example:** `tcpReceiver ARR01_run_001.gtd 2000000000 14 ioc1 ioc2 ioc3 ioc4`
+- **Status:** ⚠️ Not yet tested on live DAQ — TODO: test with Ryan present
+- **Author:** General HELIOS AI, based on `gtReceiver4.c` (LBL/ANL DGS group)
 
 ---
 
