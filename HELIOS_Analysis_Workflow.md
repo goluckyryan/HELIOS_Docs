@@ -372,3 +372,16 @@ Every generated plot must have an index number so it can be easily referenced la
 - Globus transfer to LCRC is currently **disabled** in stop_run.sh
 - AutoProcess on Mac2020 is triggered by DAQ's AutoStartStop for online monitoring during long runs
 - Mac2020 hostname: `phywl094.phy.anl.gov`
+
+---
+
+## See Also
+
+- `HELIOS_Calibration_Procedure.md` — silicon detector energy/position calibration (manual)
+- `HELIOS_Calibration_Workflow.md` — AutoFit, AutoCalibrationTrace, exShift iteration
+- `calibration_notes.md` — lessons learned: energy cal pipeline, xnCorr, X scale, exShift
+- `HELIOS_Simulation_Cleopatra.md` — kinematics, DWBA input files, Ptolemy
+- `rdtCut_guideline.md` — RDT cut methods, FOM scoring, TObjArray format
+- `HELIOS_Detector_Geometry.md` — detector layout, channel mapping (experiment-dependent)
+- `new_experiment_checklist.md` — start-of-experiment setup steps
+- `expMemory_h094.md` / `expMemory_h095.md` — per-experiment analysis state
