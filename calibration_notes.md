@@ -180,4 +180,12 @@ _Observed 2026-04-03 in h095 trace_run014 (Plots 015–018). May apply generally
 
 ---
 
-_Updated: 2026-04-03_
+## See Also
+
+- `HELIOS_Calibration_Procedure.md` — Step-by-step manual calibration (energy, Xf/Xn, position)
+- `HELIOS_Calibration_Workflow.md` — AutoFit/AutoCalibrationTrace scripts + exShift iteration procedure
+- `new_experiment_checklist.md` — New experiment setup steps (includes calibration phase)
+- `HELIOS_Analysis_Workflow.md` — Full analysis pipeline (sorting, ROOT, Monitors.C)
+- `expMemory_h094.md` / `expMemory_h095.md` — Experiment-specific calibration values and convergence records
+
+_Updated: 2026-04-07_

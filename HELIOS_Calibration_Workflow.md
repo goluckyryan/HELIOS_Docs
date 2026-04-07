@@ -246,3 +246,13 @@ After completing the 4-step calibration pipeline and applying RDT cuts, Ex peaks
 - Final exShift values should be < 0.5 MeV
 - After convergence, have Ryan verify Ex vs DetID and total Ex plots
 - Full lessons and h095 final values in `calibration_notes.md`
+
+---
+
+## See Also
+
+- `calibration_notes.md` — Detailed lessons, coinTime arch, xnCorr, exShift convergence records ⭐
+- `HELIOS_Calibration_Procedure.md` — Manual calibration procedure (step-by-step)
+- `new_experiment_checklist.md` — New experiment setup (calibration phase)
+- `HELIOS_Analysis_Workflow.md` — Full analysis pipeline context
+- `expMemory_h094.md` / `expMemory_h095.md` — Experiment-specific calibration values
