@@ -166,3 +166,12 @@ VME04-MDIG4: DetMap= -1 x10  (unused)
 ### h095 (¹¹C(d,p))
 - No known hardware dead channels beyond Det 11 (always dead).
 - Det 20: requires band cut `1900 < Xf+Xn < 2500` for xnCorr fit (position cluster issue).
+
+---
+
+## See Also
+- `HELIOS_PV_Reference.md` — EPICS PV names for thresholds, HV channels per detector
+- `HELIOS_Calibration_Procedure.md` — calibration steps (energy, Xf/Xn, position)
+- `calibration_notes.md` — xnCorr lessons, exShift iteration, dead detector handling
+- `rdtCut_guideline.md` — RDT cut methods, FOM scoring, TObjArray format
+- `expMemory_h094.md` / `expMemory_h095.md` — per-experiment detector status details

@@ -81,3 +81,13 @@ Create `plot_index.md` in the experiment working dir before generating any plots
 ---
 
 _Updated: 2026-04-06 — added plot index setup step_
+
+---
+
+## See Also
+- `HELIOS_Experiment_Switch.md` — DAQ/Mac2020 branch switching procedure
+- `HELIOS_Calibration_Procedure.md` — full calibration steps (energy → Xf/Xn → Xs→E → X scale)
+- `HELIOS_Calibration_Workflow.md` — AutoFit, AutoCalibrationTrace, exShift iteration
+- `calibration_notes.md` — lessons learned, known dead detectors, xnCorr pipeline
+- `HELIOS_Detector_Geometry.md` — channel mapping, experiment-specific hardware issues
+- `HELIOS_Simulation_Cleopatra.md` — kinematics / DWBA setup for new reaction
