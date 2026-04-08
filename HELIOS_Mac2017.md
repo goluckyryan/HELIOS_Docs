@@ -67,3 +67,10 @@ Also: Screenshots from Dec 2024 (`Screenshot 2024-12-*.png`), `Screenshots of s0
 - digios is on GitHub master (not the Pi relay) — means DAQ pulls and Mac2020 pushes don't automatically sync here
 - `digios_master` clone purpose unknown — may be a stale second clone
 
+## See Also
+
+- `HELIOS_Migration_Mac2020.md` — plan to migrate AI from Pi to Mac2020 (Mac2017 not involved)
+- `HELIOS_Experiment_Switch.md` — experiment branch management (Mac2020/DAQ primary; Mac2017 manual)
+- `TOOLS.md` (workspace) — subnet map, SSH access details
+- `MEMORY.md` (workspace) — Mac2017 system summary + disk warning
+

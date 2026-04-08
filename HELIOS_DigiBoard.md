@@ -46,3 +46,10 @@ Source: `/home/helios/digios/daq/edm/scripts/HELIOSterminals`
 - TS 16 MEI has 16 serial ports; HELIOS uses 7 (1 TrigCPU + 5 VME + 1 spare VME6 off)
 - Port 2001 = TrigCPU — common mistake to assume it's VME1 (it's not)
 - GRETINA-era `terminals` script exists on DAQ but maps ports differently — use `HELIOSterminals` for HELIOS
+
+## See Also
+
+- `HELIOS_DAQ_Workflow.md` — DAQ operations, run control, EPICS context
+- `HELIOS_PV_Reference.md` — EPICS PV names for VME IOC channels
+- `TOOLS.md` (workspace) — full subnet map, IP table, access methods
+- `MEMORY.md` (workspace) — DigiBoard port map summary + ⚠️ do-not-touch rules
