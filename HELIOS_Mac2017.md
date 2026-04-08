@@ -9,11 +9,12 @@
 
 ## Hardware / OS
 
-- macOS (version not checked), 1.9 TB internal disk
+- macOS 13.0 (Ventura), 1.9 TB internal disk
 - `/` (Macintosh HD): 8.2 GB used / 1.9 TB — **3% full**
-- `/System/Volumes/Data`: 1.6 TB used / 1.9 TB — **82% full** ⚠️
+- `/System/Volumes/Data`: 1.6 TB used / 1.9 TB — **83% full** ⚠️
 - Time Machine snapshots active
-- Uptime: ~48 days
+- Uptime: 51 days (as of 2026-04-08)
+- ✅ Verified 2026-04-08 — direct SSH; InfluxDB + Grafana both running, load ~2.0
 
 ## Role
 
