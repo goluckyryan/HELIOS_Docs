@@ -198,3 +198,14 @@ scp ryan@192.168.1.100:~/*.sh ~/
 - Mac2020 IP (192.168.1.164) assumed static — verify it doesn't change
 - `heliosdigios` user must have all required permissions
 - launchd (not systemd) for Mac services — syntax is different
+
+
+---
+
+## See Also
+
+- `HELIOS_DAQ_Workflow.md` — current DAQ workflow (Pi-based)
+- `HELIOS_Analysis_Workflow.md` — analysis pipeline that will move to Mac2020
+- `HELIOS_Mac2017.md` — Mac2017 role (archival, InfluxDB/Grafana host)
+- `HELIOS_Experiment_Switch.md` — experiment switching procedure
+- `MEMORY.md` — SSH key, Mac2020 access details

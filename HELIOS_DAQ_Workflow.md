@@ -291,3 +291,16 @@ LCRC archival + parallel analysis
 - ⚠️ Many EDM screens are outdated or never used — do not treat them as authoritative. Ryan will confirm which screens are actively used.
 - ✅ **`HELIOSArraySettings_4sidesArray.edl`** — REAL threshold screen, actively in use
 - ❌ **`HELIOSThresholds.edl`** — STALE, wrong PVs, NOT used — do not reference
+
+
+---
+
+## See Also
+
+- `HELIOS_PV_Reference.md` — full PV name list for CA queries
+- `HELIOS_Detector_Geometry.md` — channel/detector mapping
+- `HELIOS_Experiment_Switch.md` — switching experiment branches on DAQ + Mac2020
+- `HELIOS_Analysis_Workflow.md` — sorting, ROOT analysis, processing pipeline
+- `HELIOS_Calibration_Procedure.md` — calibration steps after data acquisition
+- `HELIOS_Simulation_Cleopatra.md` — kinematics / DWBA simulation
+- `HELIOS_DigiBoard.md` — terminal server port mapping
