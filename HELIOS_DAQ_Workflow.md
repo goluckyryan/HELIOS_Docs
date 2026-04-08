@@ -303,4 +303,4 @@ LCRC archival + parallel analysis
 - `HELIOS_Analysis_Workflow.md` — sorting, ROOT analysis, processing pipeline
 - `HELIOS_Calibration_Procedure.md` — calibration steps after data acquisition
 - `HELIOS_Simulation_Cleopatra.md` — kinematics / DWBA simulation
-- `HELIOS_DigiBoard.md` — terminal server port mapping
+- `HELIOS_TerminalServer.md` — terminal server port mapping

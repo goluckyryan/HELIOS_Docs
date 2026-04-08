@@ -93,4 +93,5 @@ Tracks which task was done each heartbeat, rotating A → B → C → A.
 ## Next Task: C — Organize HELIOS_MD
 | 2026-04-08 18:28 | C — Organize HELIOS_MD | Added SKIP reason note to h095 exShift table in calibration_notes.md (Det07=h095 issue, Det11=always dead/hardware, Det17/22=no convergence). Committed 347cc99. |
 
-## Next Task: A — Explore Systems
+## Next Task: B — Self-Maintenance
+| 2026-04-08 18:43 | A — Explore Systems | All hosts up. DAQ: 89d 22h52m, load 0.11/0.17/0.21, 5 processes (EDM + gretClust + Edwards + python×2). Mac2020: 51d 9h, load ~1.1. Normal standby. |

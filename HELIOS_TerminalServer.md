@@ -1,4 +1,4 @@
-# HELIOS DigiBoard — Serial Terminal Server Reference
+# HELIOS Terminal Server Reference
 
 **Generated:** 2026-04-05  
 ✅ **Verified 2026-04-05** — port map confirmed from `HELIOSterminals` script on DAQ + live port probing
@@ -26,7 +26,7 @@ Source: `/home/helios/digios/daq/edm/scripts/HELIOSterminals`
 | 2006 | VME5 | 192.168.1.24 | VxWorks 5.5, `->` prompt confirmed |
 | 2007 | VME6 | — | Mapped but **powered off** — not in current HELIOS config |
 | 2008–2015 | — | — | Closed / unused |
-| 23 | DigiBoard mgmt | — | `login:` prompt (DigiBoard OS) |
+| 23 | Terminal Server mgmt | — | `login:` prompt (Terminal Server OS) |
 
 ## Usage
 
@@ -52,4 +52,4 @@ Source: `/home/helios/digios/daq/edm/scripts/HELIOSterminals`
 - `HELIOS_DAQ_Workflow.md` — DAQ operations, run control, EPICS context
 - `HELIOS_PV_Reference.md` — EPICS PV names for VME IOC channels
 - `TOOLS.md` (workspace) — full subnet map, IP table, access methods
-- `MEMORY.md` (workspace) — DigiBoard port map summary + ⚠️ do-not-touch rules
+- `MEMORY.md` (workspace) — Terminal Server port map summary + ⚠️ do-not-touch rules
