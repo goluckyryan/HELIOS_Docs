@@ -123,6 +123,7 @@ Det 03: -0.06    Det 09: -0.10   Det 15: -0.07    Det 21: -0.07
 Det 04: -0.01    Det 10: -0.24   Det 16: -0.06    Det 22:  SKIP
 Det 05: +0.11    Det 11:  SKIP   Det 17:  SKIP    Det 23: +0.06
 ```
+- SKIP reasons: Det 07 = h095-specific issue (no physics signal); Det 11 = always dead (hardware, all experiments); Det 17 = no convergence; Det 22 = no convergence
 - g.s. FWHM: 193 keV, 4.4 MeV FWHM: 225 keV, g.s./4.4 ratio: 0.64
 
 ---
