@@ -283,9 +283,8 @@ TString rdtCutFile2 = "rdtCuts_O_srim.root";      // Secondary species (O)
 - `~/digios_11C_2/analysis/working/ryan_para/rdtCuts_12C_3.root` — Ryan's hand-drawn _3 cut
 
 ### Scripts (Pi)
-- `~/workspace/rdt_banana_all_tels.py` — empirical peak tracing + polynomial cut generator
-- `/tmp/dbscan_all_tels.py` — DBSCAN refinement pipeline (all telescopes)
-- `/tmp/make_rdt_cuts_final.py` — SRIM-based cut generation (Mac2020)
+- `~/digios_11C_2/analysis/working_Helios/h094/rdt_banana_all_tels.py` — empirical peak tracing + polynomial cut generator (h094)
+- ⚠️ DBSCAN and SRIM cut-generation scripts were session-temporary (`/tmp/`) — recreate from scratch for new experiments using procedure in sections 4 and 5
 
 ---
 
