@@ -26,7 +26,8 @@ All files located in `~/HELIOS_MD/`.
 | `voice-terminal-plan.md` | Pi mic+speaker voice terminal plan |
 | `HELIOS_DigiBoard.md` | Terminal server (Digi PortServer TS 16 MEI) — verified port map, VME console access reference |
 | `HELIOS_Mac2017.md` | Mac2017 (.193) system reference — role, digios state, experiments, disk |
-| `heartbeat-log.md` | Heartbeat task log (compact; archive in heartbeat-log-archive-20260405.md) |
+| `heartbeat-log.md` | Heartbeat task log (compact; full archive pre-2026-04-05 in heartbeat-log-archive-20260405.md) |
+| `heartbeat-log-archive-20260405.md` | Archived verbose heartbeat entries prior to 2026-04-05 |
 
 ## When to load each
 
@@ -43,3 +44,15 @@ All files located in `~/HELIOS_MD/`.
 - RDT cuts, FOM, ML vs hand-drawn → `rdtCut_guideline.md`
 - Terminal server port map, VME consoles → `HELIOS_DigiBoard.md`
 - Mac2017 system state → `HELIOS_Mac2017.md`
+
+## Related Files (not in HELIOS_MD — in workspace)
+
+These live in `~/.openclaw/workspace/` and are loaded separately:
+
+| File | Contents |
+|---|---|
+| `MEMORY.md` | Long-term memory — SSH keys, PV rules, host map, active TODO list |
+| `expMemory_h094.md` | h094 ¹⁹Ne(p,p) experiment — runs, calibration state, analysis notes |
+| `expMemory_h095.md` | h095 ¹¹C(d,p) experiment — runs, calibration state, exShift iterations |
+
+> These are auto-loaded per channel (USER.md). Do not duplicate their content in HELIOS_MD.
