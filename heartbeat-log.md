@@ -81,4 +81,16 @@ Tracks which task was done each heartbeat, rotating A → B → C → A.
 
 | 2026-04-08 16:58 | C — Organize HELIOS_MD | Updated HELIOS_Mac2017.md: macOS 13.0 (Ventura), 51d uptime, disk 83%, InfluxDB+Grafana running. Added ✅ Verified stamp. Committed 34ad4a5. |
 
+| 2026-04-08 17:13 | A — Explore Systems | All hosts up. DAQ: 89d 21h, load 0.10/0.20/0.27, 5 processes (EDM + gretClust + Edwards + python×2). Mac2020: 51d 7h, load ~1.0, disk 75%. Pi: 27d 4h, load 0.00. Normal standby. |
+| 2026-04-08 17:28 | B — Self-Maintenance | Context 5% (healthy). Workspace clean. No stray PNGs. All nominal. |
+
+| 2026-04-08 17:43 | C — Organize HELIOS_MD | Clarified RDT dE/E timing note in calibration_notes.md — changed "Maybe General" to confirmed structural truth (applies all experiments). Committed 68c992e. |
+
+| 2026-04-08 17:58 | A — Explore Systems | All hosts up. DAQ: 89d 22h, load 0.16/0.34/0.32, 5 processes (EDM + gretClust + Edwards + python×2). Mac2020: 51d 8h, load ~0.9. Normal standby. |
+
+| 2026-04-08 18:13 | B — Self-Maintenance | Context 5% (healthy). Workspace clean, no stray PNGs. memory/ tidy (05–08, archive). No TODOs. All nominal. |
+
+## Next Task: C — Organize HELIOS_MD
+| 2026-04-08 18:28 | C — Organize HELIOS_MD | Added SKIP reason note to h095 exShift table in calibration_notes.md (Det07=h095 issue, Det11=always dead/hardware, Det17/22=no convergence). Committed 347cc99. |
+
 ## Next Task: A — Explore Systems
