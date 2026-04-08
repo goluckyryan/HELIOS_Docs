@@ -138,7 +138,7 @@ ln -sf correction_e_alpha.dat correction_e.dat
 
 # Step 4: Generate calibrated ROOT file
 root -l "AutoCalibrationTrace.C"
-#   → option 3 : generates h094_19Ne_pp_gen_run[alphaRun].root
+#   → option 3 : generates {expName}_gen_run[alphaRun].root
 ```
 
 ### Phase 2 — Beam Run + Monitor Check
@@ -214,14 +214,16 @@ ls -la correction_e.dat
 
 ## Key Config Files (per experiment — update each run)
 
+> ℹ️ Examples below use h094 (¹⁹Ne(p,p)) as illustration. Current active experiment is h095 (¹¹C(d,p)). See `expMemory_h095.md` for live values.
+
 ### `expName.sh`
 ```bash
-expName=h094_19Ne_pp       # experiment label
+expName=h094_19Ne_pp       # experiment label (example — h094)
 daqDataPath=/media/DIGIOSDATA6  # raw data disk on DAQ
 LastRunNum=60              # last completed run
 ```
 
-### `reactionConfig.txt` (current: h094_19Ne_pp)
+### `reactionConfig.txt` (example: h094_19Ne_pp)
 ```
 beam:    19Ne  (A=19, Z=10), 9.0 MeV/u
 target:  p     (A=1,  Z=1)  — actually CD₂ target
