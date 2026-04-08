@@ -143,9 +143,9 @@ Known hardware issues for h094 — do NOT apply these to other experiments.
 
 ---
 
-## RDT Coincidence Timing — dE vs E Channel Behavior (Maybe General — Found in h095)
+## RDT Coincidence Timing — dE vs E Channel Behavior (General — Confirmed in h095)
 
-_Observed 2026-04-03 in h095 trace_run014 (Plots 015–018). May apply generally but not yet confirmed in other experiments._
+_First observed 2026-04-03 in h095 trace_run014 (Plots 015–018). This is a structural truth of the RDT hardware (separate detectors, cables, digitizer channels) — applies to all HELIOS experiments using the same RDT stack._
 
 ### RDT Branch Layout
 - `rdt[2i]`   = **dE** (thin detector, even index, ADC max ~4500 ch)
