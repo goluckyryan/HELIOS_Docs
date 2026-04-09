@@ -11,6 +11,7 @@ All files located in `~/HELIOS_MD/`.
 |---|---|
 | `README.md` | Entry point — overview of HELIOS, subnet, software stack |
 | `HELIOS_DAQ_Workflow.md` | DAQ run control, digios repo, start/stop runs, data pipeline |
+| `start_stop_sequence.md` | AI-driven run start/stop procedure — what to ask, collect, log, and post to elog/Discord |
 | `HELIOS_Analysis_Workflow.md` | ROOT analysis pipeline, Armory scripts, Mac2020 workflow |
 | `HELIOS_Calibration_Procedure.md` | Manual silicon detector calibration — energy, Xf/Xn, position |
 | `HELIOS_Calibration_Workflow.md` | AutoCalibrationTrace, AutoFit, calibration scripts in Armory |
