@@ -214,7 +214,7 @@ ls -la correction_e.dat
 
 ## Key Config Files (per experiment — update each run)
 
-> ℹ️ Examples below use h094 (¹⁹Ne(p,p)) as illustration. Current active experiment is h095 (¹¹C(d,p)). See `expMemory_h095.md` for live values.
+> ℹ️ Examples below use h094 (¹⁹Ne(p,p)) as illustration. Current active experiment is h096 (³¹Si(d,p)³²Si, B=2.85 T — ramped 2026-04-08). See `expMemory_h096.md` for live values.
 
 ### `expName.sh`
 ```bash

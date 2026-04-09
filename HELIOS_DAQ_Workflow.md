@@ -283,7 +283,8 @@ LCRC archival + parallel analysis
 
 ## Notes
 
-- Current experiment: **h094_19Ne_pp**, run 60 completed
+- Current experiment: **h096_31Si_dp** (³¹Si(d,p)³²Si, B=2.85 T) — magnet ramped 2026-04-08; see `expMemory_h096.md`
+- Previous: h095 (¹¹C(d,p)), h094 (¹⁹Ne(p,p))
 - ⚠️ **DO NOT use `GLBL:DIG:*` PVs** — not confirmed reliable. Always use individual `VMExx:MDIGn:*` PVs directly
 - `VMExx:MDIGn:*` PVs target individual boards — use for per-channel overrides
 - The softIOC on digios1 hosts the `Online_CS_*`, `DAQG_*`, `GLBL:DAQ:*`, `DigFIFOSpeed` PVs

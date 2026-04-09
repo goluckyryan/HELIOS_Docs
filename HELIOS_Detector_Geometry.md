@@ -167,6 +167,11 @@ VME04-MDIG4: DetMap= -1 x10  (unused)
 - No known hardware dead channels beyond Det 11 (always dead).
 - Det 20: requires band cut `1900 < Xf+Xn < 2500` for xnCorr fit (position cluster issue).
 
+### h096 (³¹Si(d,p)³²Si)
+- B = 2.85 T (rented power supply); magnet ramped 2026-04-08
+- Experiment-specific detector issues TBD — update as calibration proceeds
+- See `expMemory_h096.md` for current status
+
 ---
 
 ## See Also
