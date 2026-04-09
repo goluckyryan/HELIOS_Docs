@@ -40,7 +40,7 @@ HELIOS is a solenoidal spectrometer at the ATLAS facility (Argonne Tandem Linac 
 
 | File | Description |
 |------|-------------|
-| [HELIOS_TerminalServer.md](HELIOS_TerminalServer.md) | Terminal server (Digi PortServer TS 16 MEI) — verified port map, VME console access (✅ 2026-04-05) |
+| [HELIOS_DigiBoard.md](HELIOS_DigiBoard.md) | Terminal server (Digi PortServer TS 16 MEI) — verified port map, VME console access (✅ 2026-04-05) |
 | [HELIOS_Mac2017.md](HELIOS_Mac2017.md) | Mac2017 (.193) — role, digios state, disk usage, experiments |
 
 ### Infrastructure & Plans
