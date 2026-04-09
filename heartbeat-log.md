@@ -90,14 +90,23 @@ Tracks which task was done each heartbeat, rotating A → B → C → A.
 
 | 2026-04-08 18:13 | B — Self-Maintenance | Context 5% (healthy). Workspace clean, no stray PNGs. memory/ tidy (05–08, archive). No TODOs. All nominal. |
 
-## Next Task: C — Organize HELIOS_MD
 | 2026-04-08 18:28 | C — Organize HELIOS_MD | Added SKIP reason note to h095 exShift table in calibration_notes.md (Det07=h095 issue, Det11=always dead/hardware, Det17/22=no convergence). Committed 347cc99. |
 
-## Next Task: B — Self-Maintenance
 | 2026-04-08 18:43 | A — Explore Systems | All hosts up. DAQ: 89d 22h52m, load 0.11/0.17/0.21, 5 processes (EDM + gretClust + Edwards + python×2). Mac2020: 51d 9h, load ~1.1. Normal standby. |
 | 2026-04-08 18:58 | B — Self-Maintenance | Context 5% (healthy). Workspace clean. memory/ tidy (05–08, archive). No stray PNGs. All nominal. |
 
-## Next Task: C — Organize HELIOS_MD
 | 2026-04-08 19:13 | C — Organize HELIOS_MD | Fixed stale link in README.md: `HELIOS_TerminalServer.md` → `HELIOS_DigiBoard.md` (file was renamed months ago, README never updated). Committed de0a212. |
 
-## Next Task: A — Explore Systems
+| 2026-04-08 19:43 | A — Explore Systems | All hosts up. DAQ: 89d 23h52m (near 90d!), load 0.05/0.19/0.27 (very light). EDM + gretClust + Edwards + python×2 running. Mac2020: 51d 10h, load 1.37. Normal standby. |
+
+| 2026-04-08 20:21 | B — Self-Maintenance | Context 5% (healthy). Workspace clean, 0 stray PNGs. memory/ tidy (05–08, archive). Magnet at 2.85 T. No new TODOs. All nominal. |
+
+
+| 2026-04-08 20:36 | C — Organize HELIOS_MD | Updated active experiment to h096 in DAQ_Workflow, Analysis_Workflow, Detector_Geometry (magnet ramped 2026-04-08, B=2.85 T). Added h096 section to Detector_Geometry. Committed e70ddf3. |
+
+| 2026-04-08 20:51 | A — Explore Systems | DAQ: 90d 1h, load 0.26/0.25/0.26, 5 processes (EDM + gretClust + python×2 + xterm). Mac2020: 51d 11h, load ~0.9. Normal standby. |
+
+| 2026-04-09 07:24 | B — Self-Maintenance | Context 3% (healthy). Workspace clean, 0 stray PNGs. memory/ tidy (05–09). No new TODOs. All nominal. |
+
+## Next Task: C — Organize HELIOS_MD
+| 2026-04-09 07:40 | C — Organize HELIOS_MD | Added expMemory_h096.md references to HELIOS_Analysis_Workflow.md and HELIOS_Detector_Geometry.md (both previously only listed h094/h095). Committed b3bc9e8. |
