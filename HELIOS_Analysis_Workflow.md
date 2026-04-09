@@ -386,4 +386,4 @@ Every generated plot must have an index number so it can be easily referenced la
 - `rdtCut_guideline.md` — RDT cut methods, FOM scoring, TObjArray format
 - `HELIOS_Detector_Geometry.md` — detector layout, channel mapping (experiment-dependent)
 - `new_experiment_checklist.md` — start-of-experiment setup steps
-- `expMemory_h094.md` / `expMemory_h095.md` — per-experiment analysis state
+- `expMemory_h094.md` / `expMemory_h095.md` / `expMemory_h096.md` — per-experiment analysis state

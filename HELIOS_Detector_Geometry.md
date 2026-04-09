@@ -179,4 +179,4 @@ VME04-MDIG4: DetMap= -1 x10  (unused)
 - `HELIOS_Calibration_Procedure.md` — calibration steps (energy, Xf/Xn, position)
 - `calibration_notes.md` — xnCorr lessons, exShift iteration, dead detector handling
 - `rdtCut_guideline.md` — RDT cut methods, FOM scoring, TObjArray format
-- `expMemory_h094.md` / `expMemory_h095.md` — per-experiment detector status details
+- `expMemory_h094.md` / `expMemory_h095.md` / `expMemory_h096.md` — per-experiment detector status details
