@@ -95,3 +95,9 @@ Tracks which task was done each heartbeat, rotating A → B → C → A.
 
 ## Next Task: B — Self-Maintenance
 | 2026-04-08 18:43 | A — Explore Systems | All hosts up. DAQ: 89d 22h52m, load 0.11/0.17/0.21, 5 processes (EDM + gretClust + Edwards + python×2). Mac2020: 51d 9h, load ~1.1. Normal standby. |
+| 2026-04-08 18:58 | B — Self-Maintenance | Context 5% (healthy). Workspace clean. memory/ tidy (05–08, archive). No stray PNGs. All nominal. |
+
+## Next Task: C — Organize HELIOS_MD
+| 2026-04-08 19:13 | C — Organize HELIOS_MD | Fixed stale link in README.md: `HELIOS_TerminalServer.md` → `HELIOS_DigiBoard.md` (file was renamed months ago, README never updated). Committed de0a212. |
+
+## Next Task: A — Explore Systems
