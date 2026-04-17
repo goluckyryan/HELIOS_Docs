@@ -12,17 +12,17 @@ Cleopatra is the simulation framework for HELIOS. It has two main components:
 
 | Program | Purpose |
 |---|---|
-| `Cleopatra` | DWBA cross-section calculator — wraps `ptolemy` for (d,p), (p,d), (p,p), (d,d) |
+| `Cleopatra` | DWBA cross-section calculator  --  wraps `ptolemy` for (d,p), (p,d), (p,p), (d,d) |
 | `Transfer` | Monte Carlo simulation of transfer reaction kinematics in HELIOS geometry |
 
 **Workflow:**
 ```
 reactionConfig.txt + detectorGeo.txt + Ex.txt
-         ↓
-  [Cleopatra] → DWBA.root (thetaCM distributions)
-         ↓
-  [Transfer]  → transfer.root (kinematic lines + simulated events)
-         ↓
+         ?
+  [Cleopatra] -> DWBA.root (thetaCM distributions)
+         ?
+  [Transfer]  -> transfer.root (kinematic lines + simulated events)
+         ?
   Monitors.C / Cali_compareF.C (overlay with data)
 ```
 
@@ -46,22 +46,22 @@ isRedo, excitation_energy_of_A
 ### `detectorGeo.txt`
 Physical geometry of the spectrometer:
 ```
-Bfield [T]         → magnetic field (negative = pointing upstream)
-bore [mm]          → solenoid bore diameter
-distance_from_axis → detector radius from beam axis [mm]
-width [mm]         → detector width
-length [mm]        → detector length
-recoil_position    → recoil detector z-position [mm] (+ = downstream)
+Bfield [T]         -> magnetic field (negative = pointing upstream)
+bore [mm]          -> solenoid bore diameter
+distance_from_axis -> detector radius from beam axis [mm]
+width [mm]         -> detector width
+length [mm]        -> detector length
+recoil_position    -> recoil detector z-position [mm] (+ = downstream)
 recoil inner/outer radius [mm]
 isCoincidentWithRecoil
-recoilPos1, recoilPos2  → extra recoil positions (0 = disabled)
-elumPos1, elumPos2      → ELUM positions (0 = disabled)
+recoilPos1, recoilPos2  -> extra recoil positions (0 = disabled)
+elumPos1, elumPos2      -> ELUM positions (0 = disabled)
 blocker_length [mm]
-firstPos [mm]      → first detector position (+ = upstream from target, - = downstream)
+firstPos [mm]      -> first detector position (+ = upstream from target, - = downstream)
 energy_resolution [MeV]
 position_resolution [mm]
 facing Out/In
-nDet               → number of detectors at different positions (per side)
+nDet               -> number of detectors at different positions (per side)
 detector positions [mm] (one per line, relative to firstPos)
 ```
 
@@ -77,7 +77,7 @@ Ex[MeV]   Xsec   SF   Width[MeV]
 
 ---
 
-## `Cleopatra` — DWBA Calculator
+## `Cleopatra`  --  DWBA Calculator
 
 **Usage:**
 ```bash
@@ -95,54 +95,54 @@ Ex[MeV]   Xsec   SF   Width[MeV]
 6. Plots result via `PlotTGraphTObjArray`
 
 **Key binaries:**
-- `ptolemy` — DWBA code (compiled locally)
-- `dwuck4` — alternative DWBA code
-- `DWInFileCreator` — creates Ptolemy input files
+- `ptolemy`  --  DWBA code (compiled locally)
+- `dwuck4`  --  alternative DWBA code
+- `DWInFileCreator`  --  creates Ptolemy input files
 
 **Output:** `DWBA.root` with `pList` TObjArray of TF1 distributions (one per state)
 
 ---
 
-## `Transfer` — Monte Carlo Simulation
+## `Transfer`  --  Monte Carlo Simulation
 
 **Usage:**
 ```bash
 ./Transfer [reactionConfig.txt detectorGeo.txt Ex.txt DWBA.root transfer.root reaction.dat plot]
 ```
 
-All arguments are optional — defaults to filenames above.
+All arguments are optional  --  defaults to filenames above.
 
 **Key physics in `HELIOS_LIB.h`:**
 
 ### `TransferReaction` class
-- Reads `reactionConfig.txt` → sets A(a,b)B
+- Reads `reactionConfig.txt` -> sets A(a,b)B
 - Uses nuclear masses from `Isotope.h` (AME2016 database: `mass16.txt`, `mass20.txt`)
-- Computes relativistic kinematics: boost β, γ, CM momentum, Q-value
-- `Event(thetaCM, phiCM)` → generates one event using Lorentz boosts
+- Computes relativistic kinematics: boost beta, gamma, CM momentum, Q-value
+- `Event(thetaCM, phiCM)` -> generates one event using Lorentz boosts
 
 **Key derived quantities:**
 | Variable | Formula | Description |
 |---|---|---|
-| `slope` | `299.792 * zb * |B| * β / (2π * 1000)` | E-Z slope [MeV/mm] |
-| `intercept (y0)` | `√(mb² + kCM²)/γ - mb` | E-Z intercept at ground state |
-| `alpha` | `slope / β` | Cyclotron parameter |
-| `G` | `α * γ * β * a` | Geometric factor |
+| `slope` | `299.792 * zb * |B| * beta / (2pi * 1000)` | E-Z slope [MeV/mm] |
+| `intercept (y0)` | `?(mb2 + kCM2)/gamma - mb` | E-Z intercept at ground state |
+| `alpha` | `slope / beta` | Cyclotron parameter |
+| `G` | `alpha * gamma * beta * a` | Geometric factor |
 
 **Inverse mapping `CalExThetaCM(e, z, B, a)`:**
 - Given measured (e, z), reconstruct (Ex, thetaCM) using Newton's method
 - This is what `Analyzer.C` / `Cali_e_trace.C` use to calculate `Ex` branch
 
-### `HELIOS` class — Trajectory Calculator
-- `CalArrayHit(Pb, Zb)` → computes where light recoil hits the silicon array
-- `CalRecoilHit(PB, ZB)` → computes where heavy recoil hits recoil detector
-- `DetAcceptance()` → returns hit code (see below)
+### `HELIOS` class  --  Trajectory Calculator
+- `CalArrayHit(Pb, Zb)` -> computes where light recoil hits the silicon array
+- `CalRecoilHit(PB, ZB)` -> computes where heavy recoil hits recoil detector
+- `DetAcceptance()` -> returns hit code (see below)
 - Handles multiple loops (up to 3), blocker, ELUM, extra recoil detectors
 - Beam position offset support (xOff, yOff)
 
 **Hit codes from `DetAcceptance()`:**
 | Code | Meaning |
 |---|---|
-| +1 | Light recoil hit array & heavy recoil hit recoil ✅ |
+| +1 | Light recoil hit array & heavy recoil hit recoil [OK] |
 | 0 | No detector hit |
 | -1 | Light recoil goes opposite side of array |
 | -2 | Light recoil exceeds detector width |
@@ -157,12 +157,12 @@ All arguments are optional — defaults to filenames above.
 | -20 | Unknown |
 
 ### `TargetScattering` class
-- Loads SRIM stopping power tables (MeV/mm, keV/µm, or MeV/(mg/cm²))
+- Loads SRIM stopping power tables (MeV/mm, keV/um, or MeV/(mg/cm2))
 - Integrates energy loss through target depth via Runge-Kutta-like stepping
 - Used when `isTargetScattering = true` in `reactionConfig.txt`
 
 ### `Decay` class
-- Handles sequential decay: B → d + D (e.g. ¹⁹Ne → ¹⁵O + α)
+- Handles sequential decay: B -> d + D (e.g. 1?Ne -> 1?O + alpha)
 - Isotropic decay in rest frame of B, boosted to lab
 - Activated when `isDecay = true` in `reactionConfig.txt`
 
@@ -170,8 +170,8 @@ All arguments are optional — defaults to filenames above.
 
 ## `Transfer` Output: `transfer.root`
 
-> ⚠️ **`transfer.root` must be generated by the compiled `Cleopatra/Transfer` binary.**
-> Do NOT load or `#include Transfer.h` directly in ROOT macros — it will not work correctly.
+> [!!] **`transfer.root` must be generated by the compiled `Cleopatra/Transfer` binary.**
+> Do NOT load or `#include Transfer.h` directly in ROOT macros  --  it will not work correctly.
 > Always `make` the binary first: `cd ~/digios/analysis/Cleopatra && make`
 > Then run: `./Transfer reactionConfig.txt detectorGeo.txt Ex.txt ...`
 
@@ -207,17 +207,17 @@ All arguments are optional — defaults to filenames above.
 
 ---
 
-## E-Z Plot — The Key Physics Observable
+## E-Z Plot  --  The Key Physics Observable
 
 In HELIOS, the key observable is the **E-Z plot**: detected energy (E) vs z-position along the beam axis.
 
 For each excitation state Ex_i, the kinematic line in E-Z space is approximately:
 ```
-E ≈ slope * z + y0_i
+E ~ slope * z + y0_i
 ```
-Where `y0_i = √(mb² + kCM_i²)/γ - mb` depends on Ex_i.
+Where `y0_i = ?(mb2 + kCM_i2)/gamma - mb` depends on Ex_i.
 
-This linear relationship is what makes HELIOS powerful — excitation energy is extracted directly from the z-position measurement (via the position-sensitive detectors).
+This linear relationship is what makes HELIOS powerful  --  excitation energy is extracted directly from the z-position measurement (via the position-sensitive detectors).
 
 The finite-size correction (`fxList`) accounts for the fact that the detector is at a fixed radius `a` from the beam axis, not at the beam axis.
 
@@ -225,7 +225,7 @@ The finite-size correction (`fxList`) accounts for the fact that the detector is
 
 ## Simulation Usage in Calibration
 
-1. **`Cali_compareF.C`** loads `fxList` from `transfer.root` and minimizes the distance between data points and kinematic lines → energy calibration
+1. **`Cali_compareF.C`** loads `fxList` from `transfer.root` and minimizes the distance between data points and kinematic lines -> energy calibration
 2. **`Monitors.C`** overlays `fList` or `fxList` kinematic lines on the E-Z histogram for visual inspection
 3. **`Cali_littleTree_trace.C`** creates a compact `temp.root` from data for faster calibration iteration
 
@@ -239,7 +239,7 @@ The finite-size correction (`fxList`) accounts for the fact that the detector is
 | `knockout.C` | Knockout reaction simulation |
 | `FindThetaCM` | Given E and Z, find thetaCM |
 | `DWBARatio.C` | Compare DWBA cross-section ratios |
-| `DWBA_compare.C` | Overlay multiple DWBA calculations |
+| `DWBA_compare.C` | Overlay multiple DWBA calculations -- **dead weight** (not in makefile, superseded; see TODO.md) |
 | `nuclear_data.py` | Python nuclear data utility |
 | `potentials.h` | Optical model potential parameters |
 | `Isotope.h/.C` | Nuclear mass table (AME2016) |
@@ -248,9 +248,9 @@ The finite-size correction (`fxList`) accounts for the fact that the detector is
 
 ## Notes
 
-- `Transfer` uses `isRedo=true` mode to re-draw events until `hit==1` — guarantees all events in tree are detector-accepted (more efficient for statistics)
-- Decay simulation is isotropic in the parent rest frame — for anisotropic decay, edit `f1` in `Decay` class
-- `Knockout` class also exists for knockout reactions (A(a,a'2)B type) — not commonly used at HELIOS
+- `Transfer` uses `isRedo=true` mode to re-draw events until `hit==1`  --  guarantees all events in tree are detector-accepted (more efficient for statistics)
+- Decay simulation is isotropic in the parent rest frame  --  for anisotropic decay, edit `f1` in `Decay` class
+- `Knockout` class also exists for knockout reactions (A(a,a'2)B type)  --  not commonly used at HELIOS
 - SRIM files must be pre-generated with correct beam/target combination and placed in `SRIM/` subfolder relative to `working/`
 - The `reaction.dat` output file contains pre-computed kinematic constants used by `Cali_e_trace.C` for on-the-fly Ex reconstruction
 
@@ -258,8 +258,8 @@ The finite-size correction (`fxList`) accounts for the fact that the detector is
 
 ## See Also
 
-- `HELIOS_Analysis_Workflow.md` — full analysis pipeline (where Cleopatra fits in)
-- `HELIOS_Calibration_Workflow.md` — exShift iteration using Cleopatra kinematics overlay
-- `calibration_notes.md` — lessons on X-scale, exShift, and transfer.root usage
-- `new_experiment_checklist.md` — Cleopatra setup steps at the start of a new experiment
-- `expMemory_h095.md` / `expMemory_h094.md` — experiment-specific Cleopatra configs and results
+- `HELIOS_Ptolemy_Build_Notes.md`  --  Ptolemy build notes for Pi5 (ARM64) and Mac2020 (x86-64)
+- `HELIOS_Analysis_Workflow.md`  --  full analysis pipeline (where Cleopatra fits in)
+- `HELIOS_Calibration.md`  --  exShift iteration, X-scale, and transfer.root usage
+- `new_experiment_checklist.md`  --  Cleopatra setup steps at the start of a new experiment
+- `expMemory_h095.md` / `expMemory_h094.md`  --  experiment-specific Cleopatra configs and results

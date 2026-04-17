@@ -1,6 +1,6 @@
 # HELIOS Experiment Switch Procedure
 
-**For HELIOS AI use** — replicates what `SetUpNewExp` does, non-interactively.
+**For HELIOS AI use**  --  replicates what `SetUpNewExp` does, non-interactively.
 Run these steps whenever asked to switch experiment branches on DAQ and/or Mac2020.
 
 ---
@@ -14,7 +14,7 @@ Run these steps whenever asked to switch experiment branches on DAQ and/or Mac20
    # Mac2020
    ssh mac2020: cd ~/digios && git status --porcelain --untracked-files=no
    ```
-   If not clean → commit or stash before proceeding.
+   If not clean -> commit or stash before proceeding.
 
 2. **Verify DAQ and Mac2020 are on same branch.**
 
@@ -37,7 +37,7 @@ git checkout <expName>        # or git checkout -b <expName> if new branch
   daqDataPath=~/experiments     # Mac2020 data root
   LastRunNum=0
   ```
-- Create data directories (Mac2020 only — no merged_data):
+- Create data directories (Mac2020 only  --  no merged_data):
   ```bash
   mkdir -p ~/experiments/<expName>/data
   mkdir -p ~/experiments/<expName>/root_data
@@ -82,7 +82,7 @@ git checkout <expName>        # or git checkout -b <expName> if new branch
 
 ### On DAQ (digios1, Linux)
 
-⚠️ DAQ data layout is different — raw data goes directly under `<daqDataPath>/<expName>/`, NO `data/` subdir.
+[!!] DAQ data layout is different  --  raw data goes directly under `<daqDataPath>/<expName>/`, NO `data/` subdir.
 
 ```bash
 cd ~/digios
@@ -97,11 +97,11 @@ git checkout <expName>    # or git checkout -b <expName> if new
   daqDataPath=<chosen disk, e.g. /media/DIGIOSDATA6>
   LastRunNum=0
   ```
-- Create data directory (DAQ only — no subdirs):
+- Create data directory (DAQ only  --  no subdirs):
   ```bash
   mkdir -p <daqDataPath>/<expName>
   ```
-- ⚠️ **NO symlink needed on DAQ.** `start_run.sh` saves data directly to `${daqDataPath}/${expName}/` — the `analysis/data` symlink is not used by any DAQ scripts and is not required.
+- [!!] **NO symlink needed on DAQ.** `start_run.sh` saves data directly to `${daqDataPath}/${expName}/`  --  the `analysis/data` symlink is not used by any DAQ scripts and is not required.
 - Tell InfluxDB:
   ```bash
   curl -s -XPOST "http://192.168.1.193:8086/write?db=testing" \
@@ -136,12 +136,12 @@ curl -s -XPOST "http://192.168.1.193:8086/write?db=testing" \
 ### On DAQ
 ```bash
 cd ~/digios && git fetch origin && git checkout master
-# No disk, mkdir, or symlink change needed — data saves directly via expName.sh
+# No disk, mkdir, or symlink change needed  --  data saves directly via expName.sh
 ```
 
 ---
 
-## After switching — always sync Pi → GitHub
+## After switching  --  always sync Pi -> GitHub
 ```bash
 ~/digios_sync_github.sh
 ```
@@ -149,9 +149,9 @@ cd ~/digios && git fetch origin && git checkout master
 ---
 
 ## Key Facts
-- **DAQ data path**: `/media/DIGIOSDATA6/<expName>/` (no subdirs — raw data only, no data/ or root_data/ on DAQ)
-- **DAQ symlink**: `analysis/data` symlink is NOT needed on DAQ — `start_run.sh` writes directly to `${daqDataPath}/${expName}/`; do not create it during SetUpNewExp
-- **Mac2020 data path**: `~/experiments/<expName>/data` and `~/experiments/<expName>/root_data` (no merged_data — GEBSort removed)
+- **DAQ data path**: `/media/DIGIOSDATA6/<expName>/` (no subdirs  --  raw data only, no data/ or root_data/ on DAQ)
+- **DAQ symlink**: `analysis/data` symlink is NOT needed on DAQ  --  `start_run.sh` writes directly to `${daqDataPath}/${expName}/`; do not create it during SetUpNewExp
+- **Mac2020 data path**: `~/experiments/<expName>/data` and `~/experiments/<expName>/root_data` (no merged_data  --  GEBSort removed)
 - **InfluxDB**: `192.168.1.193:8086` (Mac2017), db=`testing`
 - **DAQ origin**: Pi relay (`ryan@192.168.1.100:~/digios.git`)
 - **Mac2020 pi remote**: `ryan@192.168.1.100:~/digios.git`)
@@ -162,8 +162,8 @@ cd ~/digios && git fetch origin && git checkout master
 ---
 
 ## See Also
-- `HELIOS_DAQ_Workflow.md` — DAQ run control, EPICS, start/stop run procedures
-- `HELIOS_Analysis_Workflow.md` — sort/analysis pipeline after switching experiment
-- `new_experiment_checklist.md` — full checklist for starting a new experiment
-- `calibration_notes.md` — calibration pipeline for the new experiment
-- `MEMORY.md` → "Git Workflow Rules" — commit/push sequence and sync rules
+- `HELIOS_DAQ_Workflow.md`  --  DAQ run control, EPICS, start/stop run procedures
+- `HELIOS_Analysis_Workflow.md`  --  sort/analysis pipeline after switching experiment
+- `new_experiment_checklist.md`  --  full checklist for starting a new experiment
+- `HELIOS_Calibration.md`  --  calibration pipeline for the new experiment
+- `MEMORY.md` -> "Git Workflow Rules"  --  commit/push sequence and sync rules

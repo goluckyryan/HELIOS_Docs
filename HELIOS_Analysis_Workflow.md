@@ -9,11 +9,11 @@
 
 | Host | Role |
 |---|---|
-| digios1 (192.168.1.2) | Raw data acquisition → `.gtd` files |
-| Mac2020 (192.168.1.164) `phywl094` | Primary analysis machine — EventBuilder, ROOT, Monitors |
+| digios1 (192.168.1.2) | Raw data acquisition -> `.gtd` files |
+| Mac2020 (192.168.1.164) `phywl094` | Primary analysis machine  --  EventBuilder, ROOT, Monitors |
 | Mac2017 (192.168.1.193) | Grafana/InfluxDB slow-control only |
 | LCRC (Argonne HPC) | Archival + parallel/batch analysis via Globus |
-| Pi (192.168.1.100) | HELIOS AI ☀️ |
+| Pi (192.168.1.100) | HELIOS AI [sun] |
 
 ---
 
@@ -21,39 +21,39 @@
 
 ```
 digios/
-├── heliosrc.sh              ← source this first to set env
-├── expName.sh               ← experiment name, data path, last run number
-├── analysis/
-│   ├── working/             ← HELIOSSYS/analysis/working = HELIOSANA
-│   │   ├── GeneralSortMapping.h   ← ⭐ TRUE channel mapping (source of truth)
-│   │   ├── Analyzer.C/.h          ← ROOT TSelector event-by-event analysis
-│   │   ├── Monitors.C/.h          ← online/offline histogram monitoring
-│   │   ├── ChainMonitors.C        ← chain multiple runs for Monitors
-│   │   ├── reactionConfig.txt     ← reaction kinematics config
-│   │   ├── detectorGeo.txt        ← physical array geometry
-│   │   ├── Simulation_Helper.C    ← GUI for kinematics/DWBA simulation
-│   │   ├── rootlogon.C            ← ROOT startup
-│   │   └── correction_*.dat       ← calibration correction files
-│   ├── Armory/              ← shared utility scripts and macros (on PATH)
-│   │   ├── Process_RUN      ← ⭐ main entry point for analysis
-│   │   ├── process_Sort     ← EventBuilder step
-│   │   ├── process_Download ← rsync raw data from DAQ
-│   │   ├── process_PathSetting ← sets all path variables
-│   │   ├── Apollo.C/.h      ← core analysis library
-│   │   ├── Cali_*.C         ← calibration routines
-│   │   ├── Check_*.C        ← diagnostic checks
-│   │   └── GetDataFromInfluxDB.py ← pull slow-control data
-│   ├── EventBuilder/        ← C++ event builder binary
-│   │   ├── EventBuilder_S   ← ⭐ standard event builder binary
-│   │   ├── EventBuilder_S.cpp
-│   │   └── makefile
-│   ├── data/                ← raw .gtd files (synced from DAQ)
-│   ├── root_data/           ← sorted ROOT files output
-│   ├── Cleopatra/           ← kinematics & DWBA interface
-│   │   ├── Cleopatra.C/.sh  ← wrapper for Ptolemy
-│   │   └── DWInFileCreator.C
-│   └── Woods-Saxon/         ← Woods-Saxon potential tools
-└── daq/                     ← DAQ scripts (see HELIOS_DAQ_Workflow.md)
+??? heliosrc.sh              <- source this first to set env
+??? expName.sh               <- experiment name, data path, last run number
+??? analysis/
+?   ??? working/             <- HELIOSSYS/analysis/working = HELIOSANA
+?   ?   ??? GeneralSortMapping.h   <- [*] TRUE channel mapping (source of truth)
+?   ?   ??? Analyzer.C/.h          <- ROOT TSelector event-by-event analysis
+?   ?   ??? Monitors.C/.h          <- online/offline histogram monitoring
+?   ?   ??? ChainMonitors.C        <- chain multiple runs for Monitors
+?   ?   ??? reactionConfig.txt     <- reaction kinematics config
+?   ?   ??? detectorGeo.txt        <- physical array geometry
+?   ?   ??? Simulation_Helper.C    <- GUI for kinematics/DWBA simulation
+?   ?   ??? rootlogon.C            <- ROOT startup
+?   ?   ??? correction_*.dat       <- calibration correction files
+?   ??? Armory/              <- shared utility scripts and macros (on PATH)
+?   ?   ??? Process_RUN      <- [*] main entry point for analysis
+?   ?   ??? process_Sort     <- EventBuilder step
+?   ?   ??? process_Download <- rsync raw data from DAQ
+?   ?   ??? process_PathSetting <- sets all path variables
+?   ?   ??? Apollo.C/.h      <- core analysis library
+?   ?   ??? Cali_*.C         <- calibration routines
+?   ?   ??? Check_*.C        <- diagnostic checks
+?   ?   ??? GetDataFromInfluxDB.py <- pull slow-control data
+?   ??? EventBuilder/        <- C++ event builder binary
+?   ?   ??? EventBuilder_S   <- [*] standard event builder binary
+?   ?   ??? EventBuilder_S.cpp
+?   ?   ??? makefile
+?   ??? data/                <- raw .gtd files (synced from DAQ)
+?   ??? root_data/           <- sorted ROOT files output
+?   ??? Cleopatra/           <- kinematics & DWBA interface
+?   ?   ??? Cleopatra.C/.sh  <- wrapper for Ptolemy
+?   ?   ??? DWInFileCreator.C
+?   ??? Woods-Saxon/         <- Woods-Saxon potential tools
+??? daq/                     <- DAQ scripts (see HELIOS_DAQ_Workflow.md)
 ```
 
 ---
@@ -119,7 +119,7 @@ Process_RUN 61 2 1
 
 ## Practical Calibration + Analysis Workflow
 
-### Phase 1 — Alpha Source Calibration
+### Phase 1  --  Alpha Source Calibration
 
 ```bash
 cd $HELIOSANA
@@ -129,35 +129,35 @@ Process_RUN [alphaRun] 1 0
 
 # Step 2: Run calibration macro interactively
 root -l "AutoCalibrationTrace.C"
-#   → option 0 : energy + XF/XN calibration (saves correction_e_alpha.dat, correction_xf_xn.dat)
-#   → option 5 : x-scale normalization      (saves correction_scaleX.dat)
-#   → option 1 : XF+XN → E calibration      (saves correction_xfxn_e.dat)
+#   -> option 0 : energy + XF/XN calibration (saves correction_e_alpha.dat, correction_xf_xn.dat)
+#   -> option 5 : x-scale normalization      (saves correction_scaleX.dat)
+#   -> option 1 : XF+XN -> E calibration      (saves correction_xfxn_e.dat)
 
 # Step 3: Activate alpha energy calibration via symlink
 ln -sf correction_e_alpha.dat correction_e.dat
 
 # Step 4: Generate calibrated ROOT file
 root -l "AutoCalibrationTrace.C"
-#   → option 3 : generates {expName}_gen_run[alphaRun].root
+#   -> option 3 : generates {expName}_gen_run[alphaRun].root
 ```
 
-### Phase 2 — Beam Run + Monitor Check
+### Phase 2  --  Beam Run + Monitor Check
 
 ```bash
 # Step 5: Sort beam run and run Monitors.C
 Process_RUN [beamRun] 1 1
 
-# Step 6: Check Monitors.C histograms — verify calibration quality
+# Step 6: Check Monitors.C histograms  --  verify calibration quality
 # Look for: clean alpha peaks, x uniform distribution, z positions correct
 ```
 
-### Phase 3 — Kinematic Refinement (if states visible)
+### Phase 3  --  Kinematic Refinement (if states visible)
 
 ```bash
 root -l "AutoCalibrationTrace.C"
-#   → option 2 : kinematic auto-calibration
+#   -> option 2 : kinematic auto-calibration
 #                Sub-step 1: generate temp.root
-#                Sub-step 2: run Cleopatra/Transfer → transfer.root
+#                Sub-step 2: run Cleopatra/Transfer -> transfer.root
 #                Sub-step 3: Monte Carlo minimization (saves correction_e_KE.dat)
 
 # Activate kinematically refined calibration
@@ -165,7 +165,7 @@ ln -sf correction_e_KE.dat correction_e.dat
 
 # Regenerate calibrated ROOT file with refined calibration
 root -l "AutoCalibrationTrace.C"
-#   → option 3
+#   -> option 3
 
 # Re-run monitors to verify improvement
 Process_RUN [beamRun] 0 1   # 0 = skip EventBuild, just re-run monitors
@@ -182,29 +182,29 @@ ls -la correction_e.dat
 
 ## Pipeline: Step by Step
 
-### Step 1 — `process_Download` (rsync raw data)
+### Step 1  --  `process_Download` (rsync raw data)
 
 - **Only runs on Mac2020 or heliosdb** (hostname check)
 - `rsync`s from digios1 (192.168.1.2):
-  - `{daqDataPath}/{expName}/data/{expName}_run_{RUN}.gtd01–04` → `analysis/data/`
-  - `RunTimeStamp.dat` → `analysis/data/`
-  - `expName.sh` → `$HELIOSSYS/`
+  - `{daqDataPath}/{expName}/data/{expName}_run_{RUN}.gtd01-04` -> `analysis/data/`
+  - `RunTimeStamp.dat` -> `analysis/data/`
+  - `expName.sh` -> `$HELIOSSYS/`
 - Smart: skips files already up to date
 
-### Step 2 — `process_Sort` (EventBuilder)
+### Step 2  --  `process_Sort` (EventBuilder)
 
 - Compiles `EventBuilder_S` from `analysis/EventBuilder/`
-- Event window: **1000 ticks = 10 µs** (coincidence window)
+- Event window: **1000 ticks = 10 us** (coincidence window)
 - Checks timestamps: skips if ROOT file newer than raw data
 - Force rebuild with negative `isBuild` flag
 
-**Input:** `analysis/data/{expName}_run_{RUN}.gtd01–04`
+**Input:** `analysis/data/{expName}_run_{RUN}.gtd01-04`
 
 **Output:**
 - Normal: `analysis/root_data/gen_run{RUN}.root`
 - With trace: `analysis/root_data/trace_run{RUN}.root`
 
-### Step 3 — `ChainMonitors.C` (ROOT monitoring)
+### Step 3  --  `ChainMonitors.C` (ROOT monitoring)
 
 - Runs `Monitors.C` histograms over sorted ROOT file
 - Single run or chain from `runsList.txt`
@@ -212,13 +212,13 @@ ls -la correction_e.dat
 
 ---
 
-## Key Config Files (per experiment — update each run)
+## Key Config Files (per experiment  --  update each run)
 
-> ℹ️ Examples below use h094 (¹⁹Ne(p,p)) as illustration. Current active experiment is h096 (³¹Si(d,p)³²Si, B=2.85 T — ramped 2026-04-08). See `expMemory_h096.md` for live values.
+> (i) Examples below use h094 (1?Ne(p,p)) as illustration. Current active experiment is h096 (31Si(d,p)32Si, B=2.85 T  --  ramped 2026-04-08). See `expMemory_h096.md` for live values.
 
 ### `expName.sh`
 ```bash
-expName=h094_19Ne_pp       # experiment label (example — h094)
+expName=h094_19Ne_pp       # experiment label (example  --  h094)
 daqDataPath=/media/DIGIOSDATA6  # raw data disk on DAQ
 LastRunNum=60              # last completed run
 ```
@@ -226,10 +226,10 @@ LastRunNum=60              # last completed run
 ### `reactionConfig.txt` (example: h094_19Ne_pp)
 ```
 beam:    19Ne  (A=19, Z=10), 9.0 MeV/u
-target:  p     (A=1,  Z=1)  — actually CD₂ target
+target:  p     (A=1,  Z=1)   --  actually CD? target
 recoil:  p     (A=1,  Z=1)
 decay:   to 15O (A=15, Z=8)
-target density: 0.913 g/cm³, thickness: 2.2×10⁻⁴ cm
+target density: 0.913 g/cm3, thickness: 2.2x10?? cm
 SRIM files: 20F_in_CD2.txt, 3H_in_CD2.txt
 ```
 
@@ -250,15 +250,15 @@ Recoil outer r:   40.2 mm
 
 ---
 
-## Channel Mapping — `GeneralSortMapping.h`
+## Channel Mapping  --  `GeneralSortMapping.h`
 
-⭐ **This is the authoritative source for channel-to-detector mapping.**
+[*] **This is the authoritative source for channel-to-detector mapping.**
 Updated each experiment when cables are changed.
 
 Key arrays:
-- `idDetMap[160]` — maps digitizer channel index → detector ID
-- `idKindMap[160]` — maps digitizer channel index → signal type (0=E, 1=XF, 2=XN)
-- Channel index = (board_number × 10) + channel, board order follows VME01–04 MDIG1–4
+- `idDetMap[160]`  --  maps digitizer channel index -> detector ID
+- `idKindMap[160]`  --  maps digitizer channel index -> signal type (0=E, 1=XF, 2=XN)
+- Channel index = (board_number x 10) + channel, board order follows VME01-04 MDIG1-4
 
 See `~/HELIOS_Detector_Geometry.md` for full parsed tables.
 
@@ -299,14 +299,14 @@ Output: `DWBA.out`, `Ex.txt`
 
 ```
 digios1 (DAQ)
-  └── raw .gtd01–04 files
-        ↓ rsync (process_Download)
+  ??? raw .gtd01-04 files
+        ? rsync (process_Download)
 Mac2020 analysis/data/
-        ↓ EventBuilder_S (process_Sort, 10µs window)
+        ? EventBuilder_S (process_Sort, 10us window)
 analysis/root_data/gen_run{RUN}.root
-        ↓ ChainMonitors.C / Analyzer.C (ROOT TSelector)
+        ? ChainMonitors.C / Analyzer.C (ROOT TSelector)
 Histograms, calibrated spectra, excitation energy spectra
-        ↓ Globus (when enabled)
+        ? Globus (when enabled)
 LCRC /lcrc/project/HELIOS/experimentsData/{expName}/
 ```
 
@@ -329,20 +329,20 @@ LCRC /lcrc/project/HELIOS/experimentsData/{expName}/
 
 ---
 
-## Monitors.C — Key User Settings (top of file)
+## Monitors.C  --  Key User Settings (top of file)
 
 Edit these before running to match the experiment:
 
 | Parameter | Default | Description |
 |---|---|---|
-| `rawEnergyRange` | 1000–3000 | Raw ADC energy range |
-| `energyRange` | 1–20 MeV | Calibrated E-Z plot range |
-| `exRange` | −2 to +10 MeV (30 keV bins) | Excitation energy range |
-| `timeGate` | −30 to +20 ch | Coincidence time gate (1 ch = 10 ns) |
-| `eCalCut` | 0.5–50 MeV | Valid calibrated energy range |
+| `rawEnergyRange` | 1000-3000 | Raw ADC energy range |
+| `energyRange` | 1-20 MeV | Calibrated E-Z plot range |
+| `exRange` | -2 to +10 MeV (30 keV bins) | Excitation energy range |
+| `timeGate` | -30 to +20 ch | Coincidence time gate (1 ch = 10 ns) |
+| `eCalCut` | 0.5-50 MeV | Valid calibrated energy range |
 | `xGate` | 0.8 | Cut out edges of detector (|x| < xGate) |
-| `skipDetID` | {2, 11, 20, 21} | ⚠️ Detectors to skip — det 11 always here |
-| `rdtCutFile1/2` | `rdtCuts_Ne.root`, `rdtCuts_O.root` | RDT particle ID cuts — ⚠️ must contain `TObjArray` named `cutList`; individual top-level TCutG keys **crash Monitors.C** |
+| `skipDetID` | {2, 11, 20, 21} | [!!] Detectors to skip  --  det 11 always here |
+| `rdtCutFile1/2` | `rdtCuts_Ne.root`, `rdtCuts_O.root` | RDT particle ID cuts  --  [!!] must contain `TObjArray` named `cutList`; individual top-level TCutG keys **crash Monitors.C** |
 | `thetaCMGate` | 10 deg | Minimum CM angle cut |
 | `isUseRDTTrace` | true | Use RDT trace timing |
 
@@ -352,25 +352,24 @@ Edit these before running to match the experiment:
 
 Every generated plot must have an index number so it can be easily referenced later.
 
-- **Format:** `Plot-NNN` (e.g. `Plot-001`, `Plot-042`) — sequential, zero-padded to 3 digits
+- **Format:** `Plot-NNN` (e.g. `Plot-001`, `Plot-042`)  --  sequential, zero-padded to 3 digits
 - **Appears in:** filename, plot title, and any notes/memory referencing it
 - **Index log:** maintain `plot_index.md` in the working dir for each experiment
-  - h095: `~/digios_11C_2/analysis/working_Helios/plot_index.md`
-  - h094: `~/digios_11C_2/analysis/working_Helios/h094_cuts/plot_index.md`
-  - Future: `~/digios_11C_2/analysis/working_Helios/<expName>/plot_index.md`
-- **Never reuse** index numbers — always increment
+  - h095 (special): `~/digios_11C_2/analysis/working_Helios/plot_index.md`
+  - h094 (special): `~/digios_11C_2/analysis/working_Helios/h094/plot_index.md`
+  - General (h096+): `~/digios/analysis/working_Helios/<expName>/plot_index.md`
+- **Never reuse** index numbers  --  always increment
 
 ## Notes
 
-- ⚠️ **Pi working directory (MANDATORY):** All analysis work on Pi lives in `~/digios_11C_2/analysis/working_Helios/`
-  - h095 files: root of that dir
-  - h094 files: `~/digios_11C_2/analysis/working_Helios/h094_cuts/`
-  - Future experiments: create `~/digios_11C_2/analysis/working_Helios/<expName>/` subdirs
-  - Generated PNGs → `~/screenshots/` only; never scatter to home dir or workspace
-- ⚠️ **`analysis/working/` is experiment-specific** — all files here (Monitors.C, GeneralSortMapping.h, reactionConfig.txt, detectorGeo.txt, correction_*.dat, rdtCut*.root, etc.) change per experiment
-- ⚠️ **`analysis/Armory/`, `Cleopatra/`, `EventBuilder/`, `Woods-Saxon/`** are general/shared — independent of experiment, do not edit casually
-- ⚠️ `GeneralSortMapping.h` on Mac2020 is the **true correct map** — verify it matches DAQ's copy each experiment
-- ⚠️ Do not use `GLBL:DIG:*` PVs — use individual `VMExx:MDIGn:*` PVs directly
+- [!!] **Pi working directory (MANDATORY):**
+  - **General experiments (h096+):** `~/digios/analysis/working_Helios/<expName>/`
+  - **h094/h095 special analysis only:** `~/digios_11C_2/analysis/working_Helios/`  --  `digios_11C_2` is NOT a template; only loaded in #h094/#h095 Discord channels
+  - Generated PNGs -> `~/screenshots/` only; never scatter to home dir or workspace
+- [!!] **`analysis/working/` is experiment-specific**  --  all files here (Monitors.C, GeneralSortMapping.h, reactionConfig.txt, detectorGeo.txt, correction_*.dat, rdtCut*.root, etc.) change per experiment
+- [!!] **`analysis/Armory/`, `Cleopatra/`, `EventBuilder/`, `Woods-Saxon/`** are general/shared  --  independent of experiment, do not edit casually
+- [!!] `GeneralSortMapping.h` on Mac2020 is the **true correct map**  --  verify it matches DAQ's copy each experiment
+- [!!] Do not use `GLBL:DIG:*` PVs  --  use individual `VMExx:MDIGn:*` PVs directly
 - Globus transfer to LCRC is currently **disabled** in stop_run.sh
 - AutoProcess on Mac2020 is triggered by DAQ's AutoStartStop for online monitoring during long runs
 - Mac2020 hostname: `phywl094.phy.anl.gov`
@@ -379,11 +378,9 @@ Every generated plot must have an index number so it can be easily referenced la
 
 ## See Also
 
-- `HELIOS_Calibration_Procedure.md` — silicon detector energy/position calibration (manual)
-- `HELIOS_Calibration_Workflow.md` — AutoFit, AutoCalibrationTrace, exShift iteration
-- `calibration_notes.md` — lessons learned: energy cal pipeline, xnCorr, X scale, exShift
-- `HELIOS_Simulation_Cleopatra.md` — kinematics, DWBA input files, Ptolemy
-- `rdtCut_guideline.md` — RDT cut methods, FOM scoring, TObjArray format
-- `HELIOS_Detector_Geometry.md` — detector layout, channel mapping (experiment-dependent)
-- `new_experiment_checklist.md` — start-of-experiment setup steps
-- `expMemory_h094.md` / `expMemory_h095.md` / `expMemory_h096.md` — per-experiment analysis state
+- `HELIOS_Calibration.md`  --  complete calibration reference (physics, code, lessons per step)
+- `HELIOS_Simulation_Cleopatra.md`  --  kinematics, DWBA input files, Ptolemy
+- `rdtCut_guideline.md`  --  RDT cut methods, FOM scoring, TObjArray format
+- `HELIOS_Detector_Geometry.md`  --  detector layout, channel mapping (experiment-dependent)
+- `new_experiment_checklist.md`  --  start-of-experiment setup steps
+- `expMemory_h094.md` / `expMemory_h095.md` / `expMemory_h096.md`  --  per-experiment analysis state

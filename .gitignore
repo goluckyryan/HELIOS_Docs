@@ -1,3 +1,6 @@
-rag/chroma_db/
-__pycache__/
-*.pyc
+# Don't publish raw heartbeat logs
+heartbeat-log.md
+heartbeat-log-archive-*.md
+
+# Archive folder (old/superseded docs)
+archive/

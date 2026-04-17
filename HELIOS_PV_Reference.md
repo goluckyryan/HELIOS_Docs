@@ -1,6 +1,6 @@
 # HELIOS EPICS PV Reference
 
-**Source:** `digios1` (192.168.1.2) — `/global/devel7_newbsp/gretTop/9-22/dgsIoc/db/`
+**Source:** `digios1` (192.168.1.2)  --  `/global/devel7_newbsp/gretTop/9-22/dgsIoc/db/`
 **Generated:** 2026-03-11
 **IOC:** dgsIoc (DGS/HELIOS digitizer IOC, VxWorks 5.5)
 **EPICS CA Port:** 5064 (TCP+UDP)
@@ -11,7 +11,7 @@
 
 | Component | Description |
 |---|---|
-| VME01–VME04 | Digitizer crates (active HELIOS config, 4 crates) |
+| VME01-VME04 | Digitizer crates (active HELIOS config, 4 crates) |
 | VME32 | Trigger crate (1 master MTRG + 2 routers RTR1, RTR2) |
 | GLBL | System-wide broadcast (dfanout to all crates/FPGAs) |
 | VMExx:GLBL | Per-crate broadcast (dfanout to all MDIGs in that crate) |
@@ -53,9 +53,9 @@
 
 ## Global Digitizer PVs (GLBL:DIG:)
 
-> ⚠️ **DO NOT use GLBL:DIG:\* PVs to set individual channel parameters** — these broadcast to ALL digitizers and will overwrite specific settings. Always use `VMExx:MDIGn:*` individual module PVs directly.
+> [!!] **DO NOT use GLBL:DIG:\* PVs to set individual channel parameters**  --  these broadcast to ALL digitizers and will overwrite specific settings. Always use `VMExx:MDIGn:*` individual module PVs directly.
 
-These broadcast to all digitizers system-wide via dfanout chains (F01–F05 per parameter).
+These broadcast to all digitizers system-wide via dfanout chains (F01-F05 per parameter).
 
 | PV Name | Type | Description |
 |---|---|---|
@@ -155,7 +155,7 @@ These broadcast to all digitizers system-wide via dfanout chains (F01–F05 per 
 
 ## Per-Crate Global PVs (VMExx:GLBL:)
 
-Pattern: `VMExx:GLBL:<parameter>` — same parameter set as GLBL:DIG above,
+Pattern: `VMExx:GLBL:<parameter>`  --  same parameter set as GLBL:DIG above,
 fans out to all MDIG modules within that crate.
 
 Crates: **VME01, VME02, VME03, VME04, VME05, VME06**
@@ -211,10 +211,10 @@ Modules per crate: **MDIG1, MDIG2, MDIG3, MDIG4** (+ _F2 variants for dual-FPGA 
 
 | File | VME Crate | Description |
 |---|---|---|
-| `vme01.HELIOS.cmd` | VME01 | Digitizer crate 1 (boards 101–104) |
-| `vme02.HELIOS.cmd` | VME02 | Digitizer crate 2 (boards 105–108) |
-| `vme03.HELIOS.cmd` | VME03 | Digitizer crate 3 (boards 109–112) |
-| `vme04.HELIOS.cmd` | VME04 | Digitizer crate 4 (boards 113–116) |
+| `vme01.HELIOS.cmd` | VME01 | Digitizer crate 1 (boards 101-104) |
+| `vme02.HELIOS.cmd` | VME02 | Digitizer crate 2 (boards 105-108) |
+| `vme03.HELIOS.cmd` | VME03 | Digitizer crate 3 (boards 109-112) |
+| `vme04.HELIOS.cmd` | VME04 | Digitizer crate 4 (boards 113-116) |
 | `vme32.HELIOS.cmd` | VME32 | Trigger crate (MTRG + RTR1 + RTR2) |
 
 **Location:** `/global/devel7_newbsp/gretTop/9-22/dgsIoc/iocBoot/iocArray/`
@@ -229,7 +229,7 @@ Modules per crate: **MDIG1, MDIG2, MDIG3, MDIG4** (+ _F2 variants for dual-FPGA 
 | VME32:RTR1: | Router 1 | Trigger router 1 (slot 4) |
 | VME32:RTR2: | Router 2 | Trigger router 2 (slot 5) |
 
-AutoSave file: `dgs_vme32_HELIOS.sav` → `/global/devel7_newbsp/boot/autosave/vme32/`
+AutoSave file: `dgs_vme32_HELIOS.sav` -> `/global/devel7_newbsp/boot/autosave/vme32/`
 
 ---
 
@@ -251,8 +251,50 @@ AutoSave file: `dgs_vme32_HELIOS.sav` → `/global/devel7_newbsp/boot/autosave/v
 
 ## See Also
 
-- `HELIOS_DAQ_Workflow.md` — using PVs in DAQ control (caget/caput, run control PVs)
-- `HELIOS_Detector_Geometry.md` — detector layout (channel → PV mapping context)
-- `rdtCut_guideline.md` — RDT detector PVs and HV channels for recoils
-- `HELIOS_Experiment_Switch.md` — PVs that change between experiments (thresholds, HV)
-- `expMemory_h095.md` / `expMemory_h094.md` — experiment-specific threshold and HV settings
+- `HELIOS_DAQ_Workflow.md`  --  using PVs in DAQ control (caget/caput, run control PVs)
+- `HELIOS_Detector_Geometry.md`  --  detector layout (channel -> PV mapping context)
+- `rdtCut_guideline.md`  --  RDT detector PVs and HV channels for recoils
+- `HELIOS_Experiment_Switch.md`  --  PVs that change between experiments (thresholds, HV)
+- `expMemory_h095.md` / `expMemory_h094.md`  --  experiment-specific threshold and HV settings
+
+---
+
+## HV Control (Iseg MPOD)
+
+**Hardware:** Iseg MPOD at 192.168.1.155, SNMP v2c, WIENER-CRATE-MIB
+**Community string:** see `security/credentials.md`
+
+### Module Map (verified 2026-04-10)
+| Module | SNMP ch | Side | Det IDs |
+|--------|---------|------|---------|
+| 0 | u0-u5 | Left | 0-5 |
+| 0 | u6-u11 | Bottom | 6-11 |
+| 0 | u12-u15 | Top | 18-21 |
+| 2 | u200-u201 | Top | 22-23 |
+| 2 | u202-u207 | Right | 12-17 |
+| 2 | u208-u215 | unused | |
+| 3 | u300-u307 | RDT | dE0,E0,dE1,E1,dE2,E2,dE3,E3 |
+| 3 | u308-u315 | unused | |
+### Ramp Procedure [!!]
+1. Always arm first: `outputSwitch.uN i 10` before any on/off value
+2. Ramp in **10-20V increments**
+3. Check leakage current after each step  --  if leakage > **2 uA** -> **STOP immediately**
+4. Always report **both** measured voltage AND leakage current
+
+### Key SNMP OIDs (WIENER-CRATE-MIB)
+| OID suffix | Description |
+|-----------|-------------|
+| `outputVoltage.uN` | Set voltage (V) |
+| `outputMeasurementSenseVoltage.uN` | Measured voltage (V) |
+| `outputMeasurementCurrent.uN` | Measured current (A) |
+| `outputSwitch.uN` | Channel on/off (0=off, 1=on, 10=arm) |
+| `outputStatus.uN` | Status bits |
+
+### IsegMonitor.py (continuous readout -> InfluxDB)
+```bash
+cd ~/IsegSNMPGUI && nohup python3 -u IsegMonitor.py >> /tmp/iseg_monitor.log 2>&1 &
+```
+- InfluxDB tags: `Det=<02d>` (zero-padded, e.g. "05"), `Module=<int>`  --  matches Grafana dashboards
+- Grafana on Mac2017 (192.168.1.193)  --  HV trends visible there
+
+_Added: 2026-04-09_

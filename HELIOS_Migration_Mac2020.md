@@ -1,14 +1,14 @@
-# HELIOS AI Migration Plan: Pi → Mac2020
+# HELIOS AI Migration Plan: Pi -> Mac2020
 
 **Goal:** Move HELIOS AI (OpenClaw) from Pi (192.168.1.100) to Mac2020 (192.168.1.164),
 then decommission the Pi entirely from the HELIOS subnet.
 
-**Status (2026-04-06):** ⏸ Not started — Node.js and OpenClaw not yet installed on Mac2020.
+**Status (2026-04-06):** ? Not started  --  Node.js and OpenClaw not yet installed on Mac2020.
 Mac2020 is reachable and healthy. Migration is planned but not scheduled.
 
 ---
 
-## Phase 1 — Prepare Mac2020
+## Phase 1  --  Prepare Mac2020
 
 ### 1.1 Install Node.js
 ```bash
@@ -35,14 +35,14 @@ curl -s https://discord.com | head -1
 ### 1.4 Prevent sleep
 ```bash
 # Mac2020 must not sleep if running as a server
-# System Preferences → Energy Saver → "Prevent computer from sleeping"
+# System Preferences -> Energy Saver -> "Prevent computer from sleeping"
 # Or via CLI:
 sudo pmset -a sleep 0 disksleep 0
 ```
 
 ---
 
-## Phase 2 — Transfer Workspace
+## Phase 2  --  Transfer Workspace
 
 ### 2.1 Copy workspace from Pi to Mac2020
 ```bash
@@ -52,21 +52,21 @@ scp -r ryan@192.168.1.100:~/.openclaw/ ~/.openclaw/
 
 ### 2.2 Adapt config paths
 - Edit `~/.openclaw/config.json` (or equivalent) on Mac2020
-- Update `workdir` from `/home/ryan/.openclaw/workspace` → `/Users/heliosdigios/.openclaw/workspace`
-- Keep same Discord bot token, API keys — no change needed
+- Update `workdir` from `/home/ryan/.openclaw/workspace` -> `/Users/heliosdigios/.openclaw/workspace`
+- Keep same Discord bot token, API keys  --  no change needed
 
 ### 2.3 Update TOOLS.md
-- Change host machine entry: `pi5-2 (192.168.1.100)` → `Mac2020 (192.168.1.164)`
+- Change host machine entry: `pi5-2 (192.168.1.100)` -> `Mac2020 (192.168.1.164)`
 - Update SSH notes: Mac2020 is now local, Pi no longer needed
-- DAQ SSH: Mac2020 already has `~/.ssh/id_rsa_daq` — no change needed
+- DAQ SSH: Mac2020 already has `~/.ssh/id_rsa_daq`  --  no change needed
 
 ### 2.4 Update MEMORY.md
-- Change `Host: pi5-2 (Raspberry Pi 5)` → `Host: Mac2020 (192.168.1.164)`
+- Change `Host: pi5-2 (Raspberry Pi 5)` -> `Host: Mac2020 (192.168.1.164)`
 - Remove Pi-specific notes (eth0/wlan0 network config, etc.)
 
 ---
 
-## Phase 3 — EPICS / CA on Mac2020
+## Phase 3  --  EPICS / CA on Mac2020
 
 ### 3.1 Set environment variables
 Add to `~/.zshrc` (Mac uses zsh by default):
@@ -84,18 +84,18 @@ source ~/digios/heliosrc.sh
 caget VME01:MDIG1:led_threshold0
 ```
 
-### 3.3 pyepics (optional — if Python CA access needed)
+### 3.3 pyepics (optional  --  if Python CA access needed)
 - Need EPICS base built or installed on Mac2020 for `libca.dylib`
 - Or symlink from digios EPICS installation if available
 - Set: `export PYEPICS_LIBCA=<path to libca.dylib>`
 
 ---
 
-## Phase 4 — Git Relay: Remove Pi as Relay
+## Phase 4  --  Git Relay: Remove Pi as Relay
 
-Currently: `DAQ → Pi bare repo (~/digios.git) → GitHub`
+Currently: `DAQ -> Pi bare repo (~/digios.git) -> GitHub`
 
-After migration, Mac2020 has internet — it can push directly to GitHub.
+After migration, Mac2020 has internet  --  it can push directly to GitHub.
 
 ### 4.1 Add GitHub remote to Mac2020
 ```bash
@@ -108,7 +108,7 @@ ssh -T git@github.com
 ### 4.2 Update DAQ origin
 DAQ currently pulls from Pi (`ryan@192.168.1.100:~/digios.git`).
 Options:
-- **Option A:** Keep Pi bare repo running (simplest — DAQ doesn't change)
+- **Option A:** Keep Pi bare repo running (simplest  --  DAQ doesn't change)
 - **Option B:** Set up bare repo on Mac2020 and update DAQ origin:
   ```bash
   # On Mac2020: create bare repo
@@ -125,7 +125,7 @@ Options:
 
 ---
 
-## Phase 5 — Start OpenClaw on Mac2020
+## Phase 5  --  Start OpenClaw on Mac2020
 
 ```bash
 # On Mac2020:
@@ -137,7 +137,7 @@ openclaw gateway status
 
 ---
 
-## Phase 6 — Stop OpenClaw on Pi
+## Phase 6  --  Stop OpenClaw on Pi
 
 ```bash
 # SSH into Pi first, confirm Mac2020 is live
@@ -148,11 +148,11 @@ openclaw gateway stop
 
 ---
 
-## Phase 7 — Decommission Pi
+## Phase 7  --  Decommission Pi
 
 ### 7.1 Final data/config backup
 ```bash
-# From Mac2020 — grab anything remaining
+# From Mac2020  --  grab anything remaining
 scp -r ryan@192.168.1.100:~/IsegSNMPGUI/ ~/IsegSNMPGUI/
 scp ryan@192.168.1.100:~/HELIOS_*.md ~/
 scp ryan@192.168.1.100:~/*.sh ~/
@@ -174,7 +174,7 @@ scp ryan@192.168.1.100:~/*.sh ~/
 
 ---
 
-## Phase 8 — Post-Migration Verification
+## Phase 8  --  Post-Migration Verification
 
 - [ ] Discord bot responding from Mac2020
 - [ ] `caget` working (EPICS CA to VME IOCs)
@@ -187,25 +187,64 @@ scp ryan@192.168.1.100:~/*.sh ~/
 
 ## Key Advantages After Migration
 
-- **ROOT native** — no SSH batch workaround, persistent interactive sessions
-- **Direct data access** — `~/experiments/` is local, no rsync hop
-- **Faster analysis** — Mac2020 has more CPU/RAM than Pi 5
-- **Simpler topology** — one fewer machine in the chain
+- **ROOT native**  --  no SSH batch workaround, persistent interactive sessions
+- **Direct data access**  --  `~/experiments/` is local, no rsync hop
+- **Faster analysis**  --  Mac2020 has more CPU/RAM than Pi 5
+- **Simpler topology**  --  one fewer machine in the chain
 
 ## Risks / Watchouts
 
-- Mac2020 must **not sleep** — configure Energy Saver permanently
-- Mac2020 IP (192.168.1.164) assumed static — verify it doesn't change
+- Mac2020 must **not sleep**  --  configure Energy Saver permanently
+- Mac2020 IP (192.168.1.164) assumed static  --  verify it doesn't change
 - `heliosdigios` user must have all required permissions
-- launchd (not systemd) for Mac services — syntax is different
+- launchd (not systemd) for Mac services  --  syntax is different
 
 
 ---
 
 ## See Also
 
-- `HELIOS_DAQ_Workflow.md` — current DAQ workflow (Pi-based)
-- `HELIOS_Analysis_Workflow.md` — analysis pipeline that will move to Mac2020
-- `HELIOS_Mac2017.md` — Mac2017 role (archival, InfluxDB/Grafana host)
-- `HELIOS_Experiment_Switch.md` — experiment switching procedure
-- `MEMORY.md` — SSH key, Mac2020 access details
+- `HELIOS_DAQ_Workflow.md`  --  current DAQ workflow (Pi-based)
+- `HELIOS_Analysis_Workflow.md`  --  analysis pipeline that will move to Mac2020
+- `HELIOS_Mac2017.md`  --  Mac2017 role (archival, InfluxDB/Grafana host)
+- `HELIOS_Experiment_Switch.md`  --  experiment switching procedure
+- `MEMORY.md`  --  SSH key, Mac2020 access details
+
+---
+
+## Phase 9  --  Recreate Skill Symlinks
+
+HELIOS skills live in the workspace but are symlinked into the OpenClaw skills directory for auto-discovery.
+These symlinks are machine-local and must be recreated on the new host after migration.
+
+### 9.1 List existing symlinks (on Pi, before migration)
+```bash
+ls -la ~/.npm-global/lib/node_modules/openclaw/skills/ | grep "^l"
+# Note all symlinks pointing into ~/.openclaw/workspace/skills/
+```
+
+### 9.2 Recreate symlinks on Mac2020
+After workspace is copied and OpenClaw is installed on Mac2020:
+```bash
+# General pattern (repeat for each HELIOS skill):
+ln -s ~/.openclaw/workspace/skills/<skill-name> \
+      $(npm root -g)/openclaw/skills/<skill-name>
+
+# Example: helios-autorun skill
+ln -s ~/.openclaw/workspace/skills/helios-autorun \
+      $(npm root -g)/openclaw/skills/helios-autorun
+```
+
+Note: `npm root -g` resolves the correct global node_modules path regardless of machine.
+On Pi: `/home/ryan/.npm-global/lib/node_modules`
+On Mac2020 (homebrew Node): `/opt/homebrew/lib/node_modules` (verify with `npm root -g`)
+
+### 9.3 Verify skills are discovered
+```bash
+openclaw skills list
+# All HELIOS skills should appear alongside system skills
+```
+
+### 9.4 Update skill scripts if paths are hardcoded
+- Check each skill's `.sh` scripts for hardcoded `/home/ryan/` paths
+- Replace with `$HOME` or env vars (scripts should be written portably from the start)
