@@ -22,7 +22,34 @@ All builders live in `~/digios/analysis/EventBuilder/`.
 
 ## Data Flow Overview
 
-### EventBuilder_S (Baseline)
+### EventBuilder (Original)
+
+```mermaid
+flowchart TD
+    subgraph READ ["File I/O (ifstream, sequential)"]
+        F1[Raw binary files] -->|"ifstream::read()"| BR["BinaryReader\n100k hits/chunk\n(sequential scan)"]
+    end
+
+    subgraph MERGE ["Find Min Timestamp"]
+        BR -->|"per-DigID buffers"| SCAN["Linear scan ALL DigIDs\neach event cycle to\nfind min timestamp"]
+    end
+
+    subgraph BUILD ["Event Building"]
+        SCAN -->|"gather hits within\ntime window"| EV["events vector\n(DecodePayload per hit)"]
+        EV -->|"std::sort by timestamp"| FILL["Copy raw fields to\nglobal arrays\n(id, pre/post_rise, timestamp)"]
+        FILL -->|"TTree::Fill()"| TFILE["TFile on disk\n(zlib compression)"]
+    end
+```
+
+**Key characteristics:**
+- **No detector mapping** -- output is raw hit data (board*10+channel, pre/post rise energy, timestamp)
+- **No priority queue** -- finds minimum timestamp by scanning all DigID buffers linearly each event
+- **No trace analysis** -- saves raw traces only (no GSL fitting)
+- Fewer TTree branches = faster Fill (no Energy/XF/XN/Ring/RDT arrays)
+- Simple but effective for small numbers of DigIDs (~4-10)
+- Output tree name: `tree` (not `gen_tree`)
+
+### EventBuilder_S ("Super")
 
 ```mermaid
 flowchart TD
@@ -140,21 +167,27 @@ flowchart TD
 
 ### h096 run011, timeWindow=100, no trace analysis
 
-| Version | Read | TTree::Fill | Total | Speedup |
-|---------|------|-------------|-------|---------|
+| Version | Read | TTree::Fill | Total | vs _S |
+|---------|------|-------------|-------|-------|
+| **Original** | — | — | **4.779 s** | 1.74× faster* |
 | **_S baseline** | ~2.0s (est.) | ~5.5s (est.) | **8.324 s** | 1.0× |
 | _A (base) | 1.28 s | 3.6 s | 6.578 s | 1.27× |
 | + Reset/FillData opt | 1.37 s | 3.6 s | 5.169 s | 1.61× |
 | + LZ4 + 32MB baskets | 1.38 s | 1.5 s | 3.200 s | 2.60× |
 | + mmap | 0.47 s | 1.5 s | 2.989 s | 2.78× |
-| **Final (clean)** | **0.47 s** | **~1.5 s** | **2.824 s** | **2.95×** |
+| **_A Final (clean)** | **0.47 s** | **~1.5 s** | **2.824 s** | **2.95×** |
+
+\* Original is faster than _S because it has far fewer TTree branches (raw hit data only,
+no detector mapping arrays) and uses simple linear scan instead of priority queue.
+_S/_A do more work: detector mapping, Energy/XF/XN/Ring/RDT arrays, trace analysis support.
 
 ### Other configurations
 
-| Config | _S | _A final | Speedup |
-|--------|-----|----------|---------|
-| tw=100k, no trace | 7.016 s | ~2.5 s (est.) | ~2.8× |
-| tw=100, trace analysis (1-core) | 11.750 s | ~9.5 s (est.) | ~1.2× |
+| Config | Original | _S | _A final | _A vs _S |
+|--------|----------|-----|----------|----------|
+| tw=100k, no trace | 4.447 s | 7.016 s | ~2.5 s (est.) | ~2.8× |
+| tw=100, no trace | 4.779 s | 8.324 s | 2.824 s | 2.95× |
+| tw=100, trace analysis (1-core) | N/A | 11.750 s | ~9.5 s (est.) | ~1.2× |
 
 ### Timing breakdown (_A final, tw=100 no trace)
 
