@@ -928,5 +928,6 @@ Tracks which task was done each heartbeat, rotating A -> B -> C -> A.
 | 21:16 | D -- Read/Learn | Read Monitors.C -- already well-documented in Analysis_Workflow.md. Added note: Ex reconstruction uses same Newton's-method as HELIOS_LIB.h CalExThetaCM (inline, reads reaction.dat). Confirmed Analyzer.C docs complete. |
 | 21:39 | A -- Explore | All hosts up. DAQ .2 ping OK. Mac2020 61d 12h, load 1.88 (elevated evening, no active run). Spark 1d 6h, load 0.46. All nominal. |
 | 21:46 | B -- Maintenance | Context 34% (343k), healthy. ~16h to 50%. 0 stray PNGs. memory/ tidy. All nominal. |
+| 22:01 | C -- Organize | Added analysis-alpha-cal skill note to HELIOS_Calibration.md Step 1 header (batch_alpha_cal.C AI shortcut for Steps 1-4). All other content verified consistent. |
 | 23:31 | C -- Organize | Stale-ref sweep: fixed Pi5->Spark in README Ptolemy entry. Added HELIOS_Armory_Code.md to README file table. All HELIOS_MD Pi/ryan refs clean (no hits outside Migration doc). 24/24 files indexed [OK]. |
 | 10:29 | D -- Read/Learn | Read Hoffman 2022 (NIM A): in-flight 16N isomeric beam via 15N(d,p) at ATLAS. 40% isomer at 7.9 MeV/u, 24% at 13.2 MeV/u. Angular acceptance controls isomer fraction. Created paper_notes/2022_Hoffman_Inflight_Isomeric_16N.md. |

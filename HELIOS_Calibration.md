@@ -73,6 +73,8 @@ chain->Add("../root_data/gen_run061.root");
 
 ## Step 1 -- Energy Calibration (Alpha Source)
 
+> **AI shortcut:** Use the `analysis-alpha-cal` skill to run Steps 1-4 automatically via `batch_alpha_cal.C` (symlinked to `working_Helios/`). Skill handles peak-finding, matching, and writing all 4 correction files. Manual steps below for reference/debugging.
+
 ### Physics
 
 Each PSD detector converts deposited energy to a charge signal proportional to the alpha particle energy. The relationship is linear: `E(MeV) = e_ch / gain + offset`. We calibrate this using known alpha energies from a 228Th source.

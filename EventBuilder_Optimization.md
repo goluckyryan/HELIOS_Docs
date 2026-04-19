@@ -11,9 +11,9 @@
 
 | Version | File | Description |
 |---------|------|-------------|
-| `EventBuilder` | `EventBuilder.cpp` | Original, basic |
+| `EventBuilder` | `EventBuilder.cpp` | Original — raw hit output, linear min-scan, no detector mapping |
 | `EventBuilder_Q` | `EventBuilder_Q.cpp` | With mapping (Q) |
-| `EventBuilder_S` | `EventBuilder_S.cpp` | "Super" — priority queue, multi-threaded trace analysis |
+| `EventBuilder_S` | `EventBuilder_S.cpp` | "Super" — detector mapping, priority queue, multi-threaded trace analysis |
 | `EventBuilder_A` | `EventBuilder_A.cpp` | "Advanced" — all _S features + I/O and build optimizations |
 
 All builders live in `~/digios/analysis/EventBuilder/`.
@@ -160,6 +160,84 @@ flowchart TD
 - `ReadNextNHitsFromFile` uses `memcpy` from mapped memory instead of `ifstream::read()`
 - Falls back to ifstream if mmap fails
 - **Impact:** Read time 1.37s → 0.47s (2.9× faster)
+
+#### What is mmap?
+
+`mmap` (memory-mapped file I/O) maps a file directly into the process's virtual address space.
+Instead of reading the file with syscalls, you access it like an array in memory.
+
+**Normal file I/O (ifstream):**
+
+```mermaid
+sequenceDiagram
+    participant P as Program
+    participant K as Kernel
+    participant D as Disk
+    
+    loop For each of ~7M reads (header + payload per hit)
+        P->>K: read(buf, N) [syscall]
+        K->>D: disk read
+        D-->>K: data
+        K-->>P: copy data to user buffer
+    end
+    Note over P,D: 7M syscalls + 7M data copies
+```
+
+**mmap:**
+
+```mermaid
+sequenceDiagram
+    participant P as Program
+    participant K as Kernel
+    participant D as Disk
+    
+    P->>K: mmap(file) [1 syscall]
+    K-->>P: virtual address pointer
+    
+    Note over P: MAP_POPULATE: kernel pre-faults all pages
+    K->>D: bulk prefetch entire file
+    D-->>K: data into page cache
+    
+    loop Access data via pointer
+        P->>P: memcpy(dst, base+offset, N)
+        Note over P: Direct read from page cache<br/>No syscall, no extra copy
+    end
+    Note over P,D: 1 syscall + 0 data copies
+```
+
+**Comparison:**
+
+| | ifstream | mmap |
+|---|---|---|
+| Syscalls | ~7M (per read) | 1 (setup) |
+| Data copies | kernel → user buffer each time | zero (read from page cache) |
+| Memory | separate read buffer | file IS the buffer |
+| Prefetch | manual / OS guessing | explicit (`MADV_SEQUENTIAL`) |
+| Fallback | always works | needs local filesystem |
+
+**Key flags:**
+- `MAP_POPULATE` — pre-fault all pages at mmap time (load entire file upfront)
+- `MAP_PRIVATE` — copy-on-write (safe, read-only access)
+- `MADV_SEQUENTIAL` — tell kernel we read front-to-back (optimize readahead)
+
+**RAM safety:** mmap does NOT require the full file to fit in RAM. Pages are loaded on demand
+and can be evicted under memory pressure (they're file-backed, not anonymous). Works on
+machines with limited RAM, just without the prefetch benefit.
+
+---
+
+## _A Base Architecture Improvements over _S
+
+Before any of the optimization passes above, _A's base design already improved on _S:
+
+| Feature | _S | _A |
+|---------|----|----|    
+| **Merge strategy** | `priority_queue<Event>` with ALL hits | Lightweight `priority_queue<MergeEntry>` (~10 entries, 10 bytes each) |
+| **Event data** | Copied in/out of priority queue | Stays in sorted buffers, moved via `std::move` |
+| **Sort approach** | O(N log N) heap operations on full Events | Per-chunk `std::sort` + O(N log k) k-way merge (k ≈ 4-10) |
+| **I/O pattern** | Read → process → read (serial) | Async double-buffer: read next chunk while processing current |
+| **TTree output** | Direct to disk TFile | TMemFile (RAM), single copy to disk at end |
+| **File scanning** | Sequential | Parallel threads |
 
 ---
 
