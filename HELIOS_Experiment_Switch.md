@@ -86,7 +86,7 @@ git checkout <expName>        # or git checkout -b <expName> if new branch
 
 ```bash
 cd ~/digios
-git fetch origin    # origin = Pi relay
+git fetch origin    # origin = Spark relay (heliosspark@192.168.1.101)
 git checkout <expName>    # or git checkout -b <expName> if new
 ```
 
@@ -108,7 +108,7 @@ git checkout <expName>    # or git checkout -b <expName> if new
     --data-binary "SavingData,expName=<expName> value=0" \
     --max-time 1 --connect-timeout 1
   ```
-- Commit and push to Pi:
+- Commit and push to Spark:
   ```bash
   git add expName.sh
   git commit -m "new experiment <expName>"
@@ -153,8 +153,8 @@ cd ~/digios && git fetch origin && git checkout master
 - **DAQ symlink**: `analysis/data` symlink is NOT needed on DAQ  --  `start_run.sh` writes directly to `${daqDataPath}/${expName}/`; do not create it during SetUpNewExp
 - **Mac2020 data path**: `~/experiments/<expName>/data` and `~/experiments/<expName>/root_data` (no merged_data  --  GEBSort removed)
 - **InfluxDB**: `192.168.1.193:8086` (Mac2017), db=`testing`
-- **DAQ origin**: Pi relay (`ryan@192.168.1.100:~/digios.git`)
-- **Mac2020 pi remote**: `ryan@192.168.1.100:~/digios.git`)
+- **DAQ origin**: Spark relay (`heliosspark@192.168.1.101:~/digios.git`) -- was Pi relay pre-2026-04-17
+- **Mac2020 spark remote**: `heliosspark@192.168.1.101:~/digios.git`) -- was `ryan@192.168.1.100`
 - **DAQ and Mac2020 must always be on the same branch**
 - **master = ARR01** (between experiments)
 - **`expName.sh`** is the source of truth for current experiment name and last run number

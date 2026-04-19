@@ -1,10 +1,10 @@
 # new_experiment_checklist.md  --  New Experiment Setup (MANDATORY)
 
-Full checklist for setting up a new HELIOS experiment from scratch  --  covers DAQ, Mac2020, Pi repo, and analysis working directory.
+Full checklist for setting up a new HELIOS experiment from scratch  --  covers DAQ, Mac2020, Spark repo, and analysis working directory.
 
 ---
 
-## Part 1  --  DAQ/Mac2020/Pi Infrastructure
+## Part 1  --  DAQ/Mac2020/Spark Infrastructure
 
 Follow `HELIOS_Experiment_Switch.md` for the detailed procedure. Summary:
 
@@ -27,23 +27,23 @@ Follow `HELIOS_Experiment_Switch.md` for the detailed procedure. Summary:
   ```
 - [ ] No InfluxDB call, no commit needed
 
-### Step 3  --  Pi working repo (`~/digios`)
-- [ ] `git fetch /home/ryan/digios.git <expName>:<expName> && git checkout <expName>`
+### Step 3  --  Spark working repo (`~/digios`)
+- [ ] `git fetch /home/heliosspark/digios.git <expName>:<expName> && git checkout <expName>`
 - [ ] Verify `expName.sh` is correct
 
-### Step 4  --  Pi -> GitHub sync
+### Step 4  --  Spark -> GitHub sync
 - [ ] `~/digios_sync_github.sh`  --  pushes all branches to GitHub
 
 ---
 
 ## Part 2  --  Analysis Working Directory
 
-Working dir lives inside the experiment's digios repo on Pi:
+Working dir lives inside the experiment's digios repo on Spark:
 **`<digios_repo>/analysis/working_Helios/<expName>/`**
 
 - **Standard repo (h096+):** `~/digios/analysis/working_Helios/<expName>/`
 - [!!] `~/digios_11C_2/` is a **special one-off** for h095 (11C analysis)  --  not a template, do not replicate
-- The entire `analysis/working_Helios/` folder is git-ignored  --  local to Pi only
+- The entire `analysis/working_Helios/` folder is git-ignored  --  local to Spark only
 
 ### Step 5  --  Create working dir skeleton
 
@@ -86,7 +86,7 @@ Steps:
 ### Step 6  --  Create expMemory file
 - [ ] Create `~/.openclaw/workspace/expMemory_<expName>.md` with:
   - Reaction, B-field, beam energy, target
-  - Data locations (DAQ raw, Mac2020 root_data, Pi working dir)
+  - Data locations (DAQ raw, Mac2020 root_data, Spark working dir)
   - digios branch name
 - [ ] Register in `USER.md`: add channel ID -> expMemory file mapping
 - [ ] Add brief entry to `MEMORY.md`
@@ -98,10 +98,10 @@ Steps:
 
 **Workspace split:**
 - **Mac2020 `analysis/working/`** -- user workspace, in git, tracked. reactionConfig.txt, detectorGeo.txt, Ex.txt, transfer.root all live HERE on Mac2020.
-- **Pi `analysis/working_Helios/`** -- AI workspace, gitignored. transfer.root generated HERE on Pi. Symlinks to `../working/` config files.
-- **Pi `analysis/working/`** -- stays in sync with Mac2020 via git (same branch). AI reads configs here, does not generate files here.
+- **Spark `analysis/working_Helios/`** -- AI workspace, gitignored. transfer.root generated HERE on Spark. Symlinks to `../working/` config files.
+- **Spark `analysis/working/`** -- stays in sync with Mac2020 via git (same branch). AI reads configs here, does not generate files here.
 
-### Step 1 -- Edit config files (on both Mac2020 and Pi via SCP/git)
+### Step 1 -- Edit config files (on both Mac2020 and Spark via SCP/git)
 
 - [ ] Edit `analysis/working/reactionConfig.txt`:
   - beam_A, beam_Z, beam energy (MeV/u), target_A/Z, light recoil A/Z
@@ -118,9 +118,10 @@ Steps:
   ...
   #============_End_of_file
   ```
-- [ ] SCP updated files to Pi: `scp -i ~/.ssh/id_rsa_mac2020 ... heliosdigios@192.168.1.164:~/digios/analysis/working/`
+- [ ] SCP updated files to Mac2020: `scp -i ~/.ssh/id_rsa_mac2020 ... heliosdigios@192.168.1.164:~/digios/analysis/working/`
+- [ ] Then `git pull` on Spark to get updated working/ files
 
-### Step 2 -- Set up symlinks in working_Helios/ on Pi
+### Step 2 -- Set up symlinks in working_Helios/ on Spark
 
 ```bash
 cd ~/digios/analysis/working_Helios
@@ -139,9 +140,8 @@ cd ~/digios/analysis/working   # MUST run from working/ -- reads reactionConfig.
 # output: transfer.root and reaction.dat in working/
 ```
 
-**On Pi** (ROOT at ~/root/, source thisroot.sh first):
+**On Spark** (ROOT in PATH via ~/.bashrc):
 ```bash
-source ~/root/bin/thisroot.sh
 cd ~/digios/analysis/Cleopatra && make Transfer
 cd ~/digios/analysis/working_Helios  # run from working_Helios/ -- uses symlinked configs
 ../Cleopatra/Transfer
@@ -158,7 +158,7 @@ cd ~/digios/analysis/working_Helios  # run from working_Helios/ -- uses symlinke
 - [ ] Plot E-Z: gate on `hit==1 && loop==1`, draw `fxList` (kinematic lines) and `gList->At(0)` (thetaCM=0) from transfer.root
 - [ ] Commit `reactionConfig.txt`, `detectorGeo.txt`, `Ex.txt` to git (tracked in working/)
   - `transfer.root` and `reaction.dat` are gitignored -- never commit
-- [ ] Push to Pi bare repo -> Mac2020 pulls
+- [ ] Push to Spark bare repo -> Mac2020 pulls
 
 ---
 

@@ -1,6 +1,6 @@
 # Ptolemy Build Notes
 
-[OK] Verified 2026-04-12 -- build tests on Pi5 (ARM64) and Mac2020 (x86-64)
+[OK] Verified 2026-04-12 -- build tests on Pi5/ARM64 (now Spark/Jetson, same arch) and Mac2020 (x86-64)
 
 ## Source Repository
 

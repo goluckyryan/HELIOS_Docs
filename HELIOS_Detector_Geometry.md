@@ -169,8 +169,13 @@ VME04-MDIG4: DetMap= -1 x10  (unused)
 
 ### h096 (31Si(d,p)32Si)
 - B = 2.85 T (rented power supply); magnet ramped 2026-04-08
-- Experiment-specific detector issues TBD  --  update as calibration proceeds
-- See `expMemory_h096.md` for current status
+- **Det 11:** dead (hardware, always dead -- 0 hits all runs)
+- **Det 22:** noisy -- fires at fixed eCal ~2.5 MeV, creates fake Ex peak; exclude from analysis
+- **Det 07, 17, 22:** exShift did not converge (skip in exShift iteration; set to 0)
+- **Det 11:** always excluded from alpha cal (dead)
+- RDT gate: current simple polygon (from Ex 3.0-3.6 MeV) loses ~30% g.s. events -- may need widening
+- CoinTime gate: optimal [-8, 2] (default [-30, 20] too wide)
+- See `expMemory_h096.md` for full calibration state and run log
 
 ---
 

@@ -14,7 +14,7 @@ Run start/stop details: use `helios-start-run` and `helios-stop-run` skills (sou
 | Mac2017 (192.168.1.193) | iMac 2017 | Grafana/InfluxDB |
 | VME01-04 (VxWorks) | VME crates | Hardware IOCs -- digitizers |
 | VME32 (VxWorks) | VME crate | Trigger master + routers |
-| Pi5-2 (192.168.1.100) | Raspberry Pi 5 | HELIOS AI |
+| Spark (192.168.1.101) | NVIDIA Jetson | HELIOS AI [sun] -- migrated from Pi5-2 (.100) 2026-04-17 |
 
 ### DAQ Disk Layout (digios1)
 

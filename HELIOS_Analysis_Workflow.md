@@ -13,7 +13,7 @@
 | Mac2020 (192.168.1.164) `phywl094` | Primary analysis machine  --  EventBuilder, ROOT, Monitors |
 | Mac2017 (192.168.1.193) | Grafana/InfluxDB slow-control only |
 | LCRC (Argonne HPC) | Archival + parallel/batch analysis via Globus |
-| Pi (192.168.1.100) | HELIOS AI [sun] |
+| Spark (192.168.1.101) | NVIDIA Jetson | HELIOS AI [sun] -- migrated from Pi5-2 (.100) 2026-04-17 |
 
 ---
 
@@ -346,6 +346,8 @@ Edit these before running to match the experiment:
 | `thetaCMGate` | 10 deg | Minimum CM angle cut |
 | `isUseRDTTrace` | true | Use RDT trace timing |
 
+**Ex reconstruction in Monitors.C:** Same Newton's-method algorithm as `HELIOS_LIB.h::CalExThetaCM` -- inline implementation, not a call to the library. Reads kinematic constants (alpha, G, mass, beta, gamma, Et, massB) from `reaction.dat` at startup.
+
 ---
 
 ## Plot Indexing Convention (MANDATORY)
@@ -362,7 +364,7 @@ Every generated plot must have an index number so it can be easily referenced la
 
 ## Notes
 
-- [!!] **Pi working directory (MANDATORY):**
+- [!!] **Spark working directory (MANDATORY):**
   - **General experiments (h096+):** `~/digios/analysis/working_Helios/<expName>/`
   - **h094/h095 special analysis only:** `~/digios_11C_2/analysis/working_Helios/`  --  `digios_11C_2` is NOT a template; only loaded in #h094/#h095 Discord channels
   - Generated PNGs -> `~/screenshots/` only; never scatter to home dir or workspace

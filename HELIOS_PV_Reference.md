@@ -264,7 +264,7 @@ AutoSave file: `dgs_vme32_HELIOS.sav` -> `/global/devel7_newbsp/boot/autosave/vm
 **Hardware:** Iseg MPOD at 192.168.1.155, SNMP v2c, WIENER-CRATE-MIB
 **Community string:** see `security/credentials.md`
 
-### Module Map (verified 2026-04-10)
+### Module Map (verified 2026-04-10; source: `GeneralSortMapping.h` HVdetMap/HVrdtMap)
 | Module | SNMP ch | Side | Det IDs |
 |--------|---------|------|---------|
 | 0 | u0-u5 | Left | 0-5 |
@@ -273,7 +273,7 @@ AutoSave file: `dgs_vme32_HELIOS.sav` -> `/global/devel7_newbsp/boot/autosave/vm
 | 2 | u200-u201 | Top | 22-23 |
 | 2 | u202-u207 | Right | 12-17 |
 | 2 | u208-u215 | unused | |
-| 3 | u300-u307 | RDT | dE0,E0,dE1,E1,dE2,E2,dE3,E3 |
+| 3 | u300-u309 | RDT | dE0,E0,dE1,E1,dE2,E2,dE3,E3 (even=dE/thin, odd=E/thick) |
 | 3 | u308-u315 | unused | |
 ### Ramp Procedure [!!]
 1. Always arm first: `outputSwitch.uN i 10` before any on/off value

@@ -25,6 +25,22 @@ chain->Add("../root_data/gen_run061.root");
 ///**********endMarkerforAutoCalibration.
 ```
 
+### AutoCalibrationTrace Menu Reference
+
+| Option | Name | Script called | Output | Notes |
+|---|---|---|---|---|
+| 0 | Alpha calibration (e + xf/xn) | `Cali_xf_xn.C` | `correction_e_alpha.dat`, `correction_xf_xn.dat` | Requires 228Th alpha run |
+| 1 | xf+xn -> e calibration | `Cali_xf_xn_to_e.C` | `correction_xfxn_e.dat` | Requires opt 0 done first |
+| 2 | Auto-cal by kinematics | `Cali_littleTree_trace.C` + `Cali_compareF.C` | `correction_e.dat` (KE) | 3-step: temp.root -> transfer.root -> minimize |
+| 3 | Generate calibrated tree | `Cali_e_trace.C` (TSelector) | `<expName>_run<NNN>.root` | Requires transfer.root + all correction files |
+| 4 | Single-detector alpha cal | `Cali_e_single.C` | (manual inspect) | For individual det re-calibration |
+| 5 | X scaling | `Cali_scale_x.C` | `correction_scaleX.dat` | Scale x to full (-1,1) range |
+| 6 | coinTime correction (MANUAL) | `GetCoinTimeCorrectionCutG.C` | `correction_coinTime.dat` | Manual graphical cut per det; reads temp.root |
+| 7 | Run Cleopatra/Transfer | `../Cleopatra/Transfer` (binary) | `transfer.root`, `reaction.dat` | Checks detectorGeo + reactionConfig + Ex.txt first |
+| 8 | coinTime vs X (alpha) | `Cali_coinTime_alpha.C` | `correction_coinTime.dat` | Automated coinTime cal using alpha source |
+
+**Typical full calibration sequence:** 0 -> symlink e_alpha -> 1 -> 5 -> 2 (needs 7 first) -> symlink e_KE -> 6 or 8 -> 3
+
 > [!!] **MANDATORY ORDER -- do not skip or reorder steps:**
 > 1. **Energy calibration** -> `correction_e_alpha.dat` (symlink `correction_e.dat`)
 > 2. **Xf/Xn gain match** -> `correction_xf_xn.dat`

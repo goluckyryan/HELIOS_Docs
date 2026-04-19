@@ -599,11 +599,6 @@ Tracks which task was done each heartbeat, rotating A -> B -> C -> A.
 | 23:24 | A -- Explore | DAQ up 96d 3h32m, load 0.71, /global 27% -- standby. Mac2020 up 57d 13h58m, load 1.34. All nominal. |
 | 23:38 | B -- Maintenance | Context 34% (339k). Healthy. 0 stray PNGs, memory/ tidy. No TODOs completed. |
 | 23:53 | C -- Organize | 23 files, all indexed [OK]. No new files. No issues. |
-
-## 2026-04-15 Compact Log (CDT)
-
-| Time (CDT) | Task | Notes |
-|---|---|---|
 | 00:09 | A -- Explore | DAQ up 96d 4h17m, load 0.20, /global 27% -- standby. Mac2020 up 57d 14h43m, load 1.14. All nominal (midnight). |
 | 00:23 | B -- Maintenance | Context 34% (341k). Healthy. 0 stray PNGs, memory/ tidy. No TODOs completed. |
 | 00:38 | C -- Organize | 23 files, all indexed [OK]. Stable overnight. No issues. |
@@ -698,11 +693,6 @@ Tracks which task was done each heartbeat, rotating A -> B -> C -> A.
 | 23:24 | C -- Organize | 23 files, all indexed [OK]. No new files. No issues. |
 | 23:39 | A -- Explore | DAQ up 97d 3h48m, load 0.54, /global 27% -- standby. Mac2020 up 58d 14h14m, load 1.71 (sustained elevation). All functional. |
 | 23:54 | B -- Maintenance | Context 39% (394k). Healthy. 0 stray PNGs, memory/ tidy. No TODOs completed. |
-
-## 2026-04-16 CDT Compact Log
-
-| Time (CDT) | Task | Notes |
-|---|---|---|
 | 00:09 | C -- Organize | New CDT day. 23 files, all indexed [OK]. No new files. No issues. |
 | 00:24 | A -- Explore | DAQ up 97d 4h33m, load 0.52, /global 27% -- standby. Mac2020 up 58d 14h59m, load 1.62 (sustained overnight). All functional. |
 | 00:39 | B -- Maintenance | Context 40% (396k) -- climbing, session ~6 days old. Healthy. 0 stray PNGs, memory/ tidy. No TODOs completed. |
@@ -783,3 +773,160 @@ Tracks which task was done each heartbeat, rotating A -> B -> C -> A.
 | 19:14 | C -- Organize | New UTC day. Created 2026-04-17.md. 24 files, all indexed [OK]. h096 experiment active. |
 | 19:30 | A -- Explore | DAQ up 97d 23h38m, load 1.03, gtReceiver4 running (~1.5h). Mac2020 up 59d 10h4m, load 1.33. h096 experiment active. |
 | 19:44 | B -- Maintenance | Context 44% (443k). Healthy. h096 experiment running. 0 stray PNGs, memory/ tidy. |
+| 20:27 | C -- Organize | 24 files, all indexed [OK]. DAQ hit **98d** uptime. gtReceiver4 still running (~2.5h). No issues. |
+| 20:56 | A -- Explore | DAQ up 98d 1h5m, load 0.88, gtReceiver4 running (~3h). Mac2020 up 59d 11h30m, load 1.76. h096 experiment active. |
+| 21:15 | B -- Maintenance | Context 44% (445k). Healthy. h096 experiment running. 0 stray PNGs, memory/ tidy. |
+| 21:48 | C -- Organize | 24 files, all indexed [OK]. No new files. h096 experiment running. No issues. |
+| 22:04 | A -- Explore | DAQ up 98d 2h12m, load 0.53 -- **gtReceiver4 gone, experiment stopped** (~4h run). Mac2020 up 59d 12h38m, load 1.84. Standby. |
+| 22:18 | B -- Maintenance | Context 45% (447k). Healthy. h096 run ended ~22:04. 0 stray PNGs, memory/ tidy. |
+| 22:33 | C -- Organize | 24 files, all indexed [OK]. No new files. h096 run ended. No issues. |
+| 22:49 | A -- Explore | DAQ up 98d 2h57m, load 0.40, /global 27% -- standby (post-run). Mac2020 up 59d 13h23m, load 1.73 (settling). All nominal. |
+| 23:03 | B -- Maintenance | Context 45% (449k). Healthy. 0 stray PNGs, memory/ tidy. No TODOs completed. |
+| 23:18 | C -- Organize | 24 files, all indexed [OK]. No new files. No issues. |
+| 23:34 | A -- Explore | DAQ up 98d 3h42m, load 0.42, /global 27% -- standby. Mac2020 up 59d 14h8m, load 1.61 (settling post-run). All nominal. |
+| 23:48 | B -- Maintenance | Context 45% (450k). Healthy. 0 stray PNGs, memory/ tidy. No TODOs completed. |
+| 00:03 | C -- Organize | New CDT day. 24 files, all indexed [OK]. No new files. No issues. |
+| 00:19 | A -- Explore | DAQ up 98d 4h27m, load 0.63, /global 27% -- standby. Mac2020 up 59d 14h53m, load 1.12 (settling). All nominal. |
+| 00:33 | B -- Maintenance | Context 45% (452k). Healthy. 0 stray PNGs, memory/ tidy. No TODOs completed. |
+| 00:48 | C -- Organize | 24 files, all indexed [OK]. No new files. No issues. |
+| 01:04 | A -- Explore | DAQ up 98d 5h12m, load 0.90, /global 27% -- standby. Mac2020 up 59d 15h38m, load 1.84 (persistent elevation). All functional. |
+| 01:18 | B -- Maintenance | Context 45% (454k). Healthy. 0 stray PNGs, memory/ tidy. No TODOs completed. |
+| 01:33 | C -- Organize | 24 files, all indexed [OK]. No new files. No issues. |
+| 01:49 | A -- Explore | DAQ up 98d 5h57m, load 0.56, /global 27% -- standby. Mac2020 up 59d 16h23m, load 1.39 (trending down). All nominal. |
+| 02:03 | B -- Maintenance | Context 46% (456k). Healthy. 0 stray PNGs, memory/ tidy. No TODOs completed. |
+| 02:18 | C -- Organize | 24 files, all indexed [OK]. No new files. No issues. |
+| 04:05 | A -- Explore | DAQ up 98d 8h14m, load 0.42, /global 27% -- standby. Mac2020 up 59d 18h40m, load 1.96 (still elevated). All functional. |
+| 04:31 | B -- Maintenance | Context 46% (458k). Healthy. 0 stray PNGs, memory/ tidy. No TODOs completed. |
+| 04:46 | C -- Organize | 24 files, all indexed [OK]. No new files. No issues. |
+| 05:02 | A -- Explore | DAQ up 98d 9h11m, load 0.53, /global 27% -- standby. Mac2020 up 59d 19h36m, load 1.35 (trending down). All nominal. |
+| 05:16 | B -- Maintenance | Context 46% (459k). Healthy. 0 stray PNGs, memory/ tidy. No TODOs completed. |
+| 05:31 | C -- Organize | 24 files, all indexed [OK]. No new files. No issues. |
+| 05:47 | A -- Explore | DAQ up 98d 9h56m, load 0.38, /global 27% -- standby. Mac2020 up 59d 20h21m, load 1.88 (fluctuating). All functional. |
+| 06:01 | B -- Maintenance | Context 46% (461k). Healthy. 0 stray PNGs, memory/ tidy. No TODOs completed. |
+| 06:16 | C -- Organize | 24 files, all indexed [OK]. No new files. No issues. |
+| 06:32 | A -- Explore | DAQ up 98d 10h41m, load 0.66, /global 27% -- standby. Mac2020 up 59d 21h6m, load 1.21 (continuing to trend down). All nominal. |
+| 06:46 | B -- Maintenance | Context 46% (463k). Healthy. 0 stray PNGs, memory/ tidy. No TODOs completed. |
+| 07:01 | C -- Organize | 24 files, all indexed [OK]. No new files. No issues. |
+| 07:17 | A -- Explore | DAQ up 98d 11h26m, load 0.67, /global 27% -- standby. Mac2020 up 59d 21h51m, load 1.99 (fluctuating, not settling). All functional. |
+| 07:31 | B -- Maintenance | Context 47% (465k). Healthy. 0 stray PNGs, memory/ tidy. No TODOs completed. |
+| 07:46 | C -- Organize | 24 files, all indexed [OK]. No new files. No issues. |
+| 08:02 | A -- Explore | DAQ up 98d 12h11m, load 0.76, /global 27% -- standby. Mac2020 up 59d 22h36m, load 1.79 (persistent). All functional. |
+| 08:16 | B -- Maintenance | Context 47% (467k). Healthy. 0 stray PNGs, memory/ tidy. No TODOs completed. |
+| 08:31 | C -- Organize | 24 files, all indexed [OK]. No new files. No issues. |
+| 08:47 | A -- Explore | DAQ up 98d 12h56m, load 0.21, /global 27% -- standby. Mac2020 up 59d 23h21m, load 1.33 (trending down). All nominal. |
+| 09:01 | B -- Maintenance | Context 47% (469k). Healthy. Daily report posted to #the-axiom. 0 stray PNGs, memory/ tidy. Mac2020 elevated load flagged. |
+| 09:48 | C -- Organize | 24 files, all indexed [OK]. Post-daily-report check clean. No issues. |
+| 10:03 | A -- Explore | DAQ up 98d 14h12m, load 0.67, /global 27% -- standby. Mac2020 up **60d** 37m, load 1.82 (still elevated). All functional. |
+| 10:18 | B -- Maintenance | Context 47% (471k). Healthy. 0 stray PNGs, memory/ tidy. No TODOs completed. |
+| 10:33 | C -- Organize | 24 files, all indexed [OK]. No new files. No issues. |
+| 10:48 | A -- Explore | DAQ up 98d 14h57m, load 0.43, /global 27% -- standby. Mac2020 up 60d 1h22m, load 1.91 (still elevated). All functional. |
+| 11:03 | B -- Maintenance | Context 47% (473k). Healthy. 0 stray PNGs, memory/ tidy. No TODOs completed. |
+| 12:28 | C -- Organize | 24 files, all indexed [OK]. No new files. DAQ standby (no gtReceiver4). No issues. |
+| 12:44 | A -- Explore | DAQ up 98d 16h52m, load 0.50, /global 27% -- standby. Mac2020 up 60d 3h18m, load 1.44 (holding ~1.5). All functional. |
+| 12:58 | B -- Maintenance | Context 47% (475k). Healthy. 0 stray PNGs, memory/ tidy. No TODOs completed. |
+| 13:13 | C -- Organize | 24 files, all indexed [OK]. No new files. No issues. |
+| 13:28 | A -- Explore | DAQ up 98d 17h37m, load 0.46, /global 27% -- standby. Mac2020 up 60d 4h3m, load 1.04 (finally settling after 33h+ elevation). All nominal. |
+| 13:51 | B -- Maintenance | Context 48% (477k) -- approaching 50% threshold. Session ~7 days old. 0 stray PNGs, memory/ tidy. Recommend /new soon. |
+| 14:08 | C -- Organize | 24 files, all indexed [OK]. No new files. No issues. |
+| 14:23 | A -- Explore | DAQ up 98d 18h32m, load 0.91, /global 27% -- standby. Mac2020 up 60d 4h58m, load 1.78 (ticked back up). All functional. |
+| 14:38 | B -- Maintenance | Context 48% (479k). Healthy. 0 stray PNGs, memory/ tidy. No TODOs completed. |
+| 14:53 | C -- Organize | 24 files, all indexed [OK]. No new files. No issues. |
+| 15:08 | A -- Explore | DAQ up 98d 19h17m, load 0.61, /global 27% -- standby. Mac2020 up 60d 5h43m, load 1.71 (fluctuating ~1.7). All functional. |
+| 15:23 | B -- Maintenance | Context 48% (480k). Healthy. 0 stray PNGs, memory/ tidy. No TODOs completed. |
+| 15:38 | C -- Organize | 24 files, all indexed [OK]. No new files. No issues. |
+| 20:46 | A -- Explore | **MIGRATION DAY** -- Spark now primary host (5h40m uptime, 2 users, load 0.55). DAQ .2 up (ping OK, 0% loss -- SSH needs password from Spark, expected). Mac2020 up 60d 11h, load 1.65, disk 2% used. All systems reachable. |
+| 21:01 | B -- Maintenance | Context 6% (62k), healthy. 0 stray PNGs. memory/ tidy (stub files from Discord sessions normal). TODOs reviewed -- no completed items since last check. Workspace clean post-migration. |
+| 21:16 | C -- Organize | Fixed 4 duplicate rows in INDEX.md (Experiment_Flow, Firmware_Inventory, Trigger_MISC_STAT, Magnet_Pi). Updated stale notes: Pi5->Spark in Ptolemy entry, flagged Migration_Mac2020 as superseded. 23 content files, all present and indexed [OK]. |
+| 21:31 | D -- Read/Learn | Read Armory/AnalysisLibrary.h + Apollo.h. Created HELIOS_Armory_Code.md: DetGeo/ReactionConfig struct fields, all utility functions (LoadDetectorGeo, FindMatchingPair, etc.), Apollo.h TSelector branch map. Added to INDEX.md (now 24 content files). |
+| 22:06 | A -- Explore | DAQ .2 up (ping OK). Mac2020 up 60d 12h, load 1.51, 5 users. No gtReceiver/run monitor active -- standby. Pi .208 up (ping OK). Spark 7h uptime, load 0.26. All nominal. |
+| 22:16 | B -- Maintenance | Context 6% (63k), healthy. 0 stray PNGs. memory/ 24 files, tidy. Daily log 2026-04-17 current (Spark migration). No TODOs completed. All nominal. |
+| 22:31 | C -- Organize | Post-migration stale ref sweep: updated Pi5-2/.100/ryan refs in Analysis_Workflow, DAQ_Workflow, Experiment_Switch, new_experiment_checklist. Fixed Ptolemy_Build_Notes header. INDEX verified 24/24 [OK]. |
+| 22:46 | D -- Read/Learn | Read Ayyad 2022 (PRL): near-threshold resonance in 11B confirming 11Be beta-delayed proton emission. Ex=11.4 MeV, Jp=1/2+, Gp=4.4 keV via 10Be(p,p). Tang + Kay co-authors. Created paper_notes/2022_Ayyad_NearThreshold_11B.md. |
+| 23:01 | A -- Explore | All hosts up. DAQ .2 ping OK. Pi .208 ping OK. Mac2020 up 60d 13h, load 1.92 (elevated -- Zoom.us running since Tue at 11.9% CPU, benign background app). Spark 7h55m, load 0.39. No active run. All nominal. |
+| 23:16 | B -- Maintenance | Context 8% (84k), healthy. 0 stray PNGs. 27 memory files (incl. spark_migration.log 1.9MB/15k lines -- keeping for now, migration day ref). No TODOs completed. All nominal. |
+| 23:31 | C -- Organize | Stale-ref sweep: fixed Pi5->Spark in README Ptolemy entry. Added HELIOS_Armory_Code.md to README file table. All HELIOS_MD Pi/ryan refs clean (no hits outside Migration doc). 24/24 files indexed [OK]. |
+| 23:46 | D -- Read/Learn | Read Cali_e_trace.h -- main calibration TSelector. Documented: all input branches (e/xf/xn/rdt/trace), 9 correction files loaded in Init (xf_xn, xfxn_e, e, e2, scaleX, rdt, coinTime pol7, rdtCuts, reaction.dat), output branch map, filename logic, feature flags. Appended to HELIOS_Armory_Code.md. |
+| 00:01 | A -- Explore | All hosts up. DAQ .2 ping OK. Pi .208 ping OK. Mac2020 up 60d 14h, load 1.52 (Zoom still idling). No gtReceiver/run processes. Spark 8h55m, healthy. Quiet hours -- all nominal. |
+| 00:16 | B -- Maintenance | Context 10% (100k), healthy. 0 stray PNGs. 27 memory files, tidy. Growing ~2%/hr -- no action yet, watch tomorrow. No TODOs completed. All nominal. |
+| 00:31 | C -- Organize | Completed Pi->Spark migration sweep in new_experiment_checklist.md: header, Part 1/2 titles, working_Helios local path, SCP note, Transfer build instructions, bare repo push. All Pi refs removed (excl. Magnet Pi/.208). |
+| 00:46 | D -- Read/Learn | Read Cali_littleTree_trace.h -- pre-calibration quick-look TSelector. Documented: role as temp.root producer before full Cali_e_trace, 6 correction files, flattened output branches, coinTime conditional logic, comparison table vs Cali_e_trace. Appended to HELIOS_Armory_Code.md. All 4 Armory files now documented. |
+| 01:01 | A -- Explore | All hosts up. DAQ .2 ping OK. Pi .208 ping OK. Mac2020 up 60d 15h, load 2.21 (slightly elevated -- Zoom still open, quiet hours). Spark 9h55m, load 0.06 -- very quiet. No active run. |
+| 01:16 | B -- Maintenance | Context 12% (115k), healthy. 0 stray PNGs. 27 memory files, tidy. Steady ~2%/hr growth -- no action until 50%. All nominal. |
+| 01:31 | C -- Organize | Final Pi->Spark sweep: fixed Simulation_Cleopatra.md (Pi5->Spark/ARM64 in See Also). All other hits in Ptolemy_Build_Notes are intentional historical records. heartbeat-log 870 lines -- large but no compaction yet. All HELIOS_MD clean. |
+| 01:46 | D -- Read/Learn | Read AutoCalibrationTrace.C (master calibration driver). Added full 9-option menu table to HELIOS_Calibration.md (options 4/6/7 were undocumented). Noted 3-step flow for option 2 and typical full sequence: 0->1->5->2->6or8->3. |
+| 02:01 | A -- Explore | All hosts up. DAQ .2 ping OK. Pi .208 ping OK. Mac2020 up 60d 16h, load 1.71 (trending down). Spark 10h55m, load 0.03 -- very quiet. No active run. All nominal. |
+| 02:16 | B -- Maintenance | Context 13% (127k), healthy. Growth slowing. 0 stray PNGs. memory/ tidy. No TODOs completed. All nominal. |
+| 02:31 | C -- Organize | Pi->Spark sweep in expMemory_h096.md: working dir, digios branch line, elog note, 2x reaction.dat lessons, ptolemy binary ref. All Pi refs removed (excl. historical lesson notes). |
+| 02:46 | D -- Read/Learn | Read Simulation_Helper.C -- ROOT GUI wrapper for full sim+DWBA workflow. Documented: 3 panels (Kinematics/DWBA/NuclearData), file map, Ptolemy binary OS dispatch, DWBA flow (inFile->Ptolemy->ExtractXSec->Plot). Added section to HELIOS_Simulation_Cleopatra.md. |
+| 03:01 | A -- Explore | All hosts up. DAQ .2 ping OK. Pi .208 ping OK. Mac2020 up 60d 17h, load 1.80 (stable overnight baseline -- Zoom). Spark 11h55m, load 0.22. No active run. All nominal. |
+| 03:16 | B -- Maintenance | Context 14% (142k), healthy. Growth slowing (~1%/hr now). 0 stray PNGs. memory/ tidy. All nominal. |
+| 03:31 | C -- Organize | Pi->Spark sweep in expMemory_h094 + h095: data locations, scripts, working dirs, TODOs all updated. Marked AI migration TODO as [x] done. All expMemory files now clean. |
+| 03:46 | D -- Read/Learn | Read HELIOS_LIB.h -- core kinematics engine (4 classes). Created HELIOS_LIB_Reference.md: TransferReaction (CalExThetaCM Newton method, Event MC), HELIOS detector (trajectory orbit formulas, DetAcceptance codes, trajectory struct), TargetScattering (SRIM integration, angular straggling), Decay, Knockout. Added to INDEX (now 25 files). |
+| 04:01 | A -- Explore | All hosts up. DAQ .2 ping OK. Pi .208 ping OK. Mac2020 up 60d 18h, load 1.67 (stable overnight). Spark 12h55m, load 0.02 -- very quiet. No active run. All nominal. |
+| 04:16 | B -- Maintenance | Context 16% (161k), healthy. Growth from code-reading D tasks (large files). Still well below 50% threshold. 0 stray PNGs. memory/ tidy. All nominal. |
+| 04:31 | C -- Organize | Added HELIOS_LIB_Reference.md to README + INDEX 'When to load' section (missed in previous D task). INDEX 25/25 [OK], header correct. |
+| 04:46 | D -- Read/Learn | Read Isotope.h + constant.h. Documented: AME2020 mass table lookup (jump table by A range), mass formula (atomic masses), Sp methods, shell model ListShell. Physical constants table + Brho/T/beta utilities. Appended to HELIOS_LIB_Reference.md. |
+| 05:01 | A -- Explore | All hosts up. DAQ .2 ping OK. Pi .208 ping OK. Mac2020 up 60d 19h, load 1.22 (dropping -- Zoom quieting down). Spark 13h55m, load 0.31. No active run. All nominal. |
+| 05:16 | B -- Maintenance | Context 17% (171k), healthy. Growth slowing. 0 stray PNGs. memory/ tidy. All nominal. |
+| 05:31 | C -- Organize | Added paper_notes/ subdirectory section to INDEX.md (4 notes listed, links to publications summary). 25 root-level files unchanged. |
+| 05:46 | D -- Read/Learn | Read Kay 2021 (PRC): nucleon-transfer sum rules in deformed nuclei. Key: Nj~1.18 in deformed (vs ~0.6 spherical) -- quenching appears reduced. AK+KD potentials = An-Cai+Koning-Delaroche (same as HELIOS). Created paper_notes/2021_Kay_Consistency_NucleonTransfer_SumRules.md. |
+| 06:01 | A -- Explore | All hosts up. DAQ .2 ping OK. Pi .208 ping OK. Mac2020 up 60d 20h, load 1.68 (stable). Spark 14h55m, load 0.22. No active run. All nominal. |
+| 06:16 | B -- Maintenance | Context 18% (181k), healthy. ~1%/hr growth rate. 0 stray PNGs. memory/ tidy. All nominal. |
+| 06:31 | C -- Organize | Removed 3 duplicate date section headers from heartbeat-log (Apr 15/16/17 each had 2 "Compact Log" headers from separate sessions). 875 lines, 10 date sections [OK]. |
+| 06:46 | D -- Read/Learn | Read InFileCreator.h -- Ptolemy input generator. Documented: 7-field input format, supported reactions (1/2-nucleon transfer + elastic), 2-char OM potential codes (AK=An-Cai+KD), 5 validation checks, output structure. Added section to HELIOS_Simulation_Cleopatra.md. |
+| 07:01 | A -- Explore | All hosts up. DAQ .2 ping OK. Pi .208 ping OK. Mac2020 up 60d 21h, load 1.59 (stable overnight). Spark 15h55m, load 0.08. No active run. All nominal. |
+| 07:16 | B -- Maintenance | Context 20% (198k), healthy. Crossed 20% milestone -- ~1%/hr, projected 50% ~19:00 CDT tonight. 0 stray PNGs. memory/ tidy. All nominal. |
+| 07:31 | C -- Organize | Fixed 2 remaining Pi->Spark refs in HELIOS_Experiment_Switch.md ("origin = Pi relay" comment, "push to Pi" label). All HELIOS_MD files now fully clean. |
+| 07:46 | D -- Read/Learn | Read ExtractXSec.h -- Ptolemy output parser. Documented: state-machine parsing logic (7 trigger strings), output files (Xsec.txt/Ex.txt/DWBA.root), gList/fList TGraph/TF1 objects, elastic vs transfer extraction modes, distfunct sin-weighted integrator. Added section to HELIOS_Simulation_Cleopatra.md. |
+| 08:01 | A -- Explore | All hosts up. DAQ .2 ping OK. Pi .208 ping OK. Mac2020 up 60d 22h, load 1.33 (settling). Spark 16h55m, load 0.38. No active run. All nominal. |
+| 08:16 | B -- Maintenance | Context 21% (207k), healthy. Consistent ~1%/hr overnight. 0 stray PNGs. memory/ tidy. All nominal. |
+| 08:31 | C -- Organize | Fixed "Pi working directory" -> "Spark" in Analysis_Workflow.md. Comprehensive Pi-ref audit: all remaining hits in heartbeat logs/archive are correct historical records. Migration sweep now fully complete. |
+| 08:46 | D -- Read/Learn | Read FindThetaCM.h -- thetaCM coverage calculator per detector. Documented: orbit-equation z(thetaCM) algorithm, sin(theta)*dTheta solid-angle weight output, nDivision/XRATION params. Appended to HELIOS_LIB_Reference.md. |
+| 09:01 | A -- Explore | All hosts up. DAQ .2 ping OK. Pi .208 ping OK. Mac2020 up 60d 23h, load 1.76 (normal morning). EPICS CA verified from Spark: VME01:MDIG1:led_threshold=100 [OK]. Spark 17h56m, load 0.11. No active run. All nominal. |
+| 09:16 | B -- Maintenance | Context 22% (218k), healthy. System note: cron session can't reach Discord directly (known gap, needs Ryan). 0 stray PNGs. memory/ tidy. All nominal. |
+| 09:31 | C -- Organize | Fixed stale AME2016->AME2020 in Cleopatra tools table. Updated FindThetaCM entry to point to HELIOS_LIB_Reference.md. HELIOS_Simulation_Cleopatra.md structure verified [OK]. |
+| 09:46 | D -- Read/Learn | Read Szwec 2016 (PRC): valence neutron occupancies for 136Xe->136Ba 0vbb decay via (d,p)+(p,d)+(a,3He)+(3He,a) on 134,136Ba. NME models disagree with measured occupancies. Created paper_notes/2016_Szwec_Valence_Neutrons_136Xe_0vbb.md. |
+| 10:01 | A -- Explore | All hosts up. DAQ .2 ping OK. Pi .208 ping OK. Mac2020 crossed 61 days uptime (61d 35m), load 1.69. Spark 18h55m, load 0.22. No active run. All nominal. |
+| 10:16 | B -- Maintenance | Context 23% (230k), healthy. ~1%/hr growth. 0 stray PNGs. memory/ tidy. All nominal. |
+| 10:43 | C -- Organize | Discovered HELIOS_Migration_Mac2020.md not on Spark (not migrated, was SUPERSEDED). Fixed: INDEX header 25->24, removed stale README entry. EPICS CA verified: VME01:MDIG1:led_threshold=100 [OK]. 24/24 files [OK]. |
+| 10:46 | D -- Read/Learn | Read Jiang 2025 (PLB) -- quenching of 15C via 15C(p,d)+(d,t) at HELIOS. Rs~0.64 from removal matches adding (Kay 2022), contradicts HI-knockout Rs~0.96 at extreme Delta_S=-19.86 MeV. Most recent HELIOS paper. Created paper_notes/2025_Jiang_Quenching_15C_Transfer.md. |
+| 11:01 | A -- Explore | All hosts up. DAQ .2 ping OK. Pi .208 ping OK. Mac2020 61d 1h, load 1.52 (settling nicely). No active run. Spark 19h56m, load 0.04. All nominal. |
+| 11:16 | B -- Maintenance | Context 24% (245k), healthy. ~26h until 50% threshold. 0 stray PNGs. memory/ tidy. All nominal. |
+| 11:31 | C -- Organize | Fixed stale "25-file" reference in paper_notes section (->24). Sorted paper_notes table chronologically (was out of order). 8 notes, 8 indexed [OK]. 24 root files [OK]. |
+| 11:46 | D -- Read/Learn | Read Santiago-Gonzalez 2018 (PRL): 19F rotational band via 18mF isomeric beam at HELIOS (B=2.85T). First 13/2+ spectroscopic factor measurement -- single-particle character confirmed. Created paper_notes/2018_Santiago-Gonzalez_19F_Isomeric_Beam.md. |
+| 12:01 | A -- Explore | All hosts up. DAQ .2 ping OK. Pi .208 ping OK. Mac2020 61d 2h, load 1.44 (continuing to drop). Spark 20h55m, load 0.17. No active run. All nominal. |
+| 12:16 | B -- Maintenance | Context 26% (256k), healthy. Steady rate. 0 stray PNGs. memory/ tidy. All nominal. |
+| 12:31 | C -- Organize | Reviewed expMemory_h096.md: h096 experiment active through Apr 19, last logged run=009 (2026-04-16, 1.78M events). Two separate run log tables in file (runs 001-005 at line 192, runs 006-009 at line 380) -- noted but not merged (Ryan's call). Content current. |
+| 12:46 | D -- Read/Learn | Read Howard 2020 (PRC): neutron-hole strength in N=81 (Yale Enge, NOT HELIOS). Systematic (p,d)+(3He,a) on 138Ba-144Sm. h11/2 + s1/2 dominant; g7/2 deeply bound with fragmented/incomplete strength -- key lesson for HELIOS SF analysis. Created paper_notes/2020_Howard_NeutronHole_N81.md. |
+| 13:16 | A -- Explore | All hosts up (45 min gap -- normal). DAQ .2 ping OK. Mac2020 61d 3h, load 1.57 (very stable afternoon baseline). No active run. Spark 22h11m, load 0.29. All nominal. |
+| 13:31 | B -- Maintenance | Context 27% (267k), healthy. 0 stray PNGs. memory/ tidy. All nominal. |
+| 13:46 | C -- Organize | Updated HELIOS_Detector_Geometry.md h096 section: added known dead/noisy dets (11 dead, 22 noisy), exShift non-converging dets (07/17/22), RDT gate warning, coinTime optimal gate [-8,2]. Was "TBD". |
+| 14:01 | D -- Read/Learn | Read Talwar 2017 (PRC): high-j neutron SFs in 137Xe via 136Xe(a,3He) at RCNP/Grand Raiden. 13/2+_2 SF measured first time; h9/2+i13/2 centroid energies vs Z tracked; 133Sn extrapolation. NOT HELIOS but directly connected to Xe science program. Created paper_notes/2017_Talwar_HighJ_Neutrons_137Xe.md. |
+| 14:16 | A -- Explore | All hosts up. DAQ .2 ping OK. Mac2020 61d 4h, load 1.59 (very stable). No gtReceiver/run. Spark 23h11m, load 0.21 -- approaching 24h post-migration. All nominal. |
+| 14:34 | B -- Maintenance | Context 28% (277k), healthy. 0 stray PNGs. memory/ tidy. All nominal. |
+| 14:46 | C -- Organize | Calibration menu table verified clean. paper_notes INDEX: 11 files, 11 indexed, chronological order [OK]. All counts consistent. |
+| 15:01 | D -- Read/Learn | Read Freeman 2017 (PRC): valence nucleon occupancies in 100Mo->100Ru 0vbb system via 4 reactions at Munich Q3D. Theory discrepancies (same pattern as 136Xe, 76Ge). Part of ANL/Manchester 0vbb occupancy program. Created paper_notes/2017_Freeman_100Mo_0vbb_Occupancies.md. |
+| 15:16 | A -- Explore | Spark hit 1 DAY uptime post-migration [milestone]. EPICS CA healthy: MDIG1=100, MDIG2=400 [OK]. DAQ .2 ping OK. Mac2020 61d 5h, load 1.99 (slightly elevated, trending down). All nominal. |
+| 15:31 | B -- Maintenance | Context 29% (287k), healthy. ~20h to 50% threshold. 0 stray PNGs. memory/ tidy. All nominal. |
+| 15:46 | C -- Organize | README.md verified: subnet table accurate, Spark network layout current, all linked files exist on disk [OK]. 24 content files consistent. Nothing stale. |
+| 16:01 | D -- Read/Learn | Read Szwec 2021 (PRC): neutron occupancies + ESPEs across stable 112-124Sn chain (Munich Q3D). g7/2+d5/2 degenerate and 2 MeV more bound at low N; missing g7/2 strength outside range. Consistent methodology baseline for r-process Sn extrapolations. Created paper_notes/2021_Szwec_SnIsotopes_Occupancies.md. |
+| 16:16 | A -- Explore | All hosts up. DAQ .2 ping OK. Mac2020 61d 6h, load 2.28 (elevated -- Zoom.us 902 CPU-min from h096 24h Zoom link, benign). No gtReceiver active. Spark 1d 1h, load 0.06. All nominal. |
+| 16:31 | B -- Maintenance | Context 30% (296k), healthy. ~20h to 50%. Updated daily log 2026-04-18.md with heartbeat session summary (migration sweep, 12 paper notes, new HELIOS_MD files). Noted Discord session created run011 data + Watwood 2025 paper note. All nominal. |
+| 16:47 | C -- Organize | paper_notes audit: 15 files on disk, 15 in INDEX, chronological order [OK]. Discord session added 2026_Hoffman_32Si_5minus_isomer.md and 2025_Watwood -- both properly indexed. All consistent. |
+| 18:01 | D -- Read/Learn | Read Chen 2022 (PRC): 15C(d,d') inelastic scattering at HELIOS. Mn/Mp=3.6(4) -- moderate core decoupling (halo neutron weakly polarizes 14C core). Novel HELIOS use: elastic+inelastic (not transfer). Same 15C beam as Jiang 2025. Created paper_notes/2022_Chen_15C_InelasticScattering.md. |
+| 18:16 | A -- Explore | All hosts up. DAQ .2 ping OK. Mac2020 61d 8h, load 1.89 (evening, no active run). Spark 1d 3h, load 0.02. All nominal. |
+| 18:31 | B -- Maintenance | Context 31% (308k), healthy. ~19h to 50%. 0 stray PNGs. memory/ tidy. All nominal. |
+| 18:46 | C -- Organize | paper_notes: 16 on disk, 16 in INDEX table [OK]. Footer "24-file total" still correct. Chen 2022 confirmed indexed. All consistent. |
+| 19:01 | D -- Read/Learn | Read Bennett 2023 (PRL): 238U(d,pf) at HELIOS -- first fission-barrier via light-ion transfer in inverse kinematics. Novel HELIOS config (4-sided Si array, MWPC Bragg fission arms, charge-reset foil). 239U result validates surrogate technique for exotic actinide r-process beams. Created paper_notes/2023_Bennett_Fission_Barrier_239U.md. |
+| 19:16 | A -- Explore | All hosts up. DAQ .2 ping OK. Mac2020 61d 9h, load 1.32 (dropping, evening settling). No active run. Spark 1d 4h, load 0.12. All nominal. |
+| 19:31 | B -- Maintenance | Context 32% (317k), healthy. 0 stray PNGs. memory/ tidy. All nominal. |
+| 19:46 | C -- Organize | paper_notes: 17 on disk, 17 in INDEX, all chronological [OK]. 17/36 HELIOS publications now documented (47%). 24 root files [OK]. All consistent. |
+| 20:01 | D -- Read/Learn | Read Analyzer.h+.C -- final analysis TSelector (reads calibrated tree). Documented: all input branches, user-configurable params (rangeEx, ExOffset, listOfBadDet, rdtCutFile), full histogram set, event selection cuts, det indexing (6x5=30). Appended to HELIOS_Armory_Code.md. |
+| 20:16 | A -- Explore | All hosts up. DAQ .2 ping OK. Mac2020 61d 10h, load 1.02 (settling nicely, no active run). Spark 1d 5h, load 0.49. All nominal. |
+| 21:00 | B -- Maintenance | Context 33% (330k), healthy. ~17h to 50%. 0 stray PNGs. memory/ tidy. All nominal. |
+| 21:01 | C -- Organize | Read GeneralSortMapping.h (idDetMap, idKindMap, HVdetMap). HV module map already in PV_Reference.md -- added source citation + RDT even/odd detail (even=dE/thin, odd=E/thick). All consistent. |
+| 21:16 | D -- Read/Learn | Read Monitors.C -- already well-documented in Analysis_Workflow.md. Added note: Ex reconstruction uses same Newton's-method as HELIOS_LIB.h CalExThetaCM (inline, reads reaction.dat). Confirmed Analyzer.C docs complete. |
+| 21:39 | A -- Explore | All hosts up. DAQ .2 ping OK. Mac2020 61d 12h, load 1.88 (elevated evening, no active run). Spark 1d 6h, load 0.46. All nominal. |
+| 21:46 | B -- Maintenance | Context 34% (343k), healthy. ~16h to 50%. 0 stray PNGs. memory/ tidy. All nominal. |
+| 23:31 | C -- Organize | Stale-ref sweep: fixed Pi5->Spark in README Ptolemy entry. Added HELIOS_Armory_Code.md to README file table. All HELIOS_MD Pi/ryan refs clean (no hits outside Migration doc). 24/24 files indexed [OK]. |
+| 10:29 | D -- Read/Learn | Read Hoffman 2022 (NIM A): in-flight 16N isomeric beam via 15N(d,p) at ATLAS. 40% isomer at 7.9 MeV/u, 24% at 13.2 MeV/u. Angular acceptance controls isomer fraction. Created paper_notes/2022_Hoffman_Inflight_Isomeric_16N.md. |

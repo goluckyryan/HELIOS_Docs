@@ -35,7 +35,9 @@ HELIOS is a solenoidal spectrometer at the ATLAS facility (Argonne Tandem Linac 
 |------|-------------|
 | [HELIOS_Analysis_Workflow.md](HELIOS_Analysis_Workflow.md) | ROOT analysis pipeline, Armory macros, TSelector framework |
 | [HELIOS_Simulation_Cleopatra.md](HELIOS_Simulation_Cleopatra.md) | Cleopatra/Ptolemy DWBA simulation, kinematics tools |
-| [HELIOS_Ptolemy_Build_Notes.md](HELIOS_Ptolemy_Build_Notes.md) | Ptolemy build notes -- Pi5 (ARM64) and Mac2020 (x86-64) ([OK] 2026-04-12) |
+| [HELIOS_Ptolemy_Build_Notes.md](HELIOS_Ptolemy_Build_Notes.md) | Ptolemy build notes -- Spark/ARM64 and Mac2020 (x86-64) ([OK] 2026-04-12) |
+| [HELIOS_Armory_Code.md](HELIOS_Armory_Code.md) | Armory code reference -- DetGeo/ReactionConfig structs, AnalysisLibrary functions, Apollo TSelector branch map |
+| [HELIOS_LIB_Reference.md](HELIOS_LIB_Reference.md) | HELIOS_LIB.h reference -- TransferReaction, HELIOS trajectory, TargetScattering, Decay, Knockout classes |
 
 ### Systems & Hardware
 
@@ -51,7 +53,7 @@ HELIOS is a solenoidal spectrometer at the ATLAS facility (Argonne Tandem Linac 
 
 | File | Description |
 |------|-------------|
-| [HELIOS_Migration_Mac2020.md](HELIOS_Migration_Mac2020.md) | Plan for migrating analysis to Mac2020 |
+
 | [voice-bridge-plan.md](voice-bridge-plan.md) | Discord voice bridge architecture for HELIOS AI |
 | [voice-terminal-plan.md](voice-terminal-plan.md) | Pi-based mic+speaker voice terminal for HELIOS AI |
 
@@ -65,7 +67,8 @@ The spectrometer is controlled via a dedicated subnet (192.168.1.0/24):
 | .2 | DAQ host (CentOS 6, EPICS soft IOC) |
 | .3 | Terminal server (Digi PortServer TS 16 MEI)  --  2001=TrigCPU, 2002-2006=VME1-5, 2007=VME6(off) |
 | .20-.24 | VME IOCs (VxWorks 5.5) |
-| .100 | HELIOS AI (Raspberry Pi 5) |
+| .100 | Former HELIOS AI (Raspberry Pi 5, retired 2026-04-17) |
+| .101 | Spark (NVIDIA Jetson, current HELIOS AI) |
 | .155 | Iseg HV controller (SNMP) |
 | .164 | Mac2020 (iMac, analysis workstation) |
 | .193 | Mac2017 (iMac) |
@@ -76,7 +79,22 @@ The spectrometer is controlled via a dedicated subnet (192.168.1.0/24):
 - **DAQ:** EPICS-based, digitizers via dgsIoc, run control via shell scripts
 - **Analysis:** ROOT (TSelector), Armory utility macros, Cleopatra/Ptolemy for DWBA
 - **Code repository:** [digios](https://github.com/calemhoffman/digios)  --  DAQ + analysis codebase
-- **AI assistant:** OpenClaw on Raspberry Pi 5  --  monitors, assists with analysis, and operates HELIOS systems
+- **AI assistant:** OpenClaw on Spark (NVIDIA Jetson, 192.168.1.101)  --  monitors, assists with analysis, and operates HELIOS systems
+
+## Spark Network Layout
+
+Spark has two network interfaces:
+
+| Interface | IP | Role |
+|---|---|---|
+| `enP7s7` (eth0) | 192.168.1.101 (static) | HELIOS LAN -- DAQ, VME, HV, etc. |
+| `wlP9s9` (Wi-Fi) | 130.202.139.x (DHCP) | ANL wireless -- internet, Discord, GitHub, elog |
+
+- **LAN gateway:** 192.168.1.1 (Cisco router) -- no default route; only local subnet
+- **Internet gateway:** 130.202.139.1 via Wi-Fi (DHCP, ANL eduroam/wireless)
+- **DNS:** systemd-resolved (stub at 127.0.0.53), search domain `phy.anl.gov`
+- **If Wi-Fi drops:** LAN operations continue normally; internet automatically falls back to eth0 via 192.168.1.1 (metric 700, permanent in NM profile "heliosSubnet")
+- **[!!] LAN fallback is OUTBOUND ONLY** — Cisco router does NAT but does not accept inbound connections. Discord websocket breaks when Wi-Fi is down (confirmed 2026-04-18 — required external agent to restore Wi-Fi). Outbound-only tasks still work: curl, apt, GitHub, elog, web fetches.
 
 ## Related Resources
 
