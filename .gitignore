@@ -1,3 +1,6 @@
+# PDFs -- do not commit
+*.pdf
+
 # Don't publish raw heartbeat logs
 heartbeat-log.md
 heartbeat-log-archive-*.md
