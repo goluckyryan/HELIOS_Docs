@@ -8,94 +8,84 @@
 
 ## Connection to Sum Rule
 
-The ESPE is the SF-weighted centroid energy of an orbital -- it is the *practical payoff* of the sum rule calculation. While the sum rule counts the total strength, the ESPE tells you *where* that strength sits energetically, which is the mean-field single-particle energy.
+ESPE is the SF-weighted centroid energy of an orbital -- the practical payoff of the sum rule. While the sum rule counts total strength, ESPE tells you *where* that strength sits energetically, i.e. the mean-field single-particle energy.
 
 ---
 
 ## Definition
 
-For nucleus A (e.g. ¹²C), ESPE of orbital j extracted from:
-- Adding reaction A(d,p)B: states of B=A+1, SFs, separation energy S_n(B)
-- Removal reaction A(p,d)C: states of C=A-1, SFs, separation energy S_p(A)
+For nucleus $A$, ESPE of orbital $j$ extracted from:
+- Adding reaction $A(d,p)B$: states of $B=A+1$, SFs, separation energy $S_n(B)$
+- Removal reaction $A(p,d)C$: states of $C=A-1$, SFs, separation energy $S_p(A)$
 
-**Step 1: Spectroscopic strength (G)**
+**Step 1: Spectroscopic strength**
 
-```
-G⁺ = Σ_i (2J_B+1)/(2J_A+1) × C²S_i⁺    [adding, weighted by degeneracy ratio]
-G⁻ = Σ_i C²S_i⁻                           [removing]
-```
+$$G^+ = \sum_i \frac{2J_B+1}{2J_A+1} C^2S_i^+ \qquad G^- = \sum_i C^2S_i^-$$
 
-Sum rule requires: G⁺ + G⁻ = 2j+1 (times quenching factor Rs if applied)
+Sum rule: $G^+ + G^- = 2j+1$ (times quenching factor $R_s$ if applied).
 
-**Step 2: Energy centroids**
+**Step 2: Absolute centroid energies**
 
-```
-E_j⁺(i) = E*(i) + S_n(A+1)    [energy of state i relative to A threshold, adding]
-E_j⁻(i) = E*(i) + S_p(A)      [energy of state i relative to A threshold, removal]
-```
+$$\mathcal{E}_j^+ = -E_B(A+1) + E_j^+ \qquad \mathcal{E}_j^- = -E_B(A) - E_j^-$$
 
-Wait -- more carefully:
-```
-ε_j⁺ = -E_B(A+1) + E_j⁺    [centroid of orbital in A+1, relative to vacuum]
-ε_j⁻ = -E_B(A) - E_j⁻      [centroid of orbital in A-1, relative to vacuum]
-```
+where $E_j^\pm$ are the centroids of the excited state energies weighted by SF, relative to particle threshold.
 
 **Step 3: ESPE**
 
-```
-ESPE = (ε_j⁺ × G⁺ + ε_j⁻ × G⁻) / (G⁺ + G⁻)
-```
+$$\epsilon_j = \frac{\mathcal{E}_j^+ G^+ + \mathcal{E}_j^- G^-}{G^+ + G^-}$$
 
 SF-weighted average of adding and removal centroids. Reduces to:
-- ε_j⁻ alone when G⁺ → 0 (e.g. p-shell of ¹⁶O: can't add to filled p-shell)
-- ε_j⁺ alone when G⁻ → 0 (e.g. sd-shell of ¹⁶O: nothing to remove)
+- $\mathcal{E}_j^-$ alone when $G^+ \to 0$ (e.g. p-shell of ${}^{16}$O: can't add to filled shell)
+- $\mathcal{E}_j^+$ alone when $G^- \to 0$ (e.g. sd-shell of ${}^{16}$O: nothing to remove)
 
 ---
 
-## Example: ¹²C, 0p3/2 orbital
+## Example: ${}^{12}$C, $0p_{3/2}$ orbital
 
-From ¹²C(d,p)¹³C (adding): E*=3.684 MeV, J=3/2-, C²S=0.14 → G⁺=0.56, E⁺G⁺ = 2.063
-From ¹²C(p,d)¹¹C (removal): E*=0.000, C²S=2.5 + others → G⁻=2.8475, E⁻G⁻ = ...
+From ${}^{12}$C$(d,p){}^{13}$C (adding): $E^*=3.684$ MeV, $J=3/2^-$, $C^2S=0.14$ → $G^+=0.56$
 
-Result: **ESPE(0p3/2) = -16.35 MeV**  
-WS fit (neutron mass): V₀=-60.9 MeV, r₀=1.13 fm, a₀=0.69 fm agrees.
+From ${}^{12}$C$(p,d){}^{11}$C (removal): $E^*=0.000$, $C^2S=2.5$ + others → $G^-=2.8475$
+
+Result: $\epsilon(0p_{3/2}) = -16.35$ MeV
 
 | Orbital | ESPE (MeV) | WS fit (MeV) |
-|---|---|---|
-| 0p3/2 | -16.36 | -16.39 |
-| 0p1/2 | -9.42  | -9.45  |
-| 1s1/2 | -1.87  | -1.80  |
-| 0d5/2 | -1.22  | -1.21  |
+|---------|-----------|--------------|
+| $0p_{3/2}$ | $-16.36$ | $-16.39$ |
+| $0p_{1/2}$ | $-9.42$  | $-9.45$  |
+| $1s_{1/2}$ | $-1.87$  | $-1.80$  |
+| $0d_{5/2}$ | $-1.22$  | $-1.21$  |
 
-ESPE agrees well with WS mean-field energies → confirms SF is extracting real nuclear structure.
+ESPE agrees well with WS mean-field energies → confirms SF extracts real nuclear structure.
+
+WS parameters (neutron mass): $V_0=-60.9$ MeV, $r_0=1.13$ fm, $a_0=0.69$ fm, $V_{SO}=32$ MeV, $r_{SO}=0.77$ fm.
 
 ---
 
 ## Why ESPE Matters
 
-1. **ESPE = experimental mean-field energy.** It's what you'd get from a Woods-Saxon potential fit to the data.
-2. **ESPE evolution** across isotopic/isotonic chains reveals shell evolution, monopole shifts, tensor force effects -- the key observable for nuclear structure systematics.
-3. **Validates SF:** If ESPE agreed with WS even though individual SFs are quenched (60-70%), the mean-field picture is self-consistent. This is why SF is not "aether" even if it's quenched.
-4. **Connection to quenching:** The quenching factor Rs appears in G⁺ + G⁻ = Rs × (2j+1). But ESPE is robust to quenching -- it cancels in the weighted average. So ESPE is more reliable than absolute SFs.
+1. **ESPE = experimental mean-field energy** -- equivalent to WS potential fit to data
+2. **ESPE evolution** across isotopic/isotonic chains reveals shell evolution, monopole shifts, tensor force
+3. **Robust to quenching** -- $R_s$ cancels in the $G^+/G^-$ ratio → ESPE more reliable than absolute SFs
+4. **Validates SF:** ESPE agrees with WS even with quenched SFs → SF is not arbitrary
 
 ---
 
 ## Assumptions
 
-1. **All relevant states included** -- must sum over all states up to the particle threshold. Missing strength biases the centroid.
-2. **Correct spin assignments** -- wrong J → wrong (2J_B+1)/(2J_A+1) weighting in G⁺
-3. **Accurate SFs** -- OMP/reaction model dependence propagates into G, but cancels in ESPE ratio if consistent framework used
-4. **Threshold energy known** -- S_n or S_p must be accurate (AME2020)
+1. **All relevant states included** -- missing strength above threshold biases centroid
+2. **Correct spin assignments** -- wrong $J$ → wrong $(2J_B+1)/(2J_A+1)$ weighting in $G^+$
+3. **Accurate SFs** -- OMP dependence propagates into $G$, but cancels in ratio if consistent
+4. **Threshold energy known** -- $S_n$ or $S_p$ from AME2020
 
 ## Further Questions
 
-- How sensitive is ESPE to the OMP choice? (More robust than individual SFs?)
+- How sensitive is ESPE to OMP choice vs individual SFs?
 - For exotic nuclei with fragmented strength, how many states can realistically be measured?
 - Does ESPE evolution across Sn chain (Szwec 2021) show tensor force monopole shift clearly?
 
 ## Related Notes
 - `SF_Theory_SumRule.md` -- sum rule derivation
-- `SF_Quenching_Review_2023.md` -- quenching discussion, ESPE mentioned in Part II
+- `SF_Quenching_Review_2023.md` -- quenching discussion; ESPE mentioned in Part II
 - `2021_Szwec_SnIsotopes_Occupancies.md` -- ESPE systematics in Sn chain
 
 _Created: 2026-04-24_

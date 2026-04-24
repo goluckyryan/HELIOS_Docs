@@ -12,135 +12,112 @@
 
 Start from independent particle model. Nucleus A wavefunction decomposed as:
 
-    |Ψ_A⟩ = Σ β_ij [ |φ_i⟩ |Φ_B⟩_j ]_J
+$$|\Psi_A\rangle = \sum_{ij} \beta_{ij} \left[ |\phi_i\rangle |\Phi_B\rangle_j \right]_J$$
 
-where φ_i = single particle orbital, Φ_B = core (B=A-1) wavefunction.
+where $\phi_i$ = single particle orbital, $\Phi_B$ = core (B=A-1) wavefunction.
 
-- **β_ij** = spectroscopic amplitude
-- **SF = |β_ij|² × n_i** = spectroscopic factor (probability nucleus looks like core B_j + nucleon in orbital i)
-- **Occupation number** = Σ_j SF = sum over all core states
+- $\beta_{ij}$ = spectroscopic amplitude
+- $\text{SF} = |\beta_{ij}|^2 \times n_i$ = spectroscopic factor
+- **Occupation number** $= \sum_j \text{SF}$ = sum over all core states
 
 When nucleon-core interaction = 0: SF = 1, occupation = 1 (pure single-particle).
 
-When off-diagonal terms exist (configuration mixing):
-- Mixing spreads strength across states → SF of individual state < 1
-- Sum rule still holds (unitarity of β matrix)
-- In 2-state degenerate system: SF of lower state decreases as mixing increases
-- Key: **configuration mixing ≠ quenching** (sum rule preserved), but it fragments strength
+When off-diagonal terms exist (configuration mixing): mixing spreads strength across states → SF of individual state < 1, but sum rule preserved (unitarity of $\beta$ matrix).
 
-**[!!] Note (2024 update):** The simple β² × n definition above is an ad hoc construct. The correct relation between SF and occupation number is via the sum rule derivation (see below and `SF_Theory_SumRule.md`).
+**[!!] Note (2024 update):** The simple $\beta^2 \times n$ definition above is an ad hoc construct. The correct relation is via the sum rule derivation below.
 
 ---
 
 ## Full Derivation (from LaTeX source, Glendenning Ch.7)
 
-**Step 1:** Spectroscopic amplitude β from projection onto CG-coupled states:
-```
-β_nlj(B,A) = Σ_{m_A,m} C^{J_B m_B}_{J_A m_A j m} ⟨J_B m_B | a†_nljm | J_A m_A⟩
-```
+**Step 1:** Spectroscopic amplitude $\beta$ from projection onto CG-coupled states:
 
-**Step 2:** Wigner-Eckart theorem -- a†_nljm is a spherical tensor of rank j, component m:
-```
-⟨J_B m_B | a†_nljm | J_A m_A⟩
-  = [(-1)^{J_B-m_B}/√(2J_B+1)] (J_B j J_A; -m_B m m_A) ⟨J_B||a†||J_A⟩
-```
-All m-dependence factored into the 3j symbol; ⟨J_B||a†||J_A⟩ is the reduced matrix element (m-independent).
+$$\beta_{nlj}(B,A) = \sum_{m_A,m} C^{J_B m_B}_{J_A m_A j m} \langle J_B m_B | a^\dagger_{nljm} | J_A m_A \rangle$$
 
-Then reorder 3j columns using symmetry property: (J_B j J_A; -m_B m m_A) = (-1)^{J_B+j+J_A} (J_A j J_B; m_A m -m_B)
-→ picks up phase (-1)^{-m_B-J_A-j}.
+**Step 2:** Wigner-Eckart theorem -- $a^\dagger_{nljm}$ is a spherical tensor of rank $j$, component $m$:
 
-Substitute back into β expression. The two phase factors combine as (-1)^{J_A-J+m_B} × (-1)^{-m_B-J_A-j} = (-1)^{-2J}:
-```
-β_nlj(B,A) = Σ_{m_A,m} (-1)^{-2J} √(2J_B+1) (J_A j J_B; m_A m -m_B)² ⟨J_B||a†||J_A⟩
-```
+$$\langle J_B m_B | a^\dagger_{nljm} | J_A m_A \rangle = \frac{(-1)^{J_B-m_B}}{\sqrt{2J_B+1}} \begin{pmatrix} J_B & j & J_A \\ -m_B & m & m_A \end{pmatrix} \langle J_B \| a^\dagger \| J_A \rangle$$
+
+All $m$-dependence factored into the 3j symbol; $\langle J_B \| a^\dagger \| J_A \rangle$ is the reduced matrix element ($m$-independent).
+
+Reorder 3j columns: $(J_B\ j\ J_A;\ {-m_B}\ m\ m_A) = (-1)^{J_B+j+J_A}(J_A\ j\ J_B;\ m_A\ m\ {-m_B})$, picking up phase $(-1)^{-m_B-J_A-j}$.
+
+The two phase factors combine as $(-1)^{J_A-J+m_B} \times (-1)^{-m_B-J_A-j} = (-1)^{-2J}$:
+
+$$\beta_{nlj}(B,A) = \sum_{m_A,m} (-1)^{-2J} \sqrt{2J_B+1} \begin{pmatrix} J_A & j & J_B \\ m_A & m & -m_B \end{pmatrix}^2 \langle J_B \| a^\dagger \| J_A \rangle$$
 
 **Step 3:** 3j orthogonality identity:
-```
-Σ_{m_A,m} (J_A j J_B; m_A m -m_B)² = 1/(2J_B+1)
-```
-This kills the sum:
-```
-β_nlj(B,A) = [(-1)^{2J}/√(2J_B+1)] ⟨J_B||a†||J_A⟩
-```
 
-**Step 4:** Invert to get matrix element in terms of β, multiply by adjoint, sum over m_B,m, insert completeness Σ_{J_B,m_B}|J_B m_B⟩⟨J_B m_B| = 1:
-```
-Σ_{J_B} (2J_B+1)/(2J_A+1) β²_nlj(B,A) = ⟨J_A m_A | Σ_m a_nljm a†_nljm | J_A m_A⟩
-```
+$$\sum_{m_A,m} \begin{pmatrix} J_A & j & J_B \\ m_A & m & -m_B \end{pmatrix}^2 = \frac{1}{2J_B+1}$$
+
+This kills the sum:
+
+$$\beta_{nlj}(B,A) = \frac{(-1)^{2J}}{\sqrt{2J_B+1}} \langle J_B \| a^\dagger \| J_A \rangle$$
+
+**Step 4:** Invert to express matrix element in terms of $\beta$, multiply by adjoint, sum over $m_B, m$, insert completeness $\sum_{J_B,m_B}|J_B m_B\rangle\langle J_B m_B| = 1$:
+
+$$\sum_{J_B} \frac{2J_B+1}{2J_A+1} \beta^2_{nlj}(B,A) = \langle J_A m_A | \sum_m a_{nljm} a^\dagger_{nljm} | J_A m_A \rangle$$
 
 **Step 5:** Anticommutation relation for fermion operators:
-```
-a_nljm a†_nljm = 1 - a†_nljm a_nljm
-```
+
+$$a_{nljm} a^\dagger_{nljm} = 1 - a^\dagger_{nljm} a_{nljm}$$
+
 So the RHS becomes:
-```
-Σ_m ⟨J_A | a_nljm a†_nljm | J_A⟩ = (2j+1) - ⟨J_A | Σ_m a†_nljm a_nljm | J_A⟩
-                                    = (2j+1) - n_nlj(A)
-```
-where n_nlj(A) = occupation number of orbital nlj in nucleus A.
+
+$$\sum_m \langle J_A | a_{nljm} a^\dagger_{nljm} | J_A \rangle = (2j+1) - \langle J_A | \sum_m a^\dagger_{nljm} a_{nljm} | J_A \rangle = (2j+1) - n_{nlj}(A)$$
+
+where $n_{nlj}(A)$ = occupation number of orbital $nlj$ in nucleus $A$.
 
 ---
 
 ## Key Result
 
-For A(d,p)B (adding) reaction, summing over all final states j,m of B:
+**Adding** $A(d,p)B$, sum over all final states $J_B$:
 
-    Σ C²S(nlj) = N_nlj(A)
+$$\sum_{J_B} \frac{2J_B+1}{2J_A+1} \beta^2_{nlj}(B,A) = 2j+1 - n_{nlj}(A)$$
 
-where N_nlj(A) = number of neutrons in orbital nlj in nucleus A.
+**Removing** $B(p,d)A$, sum over all final states $J_A$:
 
-For B(p,d)A (removing) reaction, summing over all final states of A:
+$$\sum_{J_A} \beta^2_{nlj}(B,A) = n_{nlj}(B)$$
 
-    Σ C²S(nlj) = 2j+1 - N_nlj(B)  [i.e. number of holes in nlj in B]
+**Combined sum rule** (adding + removing from nucleus $A$):
 
-Combined sum rule (adding + removing from nucleus A):
+$$\sum_{J_B} \frac{2J_B+1}{2J_A+1} \beta^2(B,A) + \sum_{J_C} \beta^2(A,C) = 2j+1$$
 
-    Σ_add + Σ_remove = 2j+1
-
-This is the **fundamental sum rule**: the total strength (adding + removing) must equal the shell degeneracy.
-
----
-
-## Derivation Key Steps
-
-1. **Wavefunction:** B = A+1 nucleus written as antisymmetrized product of core A + single nucleon, with CG coefficient from angular coupling. The square root of SF enters naturally from the normalization.
-
-2. **SF extraction:** Integrate out core A → reduced matrix element → Wigner-Eckart theorem → SF as squared reduced matrix element.
-
-3. **Sum rule:** Sum over all final states (exhaust completeness), use CG orthogonality → result is just the occupation number N_nlj.
+Total strength (adding + removing) = shell degeneracy $2j+1$. Exact in the independent-particle model.
 
 ---
 
 ## Physical Meaning
 
-- **C²S** (or SF) = probability that nucleus B looks like nucleus A + one nucleon in orbital nlj
-- SF = 1.0 → pure single-particle state (ideal shell model)
-- SF < 1.0 → fragmented strength (configuration mixing, correlations)
-- **Quenching:** experimentally, Σ C²S from (d,p) + (p,d) is consistently ~60-70% of 2j+1 (sum rule). Missing ~30-40% attributed to short-range correlations, SRC. This is the "quenching puzzle."
+- $C^2S$ = probability that nucleus $B$ looks like core $A$ + one nucleon in orbital $nlj$
+- SF = 1.0 → pure single-particle; SF < 1.0 → fragmented (mixing, correlations)
+- **Quenching:** $\sum C^2S \approx 0.6$–$0.7 \times (2j+1)$ experimentally. Missing ~30–40% from short-range correlations (SRC).
 
 ---
 
 ## Connection to HELIOS Analysis
 
-- Experimental SF: C²S = σ_exp / σ_DWBA (where σ_DWBA is calculated with SF=1)
-- σ_DWBA comes from Ptolemy/PtolmeyCpp
-- σ_exp is the measured integrated cross section (from angular distribution)
-- The isospin factor C² is often folded in: C²S = C² × S, where C² from isospin CG
+$$C^2S = \frac{\sigma_\text{exp}}{\sigma_\text{DWBA}(C^2S=1)}$$
+
+- $\sigma_\text{DWBA}$ from Ptolemy/PtolmeyCpp
+- $\sigma_\text{exp}$ from measured angular distribution (integrated)
+- Isospin factor: $C^2S = C^2 \times S$, where $C^2$ from isospin CG coefficients
 
 ---
 
-## Assumptions (critical)
+## Assumptions
 
-1. **DWBA validity** -- assumes one-step transfer dominates; breaks down at low energy or for tightly-bound states
-2. **OMP accuracy** -- σ_DWBA depends on incoming/outgoing optical model potentials; different OMPs give different σ_DWBA → different SF
-3. **Bound state geometry** -- r₀, a of the bound state WF enters the radial integral; conventionally r₀=1.25, a=0.65 but this is a choice
-4. **Single-step assumption** -- no multistep, no core excitation during transfer
-5. **The sum rule is exact in the independent-particle model** -- correlations violate it, which is exactly what quenching measures
+1. **DWBA validity** -- one-step transfer dominates
+2. **OMP accuracy** -- different OMPs → different $\sigma_\text{DWBA}$ → different SF
+3. **Bound state geometry** -- $r_0, a$ of bound state WF enter radial integral ($r_0=1.25$, $a=0.65$ conventional)
+4. **Single-step** -- no multistep, no core excitation
+5. **Sum rule exact in IPM** -- correlations violate it → quenching
 
 ## Further Questions
 
-- How sensitive is the extracted SF to OMP choice in practice? (Kay 2013 addresses this)
-- Is the quenching universal or does it depend on Δ_S (separation energy asymmetry)? (Controversial -- see Jiang 2025)
-- For HELIOS experiments: what fraction of the sum rule is typically recovered across all observed states?
+- How sensitive is extracted SF to OMP choice? (Kay 2013 addresses this)
+- Is quenching universal or $\Delta_S$-dependent? (See Jiang 2025, Kay 2022)
+- What fraction of sum rule is recovered across HELIOS experiments?
 
-_Created: 2026-04-24. Source: nukephysik101.wordpress.com (Ryan's blog, based on Glendenning Ch.7)_
+_Created: 2026-04-24. Source: nukephysik101.wordpress.com (Ryan's blog, Glendenning Ch.7)_
