@@ -3,6 +3,7 @@
 **Source:** `digios1` (192.168.1.2)  --  `/global/devel7_newbsp/gretTop/9-22/dgsIoc/db/`
 **Generated:** 2026-03-11
 **IOC:** dgsIoc (DGS/HELIOS digitizer IOC, VxWorks 5.5)
+[OK] **Verified 2026-04-20** -- spot-checked from Spark: MDIG1 led_threshold=100, MDIG2=400, MTRG MISC_STAT=17664, RTR1 MISC_STAT=17668 [all nominal]
 **EPICS CA Port:** 5064 (TCP+UDP)
 
 ---
@@ -252,6 +253,7 @@ AutoSave file: `dgs_vme32_HELIOS.sav` -> `/global/devel7_newbsp/boot/autosave/vm
 ## See Also
 
 - `HELIOS_DAQ_Workflow.md`  --  using PVs in DAQ control (caget/caput, run control PVs)
+- `~/digios/daq/edm/scripts/common.py`  --  PV alias table for Python scripts: `threshold`/`T`→`led_threshold`, `rate`→`disc_count`, `M`/`D`/`K`→window PVs; `make_set/get_pv_name()` builders
 - `HELIOS_Detector_Geometry.md`  --  detector layout (channel -> PV mapping context)
 - `rdtCut_guideline.md`  --  RDT detector PVs and HV channels for recoils
 - `HELIOS_Experiment_Switch.md`  --  PVs that change between experiments (thresholds, HV)

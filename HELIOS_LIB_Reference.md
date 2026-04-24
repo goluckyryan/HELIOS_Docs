@@ -192,6 +192,7 @@ All masses via `Isotope` class (atomic masses, includes electron masses).
 - **Loop limit**: max 3 loops in `DetAcceptance()` -- events requiring >3 loops are rejected.
 - **`CalReactionConstant()` auto-derives B**: if `isBSet=false`, computes `AB = AA+Aa-Ab`, `zB = zA+za-zb` from conservation.
 - **Newton's method in CalExThetaCM**: initial phi=0 ensures starting near the physical branch (f'(phi)>0). If |nPhi|>pi/2 or >10 iterations, returns NaN.
+- **Inline duplicates**: `Monitors.C` and `Cali_e_trace.C` both implement this same algorithm as inline code (reading constants from `reaction.dat`) rather than calling `CalExThetaCM()` directly. All three should produce identical Ex for same inputs.
 - **TargetScattering**: particle stops (KE->0) sets deltaTheta=0 to avoid NaN rotation.
 
 ---

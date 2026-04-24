@@ -2,6 +2,7 @@
 
 **Status:** Planning / Not started  
 **Created:** 2026-03-25  
+**Updated:** 2026-04-20 -- originally designed for Pi 5; now targets **Spark** (NVIDIA Jetson, 192.168.1.101) which has more resources (122 GB RAM, 20-core ARM)  
 **Goal:** Allow Ryan to speak to HELIOS in a Discord voice channel and hear responses back.
 
 ---

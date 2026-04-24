@@ -35,7 +35,7 @@ chain->Add("../root_data/gen_run061.root");
 | 3 | Generate calibrated tree | `Cali_e_trace.C` (TSelector) | `<expName>_run<NNN>.root` | Requires transfer.root + all correction files |
 | 4 | Single-detector alpha cal | `Cali_e_single.C` | (manual inspect) | For individual det re-calibration |
 | 5 | X scaling | `Cali_scale_x.C` | `correction_scaleX.dat` | Scale x to full (-1,1) range |
-| 6 | coinTime correction (MANUAL) | `GetCoinTimeCorrectionCutG.C` | `correction_coinTime.dat` | Manual graphical cut per det; reads temp.root |
+| 6 | coinTime correction (MANUAL) | `GetCoinTimeCorrectionCutG.C` | `correction_coinTime.dat` | Manual graphical cut per det; reads **calibrated tree** (not temp.root) |
 | 7 | Run Cleopatra/Transfer | `../Cleopatra/Transfer` (binary) | `transfer.root`, `reaction.dat` | Checks detectorGeo + reactionConfig + Ex.txt first |
 | 8 | coinTime vs X (alpha) | `Cali_coinTime_alpha.C` | `correction_coinTime.dat` | Automated coinTime cal using alpha source |
 
@@ -359,7 +359,8 @@ After completing the 4-step pipeline and applying RDT cuts, Ex peaks from indivi
 - **Cluster mean > peak bin** -- peak-bin picking creates asymmetric tails that prevent convergence. The weighted mean is immune to binning effects
 - **Iterative is mandatory** -- binning effects shift apparent peaks; a single pass never fully converges
 - **Drop dets with >1 MeV shift** -- this indicates bad energy calibration, not a simple offset. Go back and recalibrate that detector
-- Final exShift values should be < 0.5 MeV
+- Final exShift values should be < 0.5 MeV; cap at 0.15-0.2 MeV if suspect
+- **[!!] Lesson:** For reactions with a low-Ex state near g.s., the peak finder may match the first excited state as g.s., giving wrong exShift values. Suspect dets show shifts >0.2 MeV. Fix: identify a well-isolated higher-Ex peak and use that for suspect detectors only. Experiment-specific values go in expMemory.
 - Low-stats dets: read by eye (no Gaussian fits on ~50 counts)
 - **Peaks must be Gaussian** -- asymmetry/tail/shoulder after convergence = something upstream is wrong
 - **Before declaring convergence:** describe the peak shape. Is it Gaussian? Symmetric? False convergence is worse than admitting doubt

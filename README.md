@@ -34,10 +34,10 @@ HELIOS is a solenoidal spectrometer at the ATLAS facility (Argonne Tandem Linac 
 | File | Description |
 |------|-------------|
 | [HELIOS_Analysis_Workflow.md](HELIOS_Analysis_Workflow.md) | ROOT analysis pipeline, Armory macros, TSelector framework |
-| [HELIOS_Simulation_Cleopatra.md](HELIOS_Simulation_Cleopatra.md) | Cleopatra/Ptolemy DWBA simulation, kinematics tools |
+| [HELIOS_Simulation_Cleopatra.md](HELIOS_Simulation_Cleopatra.md) | Cleopatra/Ptolemy DWBA + Transfer MC -- InFileCreator, DWInFileCreator, ExtractXSec, Check_Simulation, alpha.C, Simulation_Helper GUI |
 | [HELIOS_Ptolemy_Build_Notes.md](HELIOS_Ptolemy_Build_Notes.md) | Ptolemy build notes -- Spark/ARM64 and Mac2020 (x86-64) ([OK] 2026-04-12) |
-| [HELIOS_Armory_Code.md](HELIOS_Armory_Code.md) | Armory code reference -- DetGeo/ReactionConfig structs, AnalysisLibrary functions, Apollo TSelector branch map |
-| [HELIOS_LIB_Reference.md](HELIOS_LIB_Reference.md) | HELIOS_LIB.h reference -- TransferReaction, HELIOS trajectory, TargetScattering, Decay, Knockout classes |
+| [HELIOS_Armory_Code.md](HELIOS_Armory_Code.md) | Armory/working code reference -- 13 files: full calibration pipeline (Cali_xf_xn, Cali_compareF, Cali_scale_x, Cali_xf_xn_to_e, Cali_e_trace, AutoFit, Analyzer, rootlogon, etc.) |
+| [HELIOS_LIB_Reference.md](HELIOS_LIB_Reference.md) | HELIOS_LIB.h reference -- TransferReaction, HELIOS trajectory, Isotope (AME2020), constant.h, FindThetaCM |
 
 ### Systems & Hardware
 
@@ -55,7 +55,7 @@ HELIOS is a solenoidal spectrometer at the ATLAS facility (Argonne Tandem Linac 
 |------|-------------|
 
 | [voice-bridge-plan.md](voice-bridge-plan.md) | Discord voice bridge architecture for HELIOS AI |
-| [voice-terminal-plan.md](voice-terminal-plan.md) | Pi-based mic+speaker voice terminal for HELIOS AI |
+| [voice-terminal-plan.md](voice-terminal-plan.md) | Mic+speaker voice terminal for HELIOS AI (targets Spark post-migration) |
 
 ## HELIOS Subnet
 

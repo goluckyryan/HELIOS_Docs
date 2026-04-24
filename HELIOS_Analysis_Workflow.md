@@ -44,7 +44,8 @@ digios/
 ?   ?   ??? Check_*.C        <- diagnostic checks
 ?   ?   ??? GetDataFromInfluxDB.py <- pull slow-control data
 ?   ??? EventBuilder/        <- C++ event builder binary
-?   ?   ??? EventBuilder_S   <- [*] standard event builder binary
+?   ?   ??? EventBuilder_S   <- [*] current production builder (used by process_Sort)
+?   ?   ??? EventBuilder_A   <- optimized builder (2.95x faster, NOT yet deployed to Mac2020 production)
 ?   ?   ??? EventBuilder_S.cpp
 ?   ?   ??? makefile
 ?   ??? data/                <- raw .gtd files (synced from DAQ)
@@ -198,6 +199,19 @@ ls -la correction_e.dat
 - Checks timestamps: skips if ROOT file newer than raw data
 - Force rebuild with negative `isBuild` flag
 
+**EventBuilder versions:** `_S` = standard; `_A` = optimized (2.95× faster on Spark; see `EventBuilder_Optimization.md` for benchmark details).
+
+**EventBuilder_S key implementation:**
+- Reads `GeneralSortMapping.h` for `idDetMap` + `idKindMap` (which channel = which detector/signal type)
+- Energy formula: `eee = (post_rise_energy - pre_rise_energy) / MWIN` (MWIN=100 from mapping)
+- Signal type dispatch via `idKindMap`: 0=Energy, 1=XF, 2=XN, 3=Ring
+- Detector type dispatch via `idDetMap` prefix: 0xx=array, 1xx=RDT, 2xx=ELUM, 3xx=EZERO, 4xx=TAC, 5xx=CRDT
+- Polarity applied: `POLARITY_XFXN=+1`, `POLARITY_RDT=-1` (from mapping header)
+- Trace fitting: sigmoid model `A/(1+exp(-(t-T0)/riseTime)) + B` via GSL nonlinear least-squares
+  - Extracts: amplitude (te), trigger time (te_t), rise time (te_r), chi2 (te_chi2) per detector
+- Uses priority queue (min-heap by timestamp) for time-ordered event building
+- Multi-threaded: reader thread + processor thread + mutex/condition_variable synchronization
+
 **Input:** `analysis/data/{expName}_run_{RUN}.gtd01-04`
 
 **Output:**
@@ -206,9 +220,19 @@ ls -la correction_e.dat
 
 ### Step 3  --  `ChainMonitors.C` (ROOT monitoring)
 
-- Runs `Monitors.C` histograms over sorted ROOT file
-- Single run or chain from `runsList.txt`
-- Optional: posts results to web server
+- Runs `Monitors.C` histograms over sorted ROOT files
+- **Usage:** `root -l 'ChainMonitors.C(RUNNUM, RUNNUM2, saveCanvas, isTraceON)'`
+  - `RUNNUM=-1`: use hardcoded list between AutoCalibration markers (alpha runs default)
+  - `RUNNUM=N`: single run N (`gen_run00N.root`)
+  - `RUNNUM=N, RUNNUM2=M`: chain runs N through M
+  - `isTraceON=true`: uses `trace_run*.root` instead of `gen_run*.root`
+  - `saveCanvas=true`: saves canvas to `Canvas/` directory
+- AutoCalibration marker format (for `AutoCalibrationTrace.C`):
+  ```
+  ///********** start Marker for AutoCalibration.
+  chain->Add("../root_data/gen_run005.root");
+  ///********** end Marker for AutoCalibration.
+  ```
 
 ---
 
@@ -346,6 +370,13 @@ Edit these before running to match the experiment:
 | `thetaCMGate` | 10 deg | Minimum CM angle cut |
 | `isUseRDTTrace` | true | Use RDT trace timing |
 
+**[!!] Monitors reads raw gen_tree, not calibrated tree.** It applies all corrections on-the-fly in Process():
+- Loads `detectorGeo.txt`, `reactionConfig.txt`, `reaction.dat`
+- Loads `correction_xf_xn.dat`, `correction_xfxn_e.dat`, `correction_e.dat`, `correction_scaleX.dat`, `correction_coinTime.dat`
+- Calibrates e/xf/xn/position in-loop, then reconstructs Ex using inline Newton's method
+- This is why Monitors.C and Cali_e_trace.C produce identical results when correction files are the same
+- `Analyzer.h` (offline) reads the pre-calibrated tree (output of Cali_e_trace) -- no on-the-fly correction needed
+
 **Ex reconstruction in Monitors.C:** Same Newton's-method algorithm as `HELIOS_LIB.h::CalExThetaCM` -- inline implementation, not a call to the library. Reads kinematic constants (alpha, G, mass, beta, gamma, Et, massB) from `reaction.dat` at startup.
 
 ---
@@ -369,6 +400,7 @@ Every generated plot must have an index number so it can be easily referenced la
   - **h094/h095 special analysis only:** `~/digios_11C_2/analysis/working_Helios/`  --  `digios_11C_2` is NOT a template; only loaded in #h094/#h095 Discord channels
   - Generated PNGs -> `~/screenshots/` only; never scatter to home dir or workspace
 - [!!] **`analysis/working/` is experiment-specific**  --  all files here (Monitors.C, GeneralSortMapping.h, reactionConfig.txt, detectorGeo.txt, correction_*.dat, rdtCut*.root, etc.) change per experiment
+- **`analysis/working/README.md`** -- comprehensive working-dir manual: file table, folder structure, data flow diagram, calibration sequence, simulation steps, initialization checklist
 - [!!] **`analysis/Armory/`, `Cleopatra/`, `EventBuilder/`, `Woods-Saxon/`** are general/shared  --  independent of experiment, do not edit casually
 - [!!] `GeneralSortMapping.h` on Mac2020 is the **true correct map**  --  verify it matches DAQ's copy each experiment
 - [!!] Do not use `GLBL:DIG:*` PVs  --  use individual `VMExx:MDIGn:*` PVs directly

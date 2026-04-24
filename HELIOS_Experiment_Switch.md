@@ -26,7 +26,7 @@ Run these steps whenever asked to switch experiment branches on DAQ and/or Mac20
 
 ```bash
 cd ~/digios
-git fetch pi
+git fetch spark    # spark = Spark relay (heliosspark@192.168.1.101:~/digios.git)
 git checkout <expName>        # or git checkout -b <expName> if new branch
 ```
 
@@ -125,7 +125,7 @@ git checkout <expName>    # or git checkout -b <expName> if new
 
 ### On Mac2020
 ```bash
-cd ~/digios && git fetch pi && git checkout master
+cd ~/digios && git fetch spark && git checkout master  # spark = Spark relay
 # Update symlinks to ARR01
 ln -sfv ~/experiments/ARR01/data      ~/digios/analysis/data
 ln -sfv ~/experiments/ARR01/root_data ~/digios/analysis/root_data
@@ -141,7 +141,7 @@ cd ~/digios && git fetch origin && git checkout master
 
 ---
 
-## After switching  --  always sync Pi -> GitHub
+## After switching  --  always sync Spark -> GitHub
 ```bash
 ~/digios_sync_github.sh
 ```

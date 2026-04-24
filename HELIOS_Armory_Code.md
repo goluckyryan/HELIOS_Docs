@@ -1,15 +1,195 @@
 # HELIOS Armory Code Reference
 
-Notes on the analysis library files in `~/digios/analysis/Armory/`.
+Notes on key analysis library files across the digios pipeline.
 
-## Files
+## Files Covered
 
-| File | Role |
-|---|---|
-| `AnalysisLibrary.h` | Core data structures + utility functions for analysis macros |
-| `Apollo.h` | TSelector stub auto-generated from `transfer.root` -- reads Cleopatra kinematics tree |
-| `Cali_e_trace.h` | Energy + trace calibration selector |
-| `Cali_littleTree_trace.h` | Little-tree trace calibration selector |
+| File | Location | Role |
+|---|---|---|
+| `AnalysisLibrary.h` | `Armory/` | Core data structures + utility functions |
+| `Apollo.h` | `Armory/` | TSelector stub -- reads Cleopatra kinematics tree |
+| `Cali_e_trace.h` | `Armory/` | Main calibration TSelector (reads raw gen_tree) |
+| `Cali_littleTree_trace.h` | `Armory/` | Pre-calibration quick-look TSelector |
+| `AutoFit.C` | `Armory/` | Spectral peak fitting library (fitNGaussPol, clickFit*, etc.) |
+| `Check_e_x.C` | `Armory/` | Visual E-vs-X diagnostic per detector (called after temp.root generation) |
+| `Cali_compareF.C` | `Armory/` | Kinematic auto-calibration: Monte Carlo (a1,a0) search against fxList kinematic lines |
+| `Cali_xf_xn.C` | `Armory/` | Alpha source calibration: energy (correction_e_alpha.dat) + xf/xn gain match (correction_xf_xn.dat) |
+| `Cali_xf_xn_to_e.C` | `Armory/` | XF+XN -> E linearity calibration (correction_xfxn_e.dat); fits `e = slope*(xf+xn) + intercept` per det |
+| `Cali_scale_x.C` | `Armory/` | X position scale calibration (correction_scaleX.dat); scales x to full (-1,1) range |
+| `AutoCalibrationTrace.C` | `working/` | Master calibration launcher (9-option menu; wraps all Armory cal routines) |
+| `Cali_coinTime_alpha.C` | `Armory/` | Automated coinTime vs X correction using alpha source: fits pol7 per det (option 8; requires trace data) |
+| `GetCoinTimeCorrectionCutG.C` | `Armory/` | Manual coinTime vs X correction: user draws graphical cut on coinTimeUC vs X, fits pol7, writes correction_coinTime.dat (option 6; reads calibrated tree) |
+| `Cali_e_single.C` | `Armory/` | Single-detector alpha re-calibration (option 4): interactive per-detector energy cal; uses FindMatchingPair for 228Th peak matching; user manually saves result (no auto-write) |
+| `Analyzer.h` / `Analyzer.C` | `working/` | Final physics analysis TSelector (reads calibrated tree) |
+| `rootlogon.C` | `working/` | ROOT style configuration (auto-loaded on startup) |
+
+## `Cali_xf_xn_to_e.C` -- XF+XN → E Linearity Calibration
+
+`~/digios/analysis/Armory/Cali_xf_xn_to_e.C` (209 lines). AutoCalibrationTrace option 1.
+
+**Purpose:** Ensures XF+XN sum equals the measured energy E (linearity correction).
+
+**Requires:** `correction_xf_xn.dat` + `detectorGeo.txt`
+
+**Algorithm:**
+1. For each detector: plot 2D histogram: x=(xf + xn*xnCorr), y=e
+2. Fit directly with `pol1`: `e = slope*(xf+xn) + intercept`
+3. User prompted to confirm before saving
+4. **Output:** `correction_xfxn_e.dat` -- intercept and slope per detector
+
+**Key:**
+- Fit is on raw 2D histogram, not a profile -- may have noise from off-diagonal events
+- Typical slope: 0.95-1.05; significant deviation = problem with xnCorr or gain mismatch
+- Without this correction: single-ended events (XF-only or XN-only) get wrong energy estimates
+- Det 11 included but has no data -- fit may fail gracefully
+
+## `Cali_scale_x.C` -- X Position Scale Calibration
+
+`~/digios/analysis/Armory/Cali_scale_x.C` (281 lines). AutoCalibrationTrace option 5.
+
+**Purpose:** Scale x position to full [-1, 1] range (corrects for detector edge effects and physical extent).
+
+**Requires:** `correction_xf_xn.dat` (loaded first)
+
+**Algorithm:**
+1. For each detector: plot x-position distribution (1D histogram)
+2. Fit distribution edges (using TSpectrum + Gaussian fit)
+3. `scaleX[i] = |fit_slope|` -- scales distribution width to unit range
+4. **Special:** det 11 hardcoded to `scaleX=1.0` (always dead -- no data to fit)
+5. **Output:** `correction_scaleX.dat` -- one value per detector
+
+**Key:** After this correction, `x_corrected = x_raw / scaleX[i]` should range from -1 to +1.
+If peaks appear at edges (|x|>0.95) after correction: scaleX may be too large -- check raw distribution.
+
+## `Cali_compareF.C` -- Kinematic Auto-Calibration (Monte Carlo)
+
+`~/digios/analysis/Armory/Cali_compareF.C` (522 lines). Called by `AutoCalibrationTrace.C` option 2 step 3.
+
+**Purpose:** Find best energy calibration (a1, a0) by minimizing distance between data points and theoretical kinematic lines.
+
+**Call:** `Cali_compareF(expTree, refFile, a1Min, a1Max, a0Min, a0Max, nTrial, option, eThreshold)`
+- `expTree`: TTree from `temp.root` (Cali_littleTree output)
+- `refFile`: `transfer.root` opened as TFile
+- `a1Min/Max`: search range for energy gain (default 220-320 ch/MeV)
+- `a0Min/Max`: search range for energy offset (default -1.0 to +1.0 MeV)
+- `nTrial`: number of Monte Carlo trials (default 800; use 2000+ for precision)
+- `option`: detector index (-1 = all detectors)
+- `eThreshold`: minimum raw energy to consider
+
+**Algorithm (Monte Carlo minimization per detector):**
+1. Load `fxList` from `transfer.root` -- kinematic lines as TGraphs (E vs Z per state)
+2. For each trial (up to nTrial):
+   - Draw random (a1, a0) uniformly from search ranges
+   - For each event: compute `e_cal = e/a1 + a0`
+   - Find minimum distance from (z, e_cal) to nearest kinematic line
+   - Accumulate total sum-of-residuals (`totalMinDist`)
+3. Keep (a1, a0) that minimizes `totalMinDist` AND maximizes event count
+4. Second pass: fine-tune with smaller range around best
+5. Output: `correction_e_KE.dat`
+
+**Key details:**
+- `distThreshold = 0.01` MeV² -- events farther than this contribute a capped penalty
+- `skipEveryNEvent` -- auto-set to skip events for speed with large trees
+- Optional `cut.root` with `cutEZ` TCutG gate on E-Z
+- Optional coinTime gate: `|coinTime - 19| < 30`
+- Progress printed every nTrial/5 steps
+
+**Output files:**
+- `correction_e_KE.dat` -- calibration coefficients (a1, a0 per detector)
+- After running: `ln -sf correction_e_KE.dat correction_e.dat`
+
+## `Check_e_x.C` -- E vs X Visual Diagnostic
+
+`~/digios/analysis/Armory/Check_e_x.C` (168 lines). Called by `AutoCalibrationTrace.C` option 2 (step 1) after generating `temp.root`.
+
+**Purpose:** Quick visual check of calibration quality -- shows E vs X (position) per detector.
+
+**Usage:** `Check_e_x("temp.root", eThreshold=400)`
+
+**Output:** Two canvases:
+1. **cCheck** (6×4 grid): E vs X for each of 24 detectors. Red horizontal line = eThreshold.
+   - Good calibration: events cluster along a horizontal band (uniform energy vs position)
+   - Bad calibration: tilted band = xnCorr or xfxneCorr needs adjustment
+2. **cCheck2**: E vs Z (the key E-Z kinematic plot). Kinematic lines should be visible if beam data.
+
+**Optional:** Loads `cut.root` with `cutEZ` TCutG for E-Z gating if present.
+
+**Geometry:** Reads `detectorGeo.txt` for detector positions (same as Cali_e_trace).
+
+## `AutoFit.C` -- Spectral Peak Fitting Library
+
+`~/digios/analysis/Armory/AutoFit.C` (3114 lines). Header-only ROOT macro library for fitting peaks in histograms. Included by `Simulation_Helper.C` (`fitAuto`) and usable interactively.
+
+### Global output variables (populated after any fit)
+```cpp
+std::vector<double> BestFitMean;   // peak centroids [MeV]
+std::vector<double> BestFitCount;  // peak areas (counts)
+std::vector<double> BestFitSigma;  // peak widths (sigma)
+```
+
+### Fitting functions
+
+| Function | Description | Key args |
+|---|---|---|
+| `fitGaussPol(hist, mean, sigmaMax, degPol, xMin, xMax)` | 1 Gaussian + polynomial BG | Manual mean guess |
+| `fit2GaussP1(hist, ...)` | 2 Gaussians + pol-1 BG | -- |
+| `fitGF3Pol(hist, mean, sigmaMax, ratio, beta, step, degPol, xMin, xMax)` | GF3 peak shape + pol BG | GF3 = Gaussian + low-energy tail |
+| `fitNGauss(hist, bgEst, fitFile)` | N Gaussians, estimated BG | Reads peaks from `AutoFit_para.txt` |
+| `fitNGaussSub(hist, bgEst, degPol, fitFile)` | Subtract pol BG first, then N Gauss | -- |
+| `fitNGaussPol(hist, degPol, fitFile, xMin, xMax)` | N Gaussians + polynomial BG | Most common |
+| `fitNGaussPolSub(hist, degPol, fitFile, xMin, xMax)` | Subtract pol BG, fit N Gauss | -- |
+| `clickFitNGaussPol(hist, degPol, sigmaMax, meanRange)` | Interactive: click peaks on canvas | Mouse-driven |
+| `clickFitNGaussPolSub(hist, ...)` | Interactive BG-subtracted version | Mouse-driven |
+| `clickFitPol(hist2D, degPol)` | Click-fit polynomial to 2D histogram | For E-Z calibration |
+| `clickFitCut(hist2D, detID, degPol, fileName)` | Click to define cut on 2D histogram | For coinTime cuts |
+
+### Parameter file format (`AutoFit_para.txt`)
+One peak per line: `mean sigma count` (initial guesses).
+- `SaveFitPara(isBestFit, fileName)` -- saves current fit parameters to file
+- Load with `loadFitParameters(fitParaFile)` -- reads into global BestFit vectors
+
+### `fitAuto(hist, detID)` (used in Simulation_Helper)
+- Called from Simulation_Helper "AutoFit ExCal" button on `hExCal`
+- Finds peaks automatically via TSpectrum, fits N Gaussians
+- Stores results in global BestFitMean/Count/Sigma
+
+### Utilities
+- `GoodnessofFit(hist, fit)` -- computes chi2/NDF, prints result
+- `PlotResidual(hist, fit)` -- draws (data-fit)/sigma residuals
+- `ScaleAndDrawHist(hist, xMin, xMax)` -- scale-to-range helper
+- `RGBWheel(ang)` -- color wheel for multi-peak coloring
+- `nPeaks = 16` (global) -- max peaks for N-Gauss fits
+- `nPols = 1` (global) -- default polynomial degree for BG
+
+### Typical interactive workflow
+```
+root -l
+.L Armory/AutoFit.C
+chain->Process("Analyzer.C+")   // produces hEx, hExi etc.
+fitNGaussPol(hEx, 1, "AutoFit_para.txt", -1, 5)  // fit Ex spectrum
+SaveFitPara(true)  // save best fit
+BestFitMean  // check peak centroids
+```
+
+## `rootlogon.C` -- ROOT Style Configuration
+
+`~/digios/analysis/working/rootlogon.C` -- auto-loaded by ROOT on startup from `working/`.
+Sets the global style for all plots in the HELIOS analysis session.
+
+**Key settings:**
+- Style: "Plain" (white background)
+- Stats box: `"nemruoi"` (name, entries, mean, RMS, underflow, overflow, integral)
+- Fit box: `1111` (all fit parameters shown)
+- Grid: X and Y grids on all pads
+- Tick marks on all 4 axes
+- Date stamp on plots: lower-left corner, font 62, size 0.02
+- Histogram line width: 2
+- Frame fill: color 10 (light gray)
+- Title fill: color 33 (blue-ish)
+- `SetHistMinimumZero(true)` -- prevents histogram zero-suppression (y-axis always starts at 0)
+- Palette: `SetPalette(1,0)` -- "Pretty" rainbow for 2D histograms
+
+**Note:** `SetHistMinimumZero(true)` can cause confusion when looking at difference histograms -- bins below zero may be clipped. Override per-histogram with `hist->SetMinimum(-1)` if needed.
 
 ## Working Directory: `Analyzer.h` / `Analyzer.C`
 

@@ -168,7 +168,15 @@ VME04-MDIG4: DetMap= -1 x10  (unused)
 - Det 20: requires band cut `1900 < Xf+Xn < 2500` for xnCorr fit (position cluster issue).
 
 ### h096 (31Si(d,p)32Si)
-- B = 2.85 T (rented power supply); magnet ramped 2026-04-08
+- B = **-2.85 T** (negative = upstream, rented power supply); magnet ramped 2026-04-08
+- **detectorGeo.txt (verified from working/):**
+  - perpDist = 11.5 mm, det length = 50 mm, width = 10 mm
+  - firstPos = -200 mm (upstream), 6 positions × ~59 mm spacing
+  - 4 rows (mDet=4), 6 positions (nDet=6) = 24 detectors total
+  - Array coverage: z = -200 mm to -495 mm from target
+  - Recoil detector: pos=+1100 mm downstream, inner r=10mm, outer r=40.2mm
+  - Energy resolution: 0.03 MeV, position resolution: 1.0 mm
+  - Detectors face **Out**
 - **Det 11:** dead (hardware, always dead -- 0 hits all runs)
 - **Det 22:** noisy -- fires at fixed eCal ~2.5 MeV, creates fake Ex peak; exclude from analysis
 - **Det 07, 17, 22:** exShift did not converge (skip in exShift iteration; set to 0)

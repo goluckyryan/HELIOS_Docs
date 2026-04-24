@@ -60,6 +60,26 @@ mac2020IP=192.168.1.164         # Mac2020 (Elog/Discord)
 | `DAQG_CS_BuildEnable` | `Copy` / ... | DAQ builder enable |
 | `DigFIFOSpeed` | `Fast` / `Slow` | FIFO speed |
 
+### Trigger Logic (Ryan, 2026-04-23)
+
+**Simple two-mode trigger -- no complex coincidence logic ever used:**
+
+| Mode | PV | Physics | When used |
+|---|---|---|---|
+| **X (SUM_X)** | `VME32:MTRG:SUM_X` | Any Si array detector above threshold → readout. Light reaction products (p,d,t) orbit upstream in B-field and hit array. Heavy elastic recoil goes forward → NOT captured. | Normal physics runs (99% of time) |
+| **Y (SUM_Y)** | `VME32:MTRG:SUM_Y` | Any RDT fires → readout. Captures elastic scattered beam + reaction recoils + contaminants. No upstream particle required. | Beam characterization, rate estimation |
+| **XY** | `VME32:MTRG:SUM_XY` | Coincidence -- **NEVER used** | N/A |
+
+**Key physics of X vs Y:**
+- In X: elastic beam (heavy recoil) is suppressed -- goes straight forward, no array hit. Reaction products dominate.
+- In Y: elastic beam dominates (Rutherford XS >> transfer XS). RDT PID plot shows beam spot (¹⁶O etc.) + reaction recoils (¹⁷O etc.) + contaminants -- all separable by dE-E.
+- Y generates far more data (elastic XS huge) -- used only in short dedicated runs.
+- **[!!] Y trigger buffer risk:** Elastic XS >> transfer XS. At normal beam rates, Y trigger can fill the VME buffer in <1s -- the unprotectable fast-fill case. Always run Y trigger carefully: low beam rate, short duration, actively watch buffer. If buffer fills fast → VME crate reboot required.
+- Even in X: residual beam-like events appear from C+beam reactions on CD₂ target (carbon background) -- gated out in analysis via RDT PID cuts.
+- Y trigger used to: (1) check beam composition/contamination, (2) estimate absolute beam rate from elastic spot intensity.
+- **TrigCPU/TrigIOC**: used only for firmware updates (never updated in practice) -- treat as inert.
+- **PileUp**: likely always enabled (verify in IOC settings).
+
 ### Trigger PVs (VME32)
 
 | PV | Description |
@@ -121,6 +141,7 @@ Use the `helios-start-run` skill (source of truth). Key steps:
 3. Build elog entry, SCP to DAQ
 4. Call `start_run.sh --ai` (handles: expName increment, caput Start, elog/Discord push, xterms)
    - [!!] `start_run.sh` includes **HV check** (snmpget outputSwitch) -- aborts if HV not on
+   - [!!] **Stale Pi SSH in start_run.sh (line 105) AND stop_run.sh (line 75):** both call `ssh ryan@192.168.1.100 ...` -- non-fatal (background) but fails silently since Pi retired 2026-04-17. Both need update to `ssh heliosspark@192.168.1.101`. (DAQ read-only -- admin change required)
 
 ### Stopping a Run
 
@@ -161,7 +182,7 @@ Two modes:
 
 ---
 
-## Run Control from Pi
+## Run Control from Spark
 
 ### Method A: X11 Forwarding (current method)
 
@@ -171,25 +192,36 @@ Two modes:
 
 `gtReceiver4` binary: `/home/helios/gtReceiver_digios/gtReceiver4` (NOT in PATH).
 
-### Method B: tcpReceiver on Mac2020 (shelved)
+### Method B: tcpReceiver on Mac2020 (DROPPED 2026-04-24)
 
-Native multi-threaded receiver. Built [OK] 2026-04-09, not tested on live data.
-Binary: `~/digios/daq/Receiver/tcpReceiver` on Mac2020.
+Dropped -- would require rewriting gtReceiver logic, too messy. Not used.
 
 ---
 
 ## Data Flow
 
+**Confirmed architecture (2026-04-24):**
 ```
+Detector
+     |
+Digitizers (VME)
+     |
 VME IOCs (VxWorks)
-     | (CA / fiber)
-digios1 softIOC
-     | (gtReceiver4 x 4)
-.gtd01-.gtd04 -> {daqDataPath}/{expName}/
+     |
+DAQ/digios1 softIOC + gtReceiver4
+     | .gtd01-.gtd04 -> {daqDataPath}/{expName}/
+     |
+Mac2020 downloads raw data from DAQ for online analysis
      | (AutoProcess on Mac2020)
 ROOT files
      | (Globus, when enabled)
 LCRC archival
+
+Spark (.101) also downloads raw data from DAQ for AI-driven analysis
+     | (ROOT, Python, Cleopatra, PtolmeyCpp)
+```
+
+**Note:** Mac2020 = elog/Discord/online display. Spark = AI analysis, simulation, DWBA. Both pull from DAQ independently.
 ```
 
 Data files: `{daqDataPath}/{expName}/{expName}_run_{RUN}.gtd01-04`
@@ -215,14 +247,31 @@ Mac2020: `~/experiments/{expName}/data` + `root_data`
 
 | Script | Purpose |
 |---|---|
-| `start_run.sh` / `stop_run.sh` | Run control (use `--ai` flag from Pi) |
+| `start_run.sh` / `stop_run.sh` | Run control (use `--ai` flag from Spark) |
 | `helios_setup_trigger` | Trigger router setup |
 | `helios_setup_digitizer_4sidesArray` | Digitizer defaults |
-| `push2Elog.sh` / `push2Discord.sh` | Elog and Discord posting |
-| `DataBase.py` / `helios_database` | Slow-control DB logging |
+| `start_run_Mac.sh` / `stop_run_Mac.sh` | Mac2020-side run control: SCP expName.sh from DAQ, GenElog+GenElogExtra -> elogFull.txt -> post to ANL elog -> Discord. stop saves elog ID for reply attachment. Run via SSH from DAQ. |
+| `GenElog.py` | Main elog HTML body: run number, timestamp, comment, B-field, array/RDT positions, trigger settings. Usage: `GenElog.py start` -> ~/elog.txt |
+| `GrafanaWeb.sh` | Grafana screenshot (macOS): `screencapture -D2 ~/grafanaElog.jpg` (monitor 2). Called by stop_run_Mac.sh on Mac2017. Web push disabled. |
+| `GrafanaElog.sh` | Legacy Linux Grafana screenshot (gnome-screenshot). Mostly commented out -- superseded by GrafanaWeb.sh |
+| `push2Discord.sh` | Post run start/stop to Discord webhook (converts HTML->markdown). Uses WEBHOOK_DAQ_URL from ~/Discord_webhooks.sh. Called by start/stop_run_Mac.sh |
+| `push2Elog.sh` | **Legacy** elog posting script (hardcoded paths). Superseded by start_run_Mac.sh/stop_run_Mac.sh pipeline. |
+| `GenElogExtra.py` | Generates HTML table of detector thresholds (EPICS) + HV status (SNMP) for elog entries; can run on Spark (has EPICS CA + SNMP access) |
+| `common.py` | Core Python utility: GeneralSortMapping.h parser (regex), side groupings (Left/Bottom/Right/Top), signal aliases (e/xf/xn/de), PV aliases (threshold/rate/M/D/K/etc), PV name builders (make_set/get_pv_name) |
+| `DataBase.py` / `helios_database` | Slow-control monitoring loop (30s): run number, file size, VME buffers, disc_count rates, thresholds, trigger rate -> InfluxDB. Buffer protection: stops DAQ if buffer < 300, resumes after 30s. Logs to /home/helios/helioBuffer.log |
+
+**[!!] VME Buffer Protection -- Known Limitation:**
+- DataBase.py polls buffer every ~3s; EPICS PVs update at most every 1s.
+- Protection only works if buffer fills **slower than ~1s**.
+- If rate spikes and buffer fills in <1s (e.g. sudden high beam rate), DataBase.py cannot react in time.
+- **Fast-fill result:** digitizer deadlocks, buffer full, ACQ cannot stop gracefully.
+- **Recovery:** reboot the VME crate. This is the known and accepted recovery procedure.
+- **Prevention:** keep beam rate sane during operations. Rate-based pre-emption is not reliable due to EPICS floor + trace-length dependence.
+- Hitrate-based pre-emption would need: fill_rate = hitRate × bytes_per_event(trace_length), compared to buffer size -- doable but trace_length varies per experiment.
 | `AutoTuneThreshold.py` | Automated threshold tuning |
-| `Edwards_D379_read.py` | Vacuum gauge readout |
+| `Edwards_D379_read.py` | Vacuum gauge readout (Python 2.7): reads Edwards D379 via serial RS232, posts VacuumGauge to InfluxDB every 3s. Runs on DAQ where serial port is connected. |
 | `HVMonitor.py` | Iseg HV readout -> InfluxDB |
+| `GetPVLIstFromDB.py` | Dev utility (Python 2.7): parses EPICS .db/.template files to extract PV names. Not a service -- used for diagnostic enumeration of available PVs |
 
 ---
 

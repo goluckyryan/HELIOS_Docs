@@ -14,7 +14,7 @@
 - `/System/Volumes/Data`: 1.6 TB used / 1.9 TB  --  **83% full** [!!]
 - Time Machine snapshots active
 - Uptime: 51 days (as of 2026-04-08)
-- [OK] Verified 2026-04-13  --  direct SSH; up 56d 1h44m, load 3.15 (InfluxDB+Grafana running), disk 3% used (340Gi free)
+- [OK] Verified 2026-04-19  --  direct SSH; up 62d 39m, load 4.92/3.67/3.81 (InfluxDB+Grafana running), disk 3% used (328Gi free)
 
 ## Role
 
@@ -70,7 +70,7 @@ Also: Screenshots from Dec 2024 (`Screenshot 2024-12-*.png`), `Screenshots of s0
 
 ## See Also
 
-- `HELIOS_Migration_Mac2020.md`  --  plan to migrate AI from Pi to Mac2020 (Mac2017 not involved)
+- ~~`HELIOS_Migration_Mac2020.md`~~  --  superseded 2026-04-17 (migrated to Spark instead, not Mac2020)
 - `HELIOS_Experiment_Switch.md`  --  experiment branch management (Mac2020/DAQ primary; Mac2017 manual)
 - `TOOLS.md` (workspace)  --  subnet map, SSH access details
 - `MEMORY.md` (workspace)  --  Mac2017 system summary + disk warning

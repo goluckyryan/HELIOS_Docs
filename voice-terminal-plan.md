@@ -1,7 +1,9 @@
 # Voice Terminal Plan  --  Talk to HELIOS
 
 ## Goal
-Connect a mic + speaker to the Pi so you can have voice conversations with HELIOS.
+Connect a mic + speaker to **Spark** (was Pi 5; migrated 2026-04-17) so you can have voice conversations with HELIOS.
+
+> **Note:** Originally designed for Pi 5. Now targets Spark (NVIDIA Jetson, 192.168.1.101, Ubuntu 24.04). Spark has more resources (122 GB RAM, 20-core ARM) -- Whisper base model will be faster. PipeWire is available on Ubuntu 24.04.
 
 ## Hardware Options
 

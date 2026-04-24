@@ -17,7 +17,7 @@ Follow `HELIOS_Experiment_Switch.md` for the detailed procedure. Summary:
 - [ ] `git add expName.sh && git commit -m "new experiment <expName>" && git push origin <expName>`
 
 ### Step 2  --  Mac2020 (192.168.1.164)
-- [ ] `git fetch pi && git checkout <expName>` (gets `expName.sh` automatically from DAQ commit)
+- [ ] `git fetch spark && git checkout <expName>` (gets `expName.sh` automatically from DAQ commit; spark = Spark relay)
 - [ ] `mkdir -p ~/experiments/<expName>/data ~/experiments/<expName>/root_data`
 - [ ] Update symlinks:
   ```bash

@@ -204,7 +204,7 @@ A comprehensive guide for drawing Recoil Detector Telescope (RDT) particle ident
 - Apply that choice to all telescopes
 
 ### [!!] Practical Limits
-- **Memory**: DBSCAN on >400K events requires >4 GB RAM. If running on Pi, **downsample to 400K max**
+- **Memory**: DBSCAN on >400K events requires >4 GB RAM. Spark has 122 GB -- no downsample needed. (If running on Pi/Mac with <8 GB, downsample to 400K max)
 - **Tel-by-tel**: Parameters that work for Tel 0 may not work for Tel 2 (different band structure, overlaps)
 - **Multi-band telescopes**: Tel 2 in h094 has 6 visible bands (Mg > Na > Ne > F > O > N at low E). DBSCAN fragments heavily here (64 clusters, 42% noise). Consider hand-tuning Tel 2 separately.
 
@@ -282,7 +282,7 @@ TString rdtCutFile2 = "rdtCuts_O_srim.root";      // Secondary species (O)
 - `~/digios_11C_2/analysis/working/rdtCuts_12C_6.root`  --  HELIOS v12 cut
 - `~/digios_11C_2/analysis/working/ryan_para/rdtCuts_12C_3.root`  --  Ryan's hand-drawn _3 cut
 
-### Scripts (Pi)
+### Scripts (were on Pi ~/workspace/ -- Pi retired 2026-04-17; check Spark ~/workspace/)
 - `~/digios_11C_2/analysis/working_Helios/h094/rdt_banana_all_tels.py`  --  empirical peak tracing + polynomial cut generator (h094)
 - [!!] DBSCAN and SRIM cut-generation scripts were session-temporary (`/tmp/`)  --  recreate from scratch for new experiments using procedure in sections 4 and 5
 
@@ -314,15 +314,28 @@ Is the target species band well-separated from other bands?
 
 ---
 
+## [!!] Key Lesson: Recoil Species Change Between Characterization and Physics Runs
+
+For experiments using radioactive beams with a stable-beam characterization run:
+- **Characterization run** (e.g. 30Si beam): recoil = 31Si → specific dE-E band position
+- **Physics run** (e.g. 31Si beam): recoil = 32Si → DIFFERENT dE-E band position
+
+The recoil mass/Z changes between runs, shifting the Bethe-Bloch band in dE-E space.
+**Do NOT transfer characterization gates directly to physics runs** — they will be offset.
+Always generate new gates from the physics run data (use Ex-gated events from known states).
+
+_Source: h096 rdt_compare_gates.py — confirmed 30Si→31Si and 31Si→32Si bands differ in dE-E._
+
 ## See Also
 
 - `HELIOS_Analysis_Workflow.md`  --  RDT cut usage in Monitors.C, plot indexing convention
 - `HELIOS_Detector_Geometry.md`  --  RDT channel mapping (IDs 100-107, Module 3 HV)
 - `HELIOS_PV_Reference.md`  --  HV PV names for RDT channels (u300-u315)
-- `expMemory_h094.md` / `expMemory_h095.md`  --  experiment-specific cut files and FOM results
+- `expMemory_h094.md` / `expMemory_h095.md` / `expMemory_h096.md`  --  experiment-specific cut files and FOM results
 - `MEMORY.md` -> "RDT Cut Reference"  --  summary of hand-drawn vs ML FOM results
 
 ---
 
 _Created: 2026-03-27 by HELIOS_  
+_Updated: 2026-04-23 (h096-specific values moved to expMemory_h096.md)_  
 _Sources: h094 analysis (2026-03-26/27), h095 analysis (2026-03-13/14), MEMORY.md_

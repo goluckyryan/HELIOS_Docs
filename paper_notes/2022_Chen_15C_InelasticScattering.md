@@ -88,4 +88,60 @@ neutron act independently? Core polarization -> small effective charge -> large 
 
 ---
 
-_Read and noted: 2026-04-18 (Spark). Source: ~/publications/2022_Chen_Probing_the_quadrupole_transit.pdf_
+## Assumptions
+
+1. **Collective (deformed rotor) model assumed valid throughout.** The inelastic cross section is calculated with DWBA using a collective form factor (deformation parameter βd). The shape of the angular distribution is fit to extract δd. This assumes the nucleus deforms coherently -- valid for well-deformed nuclei, but questionable for a halo system like ¹⁵C where one loosely-bound 2s₁/₂ neutron dominates.
+
+2. **Optical model potential (OMP) dependence.** Five global OPs were tested for elastic scattering (An, Han, Daehnick, Schiffer, DA1p). DA1p gave the best fit -- it was derived specifically for 1p-shell nuclei. The same OMP is then used for inelastic. The OP uncertainty propagates into βd (they estimate ~25% sensitivity at forward angles, larger at back angles).
+
+3. **bn/bp = 1 for deuterons (isoscalar probe).** This is a standard assumption used to relate δd to Mn/Mp via Bernstein 1981. It is well-established that deuterons are isoscalar, but the underlying bn/bp for nucleons (needed to separate neutron/proton deformation lengths) is still model-dependent.
+
+4. **Inert ¹⁴C core assumed.** The analysis uses Mp′ ≈ 0 (proton valence contribution negligible), which requires the ¹⁴C core to be truly inert. Shell model (YSOX) supports this (Mp′ = 0.44 fm² vs Mn′ = 5.19 fm²), but it is an assumption.
+
+5. **B(E2) taken from lifetime measurement (Alburger & Millener 1979).** Mp is extracted from B(E2), not measured directly in this experiment. If that B(E2) is wrong, Mp and hence Mn/Mp shift.
+
+6. **Coupled channels only partially addressed.** Standard DWBA (one-step) is used. Coupled channel (CC) calculation was also done -- the CC result for δd agrees within uncertainty (βd = 0.35(4) vs 0.29(3)), but the paper notes that at large angles, continuum coupling, 3-body, and 4-body effects may not be captured. The angular range where OP sensitivity is acceptable is ~25–45° CM.
+
+---
+
+## Further Questions
+
+- **Would a microscopic DWBA (using shell-model transition density) fit the angular distribution equally well?** The paper only uses a collective form factor. A microscopic calculation might give a different shape -- or be indistinguishable at this angular coverage. If distinguishable, which is preferred?
+
+- **Is the collective model self-consistent for a halo nucleus?** The 2s₁/₂ halo neutron is spatially extended and not deforming the core in the usual rotor sense. The Mn/Mp framework assumes coherent deformation -- does that picture apply here, or is it just a convenient parametrization?
+
+- **What does the data constrain at large angles?** The OP calculations fail at back angles (core excitation, continuum, 3-body effects). Is there information content there, or is it all contamination?
+
+- **How sensitive is Mn/Mp to the B(E2) input?** Mp is taken from Alburger 1979. A newer or more precise B(E2) would shift the result -- is the present Mn/Mp limited by the nuclear structure input or the scattering measurement?
+
+- **Would ¹⁹C or ¹¹Li (larger halo, larger matter radius) show a stronger core decoupling in Mn/Mp?** The paper suggests studying these as future work. If Mn/Mp/(N/Z) increases with matter radius, that would be a clean halo signature.
+
+- **Is the NCCI convergence of Mn/Mp robust?** The B(E2) is NOT well converged in the NCCI calculation (factor ~2 off from experiment), but Mn/Mp appears converged. Is that physically meaningful or a cancellation of errors?
+
+---
+
+## Related Papers
+
+**Same 15C beam / ANL program:**
+- **Kay 2022** (PRC) -- 15C(d,p) neutron adding, spectroscopic factors -- same ATLAS beam
+- **Jiang 2025** (PLB) -- 15C(p,d)+(d,t) quenching, Rs~0.64 -- closes the 15C picture with removal
+- Together these three form a complete structural picture of 15C via transfer + inelastic
+
+**Mn/Mp framework & theory:**
+- **Bernstein, Brown & Madsen 1983** (Comments Nucl. Part. Phys.) -- original Mn/Mp formalism used throughout this paper [Ref 13]
+- **Bernstein, Brown & Madsen 1979** (PRL) -- 17O Mn/Mp measurement [Ref 19] -- the key comparison nucleus
+
+**Other nuclei measured with same method:**
+- **Elekes et al. 2009** (PRC) -- 20O Mn/Mp via (d,d') -- same analysis chain [Ref 20]
+- **Wiedeking et al. 2008** (PRL) -- 16C B(E2) remeasurement, revised Mn/Mp = 1.4x(N/Z) [Ref 25] -- shows how earlier measurements can be wrong
+
+**Halo structure context:**
+- **Tanihata et al. 1985** (PRL) -- original halo discovery via interaction cross sections [Ref 1]
+- Any (p,p') or (d,d') measurement on 19C, 22C, 11Li -- would test whether larger halo -> stronger Mn/Mp enhancement
+
+**Ab initio:**
+- **Daejeon16 interaction** (Maris et al.) -- used for NCCI in this paper; fits p-shell but not yet sd-shell; future improvement needed for 15C excited state energy and B(E2)
+
+---
+
+_Read and noted: 2026-04-18 (Spark). Updated: 2026-04-23 (full re-read + assumptions/questions/related papers added). Source: ~/publications/2022_Chen_Probing_the_quadrupole_transit.pdf_

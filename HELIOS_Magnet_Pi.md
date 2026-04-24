@@ -96,8 +96,11 @@ Runs once daily at 7:00 AM. Single snapshot, not continuous.
 
 From cron log (Apr 6-15):
 - 71.9% → 62.1% in 9 days = **~1.1%/day** (standby, no beam)
-- At this rate, 50% warning ~Apr 27, 30% alarm ~May 15
 - With beam, consumption increases (vibration + heat load)
+
+**Updated 2026-04-20:** He level = **92.3%** (read from InfluxDB via Mac2017, 2026-04-19 12:00 UTC)
+- Level much higher than Apr 15 reading (62.1%) -- LHe fill occurred during experiment
+- At 1.1%/day standby: 50% warning ~May 11, 30% alarm ~May 29
 
 ## InfluxDB Measurements
 

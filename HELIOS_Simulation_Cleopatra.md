@@ -95,7 +95,9 @@ Ex[MeV]   Xsec   SF   Width[MeV]
 6. Plots result via `PlotTGraphTObjArray`
 
 **Key binaries:**
-- `ptolemy`  --  DWBA code (compiled locally)
+- `ptolemy`  --  pre-built x86-32 static binary (NOT compiled locally; runs via QEMU on non-x86)
+  - **[!!] Spark**: `qemu-i386` not installed -- ptolemy fails with Exec format error. Fix: `sudo apt install qemu-user`. Workaround: run on Mac2020.
+  - **Mac2020**: runs natively (x86-64, no QEMU needed)
 - `dwuck4`  --  alternative DWBA code
 - `DWInFileCreator`  --  creates Ptolemy input files
 
@@ -183,6 +185,27 @@ All arguments are optional  --  defaults to filenames above.
 | `fList` | TObjArray of TF1 | E-Z kinematic lines (infinite-small detector) |
 | `fxList` | TObjArray of TGraph | E-Z kinematic lines (finite-size detector correction) |
 | `txList` | TObjArray of TGraph | thetaCM-Z curves |
+| `gList` | TObjArray of TGraph | Constant-thetaCM lines on E-Z plot |
+| `detectorGeo` | TMacro | Embedded detector geometry (for reproducibility) |
+| `ExList` | TMacro | Embedded excitation energy list |
+| `DWBA` | TObjArray | Embedded DWBA.root content (if used) |
+
+**`reaction.dat` output format** (key constants for Ex reconstruction in Monitors.C/Cali_e_trace.C):
+```
+mass_b     // light recoil mass [MeV/c^2]
+charge_b   // light recoil charge [e]
+betaCM     // CM boost beta
+Ecm        // CM total energy [MeV]
+mass_B     // heavy recoil mass [MeV/c^2]
+alpha      // = slope/betaRect = 299.8*Zb*|B|/(2pi*1000) [MeV/mm]
+```
+**[!!] Mac2020 reaction.dat must match Spark** -- if stale, Ex reconstruction gives wrong values (2 MeV offset seen in h096).
+After running Transfer, SCP/git-sync reaction.dat to keep Spark in sync with Mac2020.
+
+**Known mismatch (2026-04-20):** Spark has 30Si(d,p)31Si reaction.dat (betaCM=0.14609) while Mac2020 has 31Si(d,p)32Si (betaCM=0.13529). Mac2020 is correct for h096. To fix:
+```bash
+scp -i ~/.ssh/id_rsa_mac2020 heliosdigios@192.168.1.164:~/digios/analysis/working/reaction.dat ~/digios/analysis/working/
+```
 | `gList` | TObjArray of TF1 | Constant thetaCM lines |
 | `reactionConfig` | TMacro | Copy of input config |
 | `detGeo` | TMacro | Copy of detector geometry |
@@ -235,11 +258,16 @@ The finite-size correction (`fxList`) accounts for the fact that the detector is
 
 | Tool | Purpose |
 |---|---|
-| `alpha.C` | Alpha source kinematics for calibration |
-| `knockout.C` | Knockout reaction simulation |
+| `alpha.C` | Alpha source MC -- simulates isotropic alpha emission in HELIOS (4 configurable energies, eSigma/zSigma smearing), outputs hit/e/z/x/detID/loop/rho tree. Used to understand acceptance geometry for calibration runs. |
+| `knockout.C` | Knockout reaction MC -- A(p,2p)B or A(p,pn)B, uses Knockout class from HELIOS_LIB.h; separation energy from file; normal or inverse kinematics |
 | `FindThetaCM` | thetaCM coverage + solid-angle weights per detector -- see HELIOS_LIB_Reference.md |
-| `DWBARatio.C` | Compare DWBA cross-section ratios |
+| `DWBARatio.C` | Ratio of two DWBA distributions: `DWBARatio(id1, id2, "DWBA.root")` -> plots both + returns ratio TGraph. Reads from `qList` TObjArray in DWBA.root |
 | `DWBA_compare.C` | Overlay multiple DWBA calculations -- **dead weight** (not in makefile, superseded; see TODO.md) |
+| `Transfer.C` | Main entry point for Transfer binary (calls `Transfer()` from Transfer.h) |
+| `IsotopeShort.C` | Standalone isotope mass utility for Python web interface |
+| `ExtractXSecFromText.C` | Like ExtractXSec but reads from .txt instead of .out |
+| `PlotTGraphTObjArray.C/h` | Plots all TGraphs from a TObjArray in a ROOT file (used by Cleopatra pipeline) |
+| `nuclear_data.py` | IAEA NuChart API client: `nuclear_data.py <AZ> [maxEx_MeV]` -- fetches nuclear level data. Called by Simulation_Helper GUI "Get Data" button. Requires internet + pandas. API: https://nds.iaea.org/relnsd/v0/data |
 | `nuclear_data.py` | Python nuclear data utility |
 | `potentials.h` | Optical model potential parameters |
 | `Isotope.h/.C` | Nuclear mass table (AME2020, mass20.txt) -- see HELIOS_LIB_Reference.md |
@@ -300,6 +328,43 @@ Reads Ptolemy output line by line, state-machine style:
 - Elastic extraction mode (indexForElastic): column offsets differ -- ratio at col 15, total at col 30, Rutherford at col 57
 - Transfer extraction: col 0-7 = angle, col 7-26 = XSec
 
+## DWInFileCreator -- Ptolemy Input for Two-Nucleon Transfer (with TNA)
+
+`~/digios/analysis/Cleopatra/DWInFileCreator.h` -- extends `InFileCreator` for two-nucleon transfer reactions.
+
+### Key difference from InFileCreator
+`InFileCreator` handles single-nucleon transfer (+ elastic). `DWInFileCreator` additionally reads
+a **TNA file** (Two-Nucleon Amplitude) from a shell-model code (e.g. NuShellX, USDB, SDPF-MU)
+to provide structure factors for two-nucleon transfer: (p,t), (t,p), (d,α), (α,d), etc.
+
+### Call signature
+```cpp
+int DWInFileCreator(readFile, infile, angMin, angMax, angStep, TNAinfile);
+```
+Additional argument: `TNAinfile` -- path to TNA file from shell-model calculation.
+
+### TNA file format (struct TNA)
+```
+Ex   overlap1_vals   overlap2_vals   amplitude_vals
+```
+- `Ex`: excitation energy of state [MeV]
+- `overlap1`, `overlap2`: single-particle overlaps (from shell model)
+- `amplitude`: two-nucleon transfer amplitude = combination of overlaps
+- Parsed by `parseTNAFile()` -> vector of TNA structs + orbital list
+
+### Ptolemy output for two-nucleon transfer
+For each state: DWBA block includes the TNA-derived structure coefficients.
+Phase calculation uses complex arithmetic -- warns if imaginary components appear
+(`DWUCK TNA phase calculations yield imaginary numbers -- check input spin and TNA file`).
+
+### When to use
+- (p,t) or (t,p) reactions: two-neutron transfer, need 0+ pair structure
+- (d,α) or (α,d) reactions: two-nucleon cluster transfer
+- Requires shell-model TNA file -- not needed for single-nucleon (d,p), (p,d)
+- Use `InFileCreator` for single-nucleon; `DWInFileCreator` for two-nucleon with structure
+
+---
+
 ## InFileCreator -- Ptolemy Input Generator
 
 `~/digios/analysis/Cleopatra/InFileCreator.h` (.C for main)
@@ -334,15 +399,35 @@ Comments: lines starting with `#` ignored. Blank/short lines ignored.
 - **NOT supported:** 3+ nucleon transfer (e.g. (p,a), (a,p)), proton-neutron exchange (same A, different Z)
 
 ### Optical potential codes (2-char)
-| Code | Projectile | Ejectile | Reference |
-|---|---|---|---|
-| `AK` | Deuteron (An-Cai) | Proton (Koning-Delaroche) | Standard for (d,p) at HELIOS |
-| `KK` | Proton (KD) | Proton (KD) | (p,p) elastic |
-| `AA` | Deuteron (An-Cai) | Deuteron (An-Cai) | (d,d) |
-| `CH` | Deuteron (CH89) | Proton (CH89) | Alternative for (d,p) |
-| others | various | various | See potentials.h for full list |
+First char = incoming channel, second char = outgoing channel.
 
-First char = incoming channel, second = outgoing channel.
+**Deuteron potentials (uppercase):**
+| Code | Reference | Energy range | Mass range |
+|---|---|---|---|
+| `A` | An & Cai (2006) | E<183 MeV | 12<A<238 |
+| `H` | Han, Shi, Shen (2006) | E<200 MeV | 12<A<209 |
+| `D` | Daehnick et al. (1980) REL | 11.8<E<80 | 27<A<238 |
+| `C` | Daehnick et al. (1980) non-REL | 11.8<E<80 | 27<A<238 |
+| `B` | Bojowald et al. (1988) | 50<E<80 | 27<A<208 |
+| `L` | Lohr & Haeberli (1974) | 9<E<13 | 40<A |
+| `Q` | Perey & Perey (1963) | 12<E<25 | 40<A |
+| `Z` | Zhang, Pang, Lou (2016) | 5<E<170 | A<18 |
+
+**Proton potentials (uppercase):**
+| Code | Reference | Energy range | Notes |
+|---|---|---|---|
+| `K` | Koning & Delaroche (2003) | 0.001<E<200 | Isospin-dep.; default for HELIOS |
+| `V` | Varner et al. CH89 (1991) | 16<E<65 | 4<A<209 |
+| `G` | Becchetti & Greenlees (1969) | E<50 | 40<A |
+| `M` | Menet et al. (1971) | 30<E<60 | 40<A |
+| `P` | Perey (1963) | E<20 | 30<A<100 |
+
+**Light ions (lowercase): t=triton, h=3He, p=Pang(3He), b=B&G 3He, s/a=alpha**
+
+**Standard HELIOS combinations:**
+- `AK` = An-Cai (d) + Koning-Delaroche (p) -- **default for (d,p)**
+- `VK` or `KV` = CH89 + KD -- alternative
+- First char = incoming, second = outgoing
 
 ### Validation checks (before writing output)
 1. Reaction supported (beam+ejectile A,Z ≤ 4, not 3+ nucleon transfer)
@@ -408,6 +493,53 @@ Launch: `root -l Simulation_Helper.C` from `working/` directory. Requires ROOT w
 - Requires ROOT >= 6.26/00 (warns if older)
 - `InFileCreator` segfaults on Pi -- use Mac2020 or Spark for DWBA infile creation
 - GUI not usable headlessly (needs display) -- run on Mac2020 or via X11 forwarding
+
+## Check_Simulation.C / PlotSimulation  --  Transfer Output Viewer
+
+`~/digios/analysis/Armory/Check_Simulation.C` -- visualizes `transfer.root` output.
+`~/digios/analysis/Cleopatra/PlotSimulation` -- standalone binary wrapper.
+
+### Usage
+```bash
+# From ROOT (in Simulation_Helper GUI or directly):
+Check_Simulation("transfer.root", "../Armory/Check_Simulation_Config.txt", 500, false)
+# Or via binary:
+./PlotSimulation transfer.root [config_file]
+```
+
+### Config file (`Check_Simulation_Config.txt`)
+Lines after `////` header:
+1. **Canvas layout**: space-separated list of plot IDs (e.g. `pEZ pExCal pThetaCM pRecoilXY`)
+2. **Gate**: TCut string applied to simulation tree (e.g. `hit==1 && loop==1`)
+3. **ELUM range**: float [MeV]
+4. **thetaCM range**: `min max` [deg]
+5. **Show KE lines**: `true`/`false` (overlay constant-KE lines on E-Z plot)
+6. **Override Ex range**: `true`/`false`
+7. **Ex range**: `min max` [MeV] (used if override=true)
+
+### Available plot IDs
+| ID | Name | Content |
+|---|---|---|
+| 0 | `pEZ` | E vs Z (main kinematic plot, with kinematic lines from gList) |
+| 1 | `pRecoilXY` | Recoil detector X-Y transverse position |
+| 2,3 | `pRecoilXY1/2` | Recoil X-Y for specific loop/condition |
+| 4 | `pRecoilRZ` | Recoil radius vs Z |
+| 5 | `pRecoilRTR` | Recoil R vs time |
+| 6 | `pTDiffZ` | Time difference vs Z |
+| 7 | `pThetaCM` | CM angle distribution |
+| 8 | `pThetaCM_Z` | CM angle vs Z |
+| 9 | `pExCal` | Reconstructed Ex spectrum (key check -- should show states) |
+| 10 | `pRecoilRThetaCM` | Recoil R vs thetaCM |
+| 11 | `pArrayXY` | Array hit X-Y |
+| 12 | `pInfo` | Reaction info text box |
+| 13 | `pHitID` | Hit type distribution |
+| 14-16 | `pElum*` | ELUM detector plots |
+
+### Key workflow step
+After running `Transfer` -> open Check_Simulation to verify:
+1. **E-Z plot** (`pEZ`): kinematic lines should match detector geometry
+2. **ExCal** (`pExCal`): reconstructed Ex peaks should appear at correct energies
+3. If ExCal looks wrong: check `reaction.dat` constants and detector geometry
 
 ## See Also
 
