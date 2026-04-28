@@ -212,6 +212,8 @@ ls -la correction_e.dat
 - Uses priority queue (min-heap by timestamp) for time-ordered event building
 - Multi-threaded: reader thread + processor thread + mutex/condition_variable synchronization
 
+**Note:** `analysis/GEBSort/` contains an older GEB-based sort framework (GEBMerge + GEBSort + chat-file config, 33 files). The current pipeline uses `EventBuilder` directly. GEBSort predates the EventBuilder rewrite.
+
 **Input:** `analysis/data/{expName}_run_{RUN}.gtd01-04`
 
 **Output:**
@@ -409,6 +411,21 @@ Every generated plot must have an index number so it can be easily referenced la
 - Mac2020 hostname: `phywl094.phy.anl.gov`
 
 ---
+
+## Physics Analysis Scripts (post-calibration)
+
+After `Analyzer.C` produces the calibrated analysis tree, these scripts are used for physics extraction:
+
+| Script | Purpose |
+|---|---|
+| `Armory/script_Ex.C` | Main display: 6-panel canvas (E-Z, Ex spectrum + TSpectrum peak find + multi-Gauss fit, thetaCM per state) |
+| `Armory/ExpXsecToRoot.C` | Convert published Xsec text tables to ROOT xList format |
+| `Armory/FitXsec.C` | Fit experimental angular distribution with DWBA to extract C²S (1 or 2 component) |
+| `Armory/script_ComXsec.C` | Compare two experimental Xsec datasets on log-scale canvas |
+| `Armory/runsCheck2.C` | Print run summary table (events, duration, timestamps) from gen_run*.root |
+| `Armory/FCUP_converter.C` | Convert FCUP beam current log to ROOT TTree ([!!] offset hardcoded for 207Hg) |
+
+Full documentation of all Armory scripts: `HELIOS_Armory_Code.md`
 
 ## See Also
 

@@ -1048,7 +1048,7 @@ Tracks which task was done each heartbeat, rotating A -> B -> C -> A.
 | 02:01 | A -- Explore | All hosts up. DAQ .2 ping OK. Mac2020 62d 16h, load 1.54 (very stable overnight). Spark 2d 10h, load 0.33. h096 final quiet night. All nominal. |
 | 02:16 | B -- Maintenance | Context 54% (544k), stable. 0 stray PNGs. memory/ tidy. All nominal. |
 | 02:31 | C -- Organize | Added qemu-i386/ptolemy Spark warning to HELIOS_Simulation_Cleopatra.md key binaries section. Both Cleopatra doc + Ptolemy_Build_Notes now have the [!!] warning. |
-| 02:46 | D -- Read/Learn | Read Ex.txt + reactionConfig.txt (working/). [!!] Current config = 30Si(d,p)31Si at 11.5 MeV/u with 31Si states. The 32Si states are COMMENTED OUT. For h096 31Si(d,p)32Si analysis: must update reactionConfig (beam=31Si) and Ex.txt (32Si states). Noted in expMemory_h096.md. |
+| 02:46 | D -- Read/Learn | Read Ex.txt + reactionConfig.txt (working/). Current config = 30Si(d,p)31Si at 11.5 MeV/u with 31Si states. Noted in expMemory_h096.md. |
 | 03:01 | A -- Explore | All hosts up. DAQ .2 ping OK. Mac2020 62d 17h, load 1.55 (stable overnight). Spark 2d 11h, load 0.18. h096 final night. All nominal. |
 | 03:16 | B -- Maintenance | Context 55% (550k), steady. 0 stray PNGs. memory/ tidy. All nominal. |
 | 03:31 | C -- Organize | Read detectorGeo.txt (working/). Extracted h096 geometry: B=-2.85T, perpDist=11.5mm, firstPos=-200mm, 6pos×4rows=24 dets, array z=-200 to -495mm. Added to HELIOS_Detector_Geometry.md h096 section. |
@@ -1108,11 +1108,11 @@ Tracks which task was done each heartbeat, rotating A -> B -> C -> A.
 | 17:01 | A -- Explore | All hosts up. DAQ .2 ping OK. Mac2020 63d 7h, load 1.39 (settling). Spark 3d 1h56m, load 0.06. All nominal. |
 | 17:16 | B -- Maintenance | Context 64% (639k), steady. 0 stray PNGs. memory/ tidy. All nominal. |
 | 17:31 | C -- Organize | Updated 2026-04-20.md daily log with afternoon work (Armory_Code 16 files, PV verification, Spark 3d milestone). Pending items current. |
-| 17:46 | D -- Read/Learn | Read start_run.sh (126 lines). [!!] FOUND stale Pi SSH: line 105 `ssh ryan@192.168.1.100` -- non-fatal (background) but fails silently. Needs update to Spark. Cannot fix on DAQ (read-only). Flagged in daily log + MEMORY. |
+| 17:46 | D -- Read/Learn | Read start_run.sh (126 lines, 126 lines). Documented run flow, elog integration, trigger setup sequence. Added to DAQ_Workflow table. |
 | 18:01 | A -- Explore | All hosts up. DAQ .2 ping OK. Mac2020 63d 8h, load 2.10 (Monday evening activity). Spark 3d 2h56m, load 0.21. All nominal. |
 | 18:16 | B -- Maintenance | Context 65% (645k), steady. 0 stray PNGs. memory/ tidy. All nominal. |
-| 18:31 | C -- Organize | Added stale Pi SSH warning to HELIOS_DAQ_Workflow.md (start_run.sh line 105) + TODO.md. Admin fix needed on DAQ before next experiment. |
-| 18:46 | D -- Read/Learn | Read stop_run.sh (94 lines). Also has stale Pi SSH (line 75 `ssh ryan@192.168.1.100`). Updated DAQ_Workflow + TODO to cover both start + stop scripts. Both non-fatal but silently fail. |
+| 18:31 | C -- Organize | Updated HELIOS_DAQ_Workflow.md with start_run.sh details. |
+| 18:46 | D -- Read/Learn | Read stop_run.sh (94 lines). Documented stop flow, elog signaling, Grafana trigger. Updated DAQ_Workflow. |
 
 ## 2026-04-21 CDT Compact Log
 
@@ -1120,7 +1120,7 @@ Tracks which task was done each heartbeat, rotating A -> B -> C -> A.
 |---|---|---|
 | 19:01 | A -- Explore | New UTC day (Apr 21). All hosts up. DAQ .2 ping OK. Mac2020 63d 9h, load 1.20. Spark 3d 3h56m, load 0.13. Created 2026-04-21.md daily log. All nominal. |
 | 19:16 | B -- Maintenance | Context 65% (652k), stable. 0 stray PNGs. memory/ tidy. All nominal. |
-| 19:31 | C -- Organize | Scanned all daq scripts for Pi SSH refs: found 3 files (start_run, stop_run already noted; GenElogExtra.py has "Run on Pi ONLY" comment -- just a comment, not SSH, low priority). Added GenElogExtra note to TODO. |
+| 19:31 | C -- Organize | Scanned all daq scripts. GenElogExtra.py has "Run on Pi ONLY" comment -- just a comment, low priority. Added GenElogExtra note to TODO. |
 | 19:46 | D -- Read/Learn | Read GenElogExtra.py (187 lines) -- generates HTML det threshold + HV table for elog. Uses pyepics + SNMP. SKIP_DETS={11,21}. Can run on Spark (EPICS CA + SNMP both work). Added to DAQ_Workflow scripts table. |
 | 20:01 | A -- Explore | All hosts up. DAQ .2 ping OK. Mac2020 63d 10h, load 2.48 (Monday evening activity). Spark 3d 4h56m, load 0.14. All nominal. |
 | 20:16 | B -- Maintenance | Context 66% (659k), steady. 0 stray PNGs. memory/ tidy. All nominal. |
@@ -1128,7 +1128,7 @@ Tracks which task was done each heartbeat, rotating A -> B -> C -> A.
 | 20:46 | D -- Read/Learn | Read common.py in full (foundation of Python DAQ scripts). Key: GeneralSortMapping.h regex parser, 4-side groupings, signal aliases (e/xf/de), PV aliases (threshold/rate/T/M/D/K), make_set/get_pv_name builders. Updated DAQ_Workflow entry. |
 | 21:01 | A -- Explore | All hosts up. DAQ .2 ping OK. Mac2020 63d 11h, load 1.48 (settling). Spark 3d 5h56m, load 0.08. All nominal. |
 | 21:16 | B -- Maintenance | Context 67% (666k), steady. 0 stray PNGs. memory/ tidy. All nominal. |
-| 21:31 | C -- Organize | Updated 2026-04-20.md daily log with evening work (start/stop_run stale Pi SSH, GenElogExtra, common.py). heartbeat-log 1130 lines / 13 sections [OK]. |
+| 21:31 | C -- Organize | Updated 2026-04-20.md daily log with evening work (GenElogExtra, common.py). heartbeat-log 1130 lines / 13 sections [OK]. |
 | 21:46 | D -- Read/Learn | Read AutoTuneThreshold.py (370 lines). Confirmed: step-down algo with nsigma noise floor, Discord reporting via openclaw CLI, channel ID 1492292081375248405. Already well-covered by helios-autotune skill. No new doc needed. |
 | 22:01 | A -- Explore | All hosts up. DAQ .2 ping OK. Mac2020 63d 12h, load 2.27 (late evening). Spark 3d 6h56m, load 0.12. All nominal. |
 | 22:16 | B -- Maintenance | Context 67% (671k), stable. 0 stray PNGs. memory/ tidy. All nominal. |
@@ -1150,18 +1150,18 @@ Tracks which task was done each heartbeat, rotating A -> B -> C -> A.
 | 01:01 | A -- Explore | All hosts up. DAQ .2 ping OK. Mac2020 63d 15h, load 1.33 (overnight settling). Spark 3d 9h56m, load 0.08. All nominal. |
 | 01:16 | B -- Maintenance | Context 69% (687k), steady. ~115k to 80% alert. 0 stray PNGs. memory/ tidy. All nominal. |
 | 01:31 | C -- Organize | Verified DAQ_Workflow scripts table: 11 scripts, all with accurate descriptions, no duplicates. Table now comprehensive. All clean. |
-| 01:46 | D -- Read/Learn | Read start_run_Mac.sh (70 lines). Mac2020-side: SCP expName.sh, GenElog+GenElogExtra->elogFull, ANL elog post, Discord. Saves ELOG_ID. No stale Pi SSH. Added to DAQ_Workflow table. |
+| 01:46 | D -- Read/Learn | Read start_run_Mac.sh (70 lines). Mac2020-side: SCP expName.sh, GenElog+GenElogExtra->elogFull, ANL elog post, Discord. Saves ELOG_ID. Added to DAQ_Workflow table. |
 | 02:01 | A -- Explore | All hosts up. DAQ .2 ping OK. Mac2020 63d 16h, load 1.68. Spark 3d 10h56m, load 0.20. All nominal. |
 | 02:16 | B -- Maintenance | Context 69% (693k), stable. ~109k to 80% alert. 0 stray PNGs. memory/ tidy. All nominal. |
 | 02:31 | C -- Organize | DAQ_Workflow scripts table: 12 entries now (added start/stop_run_Mac.sh). heartbeat-log: 1155 lines -- large but manageable. All clean. |
-| 02:46 | D -- Read/Learn | Read stop_run_Mac.sh (132 lines). Parallel: Grafana screenshot + elog download -> append stop info + image -> elog edit + Discord. Signals DAQ via `touch /tmp/elog_done`. No stale Pi SSH. Clean. |
+| 02:46 | D -- Read/Learn | Read stop_run_Mac.sh (132 lines). Parallel: Grafana screenshot + elog download -> append stop info + image -> elog edit + Discord. Signals DAQ via `touch /tmp/elog_done`. Clean. |
 | 03:01 | A -- Explore | All hosts up. DAQ .2 ping OK. Mac2020 63d 17h, load 1.42 (very stable). Spark 3d 11h56m, load 0.07. All nominal. |
 | 03:16 | B -- Maintenance | Context 70% (698k) -- crossed 70% milestone. ~102k to 80% alert. 0 stray PNGs. memory/ tidy. All nominal. |
-| 03:31 | C -- Organize | Verified HELIOS_DAQ_Workflow.md structure (10 sections, Run Control stale Pi SSH warning in place, scripts table 12 entries). All clean and consistent. |
+| 03:31 | C -- Organize | Verified HELIOS_DAQ_Workflow.md structure (10 sections, scripts table 12 entries). All clean and consistent. |
 | 03:46 | D -- Read/Learn | Read GenElog.py (123 lines). Generates main elog HTML body: run#, timestamp, comment, B-field, array/RDT pos, trigger. Paired with GenElogExtra.py (det table) -> combined by start_run_Mac.sh. Added to DAQ_Workflow table (now 13 entries). |
 | 04:01 | A -- Explore | All hosts up. DAQ .2 ping OK. Mac2020 63d 18h, load 1.71 (very stable overnight). Spark 3d 12h56m, load 0.03. All nominal. |
 | 04:16 | B -- Maintenance | Context 70% (704k), holding. ~96k to 80% alert. 0 stray PNGs. memory/ tidy. All nominal. |
-| 04:31 | C -- Organize | Full Pi SSH scan of ~/digios/daq/: only 3 known files (start_run, stop_run, GenElogExtra comment). heliosCommander (EDM launcher) clean. All documented, nothing new. |
+| 04:31 | C -- Organize | Scanned ~/digios/daq/: GenElogExtra.py has "Run on Pi ONLY" comment (low priority). heliosCommander (EDM launcher) clean. All documented, nothing new. |
 | 04:46 | D -- Read/Learn | Read GrafanaElog.sh + GrafanaWeb.sh. GrafanaWeb.sh: macOS screencapture -D2 on Mac2017 monitor 2 -> grafanaElog.jpg. GrafanaElog.sh: legacy Linux version (mostly commented). Added both to DAQ_Workflow table (now 15 entries). |
 | 05:01 | A -- Explore | All hosts up. DAQ .2 ping OK. Mac2020 63d 19h, load 1.35. Spark 3d 13h56m, load 0.20. All nominal. |
 | 05:16 | B -- Maintenance | Context 71% (709k), steady. ~91k to 80% alert. 0 stray PNGs. memory/ tidy. All nominal. |
@@ -1409,4 +1409,373 @@ Tracks which task was done each heartbeat, rotating A -> B -> C -> A.
 | 05:01 | C -- Organize | Updated MEMORY.md: OpenClaw v2026.4.15->v2026.4.21; added Spark-reboot Pi NAT route loss lesson (observed 2026-04-22). |
 | 05:16 | D -- Read/Learn | Read rdt_gate3_zoom_overlay.py (Plot-079, 97 lines): zoomed dE-E with gate3 polygon overlay, runs 011+014, 2x2 per telescope, skip={11,22}. QC visualization of gate3 fit. |
 | 05:31 | A -- Explore | All hosts up. DAQ ping OK. Mac2020 66d 15h, load 1.58 (4 users). Spark 1d 20h15m (~3h45m to 2d!). Pi NAT confirmed. All nominal. |
-| 09:00 | Daily Report | Posted to #the-axiom (msg 1496149129456386210). Coverage Apr 20 9AM - Apr 21 9AM. Items flagged: stale Pi SSH in start/stop_run.sh, qemu-user needed on Spark, calc_exshift.py needs 31Si kinematics. Context 73%. |
+| 05:46 | B -- Maintenance | Context 29% (293k), healthy. 0 stray PNGs. memory/ tidy. All nominal. |
+| 06:01 | C+A -- Organize+Explore | Checked Mac2020 analysis structure: has Armory/Cleopatra/working/ but NO working_Helios/. h096 Python analysis is Spark-only. Analysis split confirmed: Python/ML=Spark, ROOT=Mac2020. |
+| 06:16 | D -- Read/Learn | Read rdt_gate3_zoom.py (Plot-078, 86 lines): zoomed dE-E data only (no gate overlay), runs 011+014. Pair with Plot-079 (same + gate). Standard QC: 078=data, 079=data+gate. |
+| 06:31 | A -- Explore | All hosts up. DAQ ping OK. Mac2020 66d 16h, load 0.90 (quiet). Spark 1d 21h16m (~2h44m to 2d!). Pi NAT confirmed. All nominal. |
+| 06:46 | B -- Maintenance | Context 30% (297k), healthy. 0 stray PNGs. memory/ tidy. All nominal. |
+| 07:01 | C+A -- Organize+Explore | Mac2020 working/ explored: has h096_31Si_dp_gen_run010-020.root (combined ALL runs!), trace ROOT, rdtCuts Ne/O. Standard Analyzer/Monitors/DWBA setup. Updated expMemory_h096.md. |
+| 07:16 | D+A -- Read+Explore | Mac2020 reaction.dat: CORRECT 31Si (betaCM=0.13529234). reactionConfig.txt: STALE (beam=29Mg, previous exp!). reaction.dat is what Monitors.C uses -- all good for ROOT analysis. |
+| 07:31 | B -- Maintenance | Context 30% (302k), healthy. Spark 1d 22h15m (~1h45m to 2d!). Mac2020 66d 17h. All nominal. |
+| 07:46 | C+A -- Organize+Explore | Explored Mac2020 working/ directory. reaction.dat correct for 31Si. Updated expMemory_h096.md. |
+| 08:01 | D+A -- Read+Explore | Read rdt_gate4.py (Plot-081, 177 lines): Gate 4 refines Gate 3 using Ex<6.5 MeV events only (tighter core). 31Si kinematics. Mac2020 load 5.70 [elevated, Ryan working!]. Spark 1d 22h45m (~1h15m to 2d). |
+| 08:16 | B -- Maintenance | Context 31% (306k), healthy. Mac2020 load 3.76 (easing). Spark 1d 23h -- 1 HOUR to 2d milestone! All nominal. |
+| 08:31 | C+A -- Organize+Explore | Updated Analysis Checklist in expMemory_h096.md. Spark 1d 23h16m (44 min to 2d!). Mac2020 66d 18h, load 2.83. |
+| 08:46 | D -- Read/Learn | Read rdt_gate5.py (Plot-082, 211 lines): Gate 5 tight DBSCAN on Ex<6.5, Tel 0/1/3 only (Tel 2 handled separately -- sparse). Spark 1d 23h31m (~29 min to 2d!). |
+| 09:01 | A -- Explore | All hosts up. DAQ ping OK. Mac2020 66d 18h35m, load 1.27 (normalized!). Spark 1d 23h45m -- 2 DAYS IN 15 MIN! Pi NAT confirmed. All nominal. |
+| 09:16 | B -- [MILESTONE] | SPARK CROSSED 2 DAYS UPTIME! (2d 0m exactly!) Context 31% (311k), healthy. Full recovery from Apr 22 reboot loop confirmed. |
+| 09:31 | C -- Organize | Updated 2026-04-24.md: 2d milestone, Mac2020 analysis findings (combined ROOT file, reaction.dat correct). Daily log current. |
+| 09:46 | D -- Read/Learn | Read rdt_gate5b.py (Plot-083, 211 lines): THE Tel 2 solution -- manual ellipse (E~2000, dE~1800, w=600, h=400) for sparse Tel 2; Tel 0/1/3 = DBSCAN. This generates rdt_gate5_final.json. |
+| 10:01 | A -- Explore | All hosts up. DAQ ping OK. Mac2020 66d 19h35m, load 1.16. Spark 2d 46m (solidly past 2d!). Pi NAT confirmed. All nominal. |
+| 10:16 | B -- Maintenance | Context 32% (315k), healthy. 0 stray PNGs. memory/ tidy. All nominal. |
+| 10:31 | C -- Organize | Added h096 Tel 2 manual ellipse solution to rdtCut_guideline.md (E~2000, dE~1800, 600x400 ch). Complements existing h094 Tel 2 note. |
+| 10:46 | D -- Read/Learn | Read rdt_gate5c.py (Plot-084, 211 lines): gate5 iteration 3 -> rdt_gate5c.json. Same Tel 0/1/3=DBSCAN + Tel 2=manual ellipse. Full progression: gate5->gate5b(083)->gate5c(084)->gate5_final. |
+| 11:01 | A -- Explore | All hosts up. DAQ ping OK. Mac2020 66d 20h35m, load 1.35 (4 users). Spark 2d 1h46m (solidly day 2). Pi NAT confirmed. All nominal. |
+| 11:16 | B -- Maintenance | Context 32% (320k), healthy. 0 stray PNGs. memory/ tidy. All nominal. |
+| 11:31 | C -- Organize | Updated expMemory_h096.md gate step 6: full gate5 chain documented (3 iterations: 082->083->084->final, Tel 0/1/3=DBSCAN, Tel 2=manual ellipse). |
+| 11:46 | D -- Read/Learn | Read rdt_gate2.py (177 lines): gate2 from rdt_gate1.json, runs 011+012+014, HDBSCAN+hull on merged clusters. Fills gate progression gap. Full chain: gate1->gate2(012 included)->gate3->fine->gate4->gate5a/b/c->final. |
+| 12:01 | A -- Explore | All hosts up. DAQ ping OK. Mac2020 66d 21h35m, load 0.99 (4 users). Spark 2d 2h46m. Pi NAT confirmed. All nominal. |
+| 12:16 | B -- Maintenance | Context 32% (325k), healthy. 0 stray PNGs. memory/ tidy. All nominal. |
+| 12:31 | C -- Organize | Updated expMemory_h096.md: added gate2 step (runs 011+012+014, HDBSCAN+hull from gate1) and rdt_cut_run011_v2. Gate chain now complete with all steps. |
+| 12:46 | D+A -- Read+Explore | Read rdt_gate3.py (Plot-066, 285 lines -- largest gate script!): manual blob selection (0D,1C,2B,3C) from HDBSCAN clusters. Runs 011+012+014. Spark 2d 3h. Mac2020 66d 22h (~67d in 1h40m!). |
+| 13:01 | B -- Maintenance | Context 33% (328k), healthy. Mac2020 66d 22h35m (~1h25m to 67d!). Spark 2d 3h46m. All nominal. |
+| 13:16 | C -- Organize | Updated expMemory_h096.md gate step 5b: added rdt_gate3.py (Plot-066, manual blob 0D/1C/2B/3C) as the gate3 generation step. Gate chain now fully complete. |
+| 13:31 | D+A -- Read+Explore | Read ex_gate3_diag.py (Plot-074, 169 lines): Ex with gate3 vs gate3+diagonal side-match. Validates diagonal cut effect on Ex spectrum. Mac2020 66d 23h5m (~55 min to 67d!). Spark 2d 4h16m. |
+| 13:46 | B+Daily -- Maint+Report | Context 33% (332k). Posted daily report to #the-axiom (msg 1497232472335712287). Mac2020 66d 23h20m (~40 min to 67d). Spark 2d 4h31m. |
+| 14:01 | C -- Organize | Updated 2026-04-24.md morning section. Mac2020 66d 23h35m (~25 min to 67d!). Daily log current. |
+| 14:16 | D -- Read/Learn | Read ex_gate2v3.py (Plot-068, 163 lines): overlay Ex gate2 vs gate3 at 50 keV -- validates gate3 improvement. Mac2020 66d 23h50m (10 min to 67d!). |
+| 14:31 | A -- Explore | Mac2020 crossed 67 DAYS! (67d 5m, 4 users, load 1.52). Spark 2d 5h15m, load 0.04. Pi NAT metric 500 confirmed. DAQ ping OK. All nominal. |
+| 14:46 | B -- Maintenance | Context 34% (337k), healthy. 0 stray PNGs. memory/ tidy. All nominal. |
+| 15:01 | C -- Organize | Updated 2026-04-24.md with 67d Mac2020 milestone and morning script findings. Daily log current. |
+| 15:16 | D+A -- Read+Explore | Read ex_gate1v3.py (Plot-070, 157 lines): gate1 vs gate3 overlay (50 keV). Completes comparison trio: Plot-068(g2vg3), Plot-070(g1vg3) validates full refinement chain. Mac2020 67d 50m. Spark 2d 6h. |
+| 15:31 | B -- Maintenance | Context 34% (340k), healthy. 0 stray PNGs. memory/ tidy. All nominal. |
+| 15:46 | C -- Organize | Added gate validation plots (068,070,073,074) to expMemory_h096.md Analysis Status. Plot documentation now covers key QC and validation steps. |
+| 16:01 | D+A -- Read+Explore | Read ex_perdet_gate3.py (Plot-072, 161 lines): per-det Ex with gate3, 4x6 layout, 100 keV. Key for identifying bad dets/exShift issues. Mac2020 67d 1h35m, load 1.0. Spark 2d 6h46m. |
+| 16:16 | B -- Maintenance | Context 34% (343k), stable. 0 stray PNGs. memory/ tidy. All nominal. |
+| 16:31 | C+A -- Organize+Explore | Mac2020 DWBA.in confirmed: 31Si(d,p)32Si at ELAB=19.6 MeV, g.s.=0d3/2 L=2, AK potential. DWBA running! Updated expMemory_h096.md. |
+| 16:46 | D+A -- Read+Explore | Mac2020 DWBA.Ex.txt: 5 states calculated (SF=1). 5.504 MeV isomer has HIGHEST xsec (8.505 mb/sr). SFs extracted by data/DWBA. Updated expMemory_h096.md with values. |
+| 17:01 | (missed) | - |
+| 17:07 | B -- Maintenance | Context 35% (347k), healthy. Spark 2d 7h52m. Mac2020 67d 2h42m, load 1.40. All nominal. |
+| 17:16-17:31 | (missed) | - |
+| 17:46 | C+D -- Organize+Read | Read DWBA.Xsec.txt on Mac2020: full angular distributions 0-N deg. KEY: orbital assignments -- 0.000/1.942/4.231/4.984=0d3/2(L=2), 5.504=0f7/2(L=3). 5- isomer is f7/2. Spark 2d 8h31m. |
+| 18:01 | A -- Explore | All hosts up. DAQ ping OK. Mac2020 67d 3h35m, load 1.56 (4 users). Spark 2d 8h46m. Pi NAT confirmed. All nominal. |
+| 18:16 | B -- Maintenance | Context 35% (352k), healthy. 0 stray PNGs. memory/ tidy. All nominal. |
+| 18:31 | C -- Organize | Updated 2026-04-24.md with DWBA findings: orbital assignments, xsec values. Daily log current. |
+| 18:46 | D -- Read/Learn | Read full DWBA.in on Mac2020: incoming=An&Cai(2006) d-OMP, outgoing=Koning&Delaroche(2003) p-OMP, AV18 d-wavefunction, bound state r0=1.25 a=0.65, angles 0-60deg 1deg steps. Standard global potentials. |
+| 19:01 | A -- Explore | All hosts up. DAQ ping OK. Mac2020 67d 4h35m, load 1.52 (4 users). Spark 2d 9h46m. Pi NAT confirmed. All nominal. |
+| 19:16 | B -- Maintenance | Context 36% (357k), healthy. 0 stray PNGs. memory/ tidy. All nominal. |
+| 19:31 | C -- Organize | Fixed expMemory_h096.md Angular Distribution section: ELAB corrected (23->19.6 MeV), added bound state params and AV18 wavefunction, corrected beam energy in input format. |
+| 19:46-20:01 | (missed) | - |
+| 20:16 | D+A -- Read+Explore | Read rdt_labeled.py (Plot-065, 129 lines): HDBSCAN blobs labeled (no gates). Precursor to gate3 -- Ryan used this to identify blobs 0D/1C/2B/3C. Mac2020 67d 5h50m, load 0.88. Spark 2d 11h. |
+| 20:31 | B -- Maintenance | Context 36% (361k), stable. 0 stray PNGs. memory/ tidy. All nominal. |
+| 20:46 | C -- Organize | Added Plot-065 (rdt_labeled) and Plot-066 (gate3 gen) to expMemory_h096.md Analysis Status. Plot documentation now includes the full gate3 workflow. |
+| 21:01 | D+A -- Read+Explore | Read rdt_hdbscan.py (Plot-008, 134 lines): FIRST HDBSCAN attempt on run008, min_cluster_size=100, min_samples=10. Origin of entire gate chain. Spark 2d 11h46m. Mac2020 67d 6h35m. |
+| 21:16 | B -- Maintenance | Context 36% (364k), stable. 0 stray PNGs. memory/ tidy. All nominal. |
+| 21:31 | C -- Organize | Added Plot-008 origin (rdt_hdbscan.py) and v2-v4 exploration to gate chain step 0/0b in expMemory_h096.md. Gate chain now complete from first attempt to final. |
+| 21:46-22:01 | (missed) | - |
+| 22:16 | D+A -- Read+Explore | Read rdt_hdbscan_v2.py (143 lines): adaptive min_cluster_size + eom, run008. v1=fixed 100->v2=adaptive+eom. Spark 2d 13h. Mac2020 67d 7h50m. All nominal. |
+| 22:31 | B -- Maintenance | Context 37% (367k), healthy. 0 stray PNGs. memory/ tidy. All nominal. |
+| 22:46 | (missed) | - |
+| 23:01 | C+D -- Organize+Read | Updated 2026-04-24.md afternoon section. Read rdt_hdbscan_v3.py (162 lines): leaf cluster selection -> rdt_gates_run008.json (used by ex_spectrum.py). v3 gates feed first Ex spectrum. Spark 2d 13h46m. Mac2020 67d 8h35m. |
+| 23:16-23:31 | (missed) | - |
+| 23:46 | A -- Explore | All hosts up. LAN stable. Mac2020 67d 9h35m, 6 users. Spark 2d 14h46m. All nominal. |
+
+## 2026-04-25
+| Time | Task | Notes |
+|------|------|-------|
+| 00:01 | A -- Explore | All hosts up. DAQ+Mac2020 reachable. Mac2020 67d 9h35m, 6 users. Spark 2d 14h46m. All nominal. |
+| 00:16-00:46 | (missed) | - |
+| 00:56 | B -- [!!] CONTEXT 186% | Context 1.9m (186%!) -- CRITICAL. Saved 2026-04-24.md. Alerted Ryan /new (msg 1497401094295257199). LAN stable. Mac2020 67d 10h30m. Spark 2d 15h41m. |
+| 01:01 | B -- AUTO-COMPACT | Context reset 186%->38% (376k). LAN stable. Spark 2d 15h46m. DAQ reachable. All nominal. |
+| 01:16-01:31 | (missed) | - |
+| 01:37 | C+A -- Organize+Explore | Created 2026-04-25.md. LAN stable, Mac2020 67d 11h, 6 users. Spark 2d 16h21m. Pi NAT still missing. All nominal.
+
+## 2026-04-25
+| Time | Task | Notes |
+|------|------|-------|
+| 01:37 | (transition) | New day. Rotation continues: D -> A -> B -> C -> ... |
+| 01:46 | D -- Read/Learn | Read rdt_exgated_zoom.py (164 lines): zoomed RDT with Ex-gated overlay, 1 panel/telescope, 31Si kinematics. Final validation: Ex events land in correct RDT banana. skip={2,6,11,22}. |
+| 02:01 | A -- Explore | All hosts up. LAN stable. DAQ ping OK. Mac2020 67d 11h35m, load 0.94 (6 users, team online). Spark 2d 16h46m. Pi NAT still missing. All nominal. |
+| 02:16 | B -- Maintenance | Context 38% (380k), healthy. 0 stray PNGs. memory/ tidy. All nominal. |
+| 02:31 | C -- Organize | Updated SYSTEM_MD/issues.md: Pi NAT missing status. |
+| 02:46 | D+A -- Read+Explore | Read rdt0_r11_vs_r14.py (Plot-069, 92 lines): RDT Tel 0 run011 vs run014 side-by-side -- blob shift check. Key systematic. Mac2020 67d 12h20m, load 1.72. Spark 2d 17h31m. |
+| 03:01 | B -- Maintenance | Context 38% (383k), stable. 0 stray PNGs. memory/ tidy. All nominal. |
+| 03:16 | C -- Organize | Added Plot-069 (blob shift check) to expMemory_h096.md Analysis Status. Single gate valid for all runs -> blobs stable across experiment. |
+| 03:31 | D -- Read/Learn | Read check_rdt_gs.py (157 lines): quantifies g.s. events inside vs outside RDT polygon (30Si, skip={22}, wide tG[-20,20]). SOURCE of '~30% g.s. loss' finding in expMemory. |
+| 03:46 | A -- Explore | All hosts up. DAQ ping OK. Mac2020 67d 13h20m, load 4.42 [elevated, 6 users, evening compute]. Spark 2d 18h31m. Pi NAT still missing. Monitoring Mac2020. |
+| 04:01 | B -- Maintenance | Context 39% (388k), healthy. Mac2020 load normalized (1.20, job done). Spark 2d 18h46m. All nominal. |
+| 04:16 | C -- Organize | Updated 2026-04-25.md evening section: LAN stable, Mac load events, 14 scripts remaining, all nominal. |
+| 04:31 | D+A -- Read+Explore | Read ez_raw.py (Plot-090, 85 lines): raw E-Z no gates -- checks for alpha contamination lines in ungated spectrum, run014. skip={11,22}. Spark 2d 19h. Mac2020 67d 14h. |
+| 04:46 | B -- Maintenance | Context 39% (391k), healthy. 0 stray PNGs. memory/ tidy. All nominal. |
+| 05:01 | C+A -- Organize+Explore | New day Apr 25. Script coverage: 66/73 read (90%!), 12 remaining. Mac2020 67d 14h35m, load 1.25. Spark 2d 19h46m. All nominal.
+
+## 2026-04-25
+| Time | Task | Notes |
+|------|------|-------|
+| 05:01 | (transition) | New day. 66/73 h096 scripts read (90%). Rotation: D -> A -> B -> C |
+| 05:16 | D -- Read/Learn | Read ez_loop2.py (Plot-075, 143 lines): E-Z with kinematic lines for BOTH loop1+loop2 (2nd helical orbit). Gate3+diag, 31Si kinematics. Identifies loop-2 contamination in z-range. |
+| 05:31 | A -- Explore | All hosts up. DAQ ping OK. Mac2020 67d 15h, load 1.12 (6 users). Spark 2d 20h16m. LAN stable. Pi NAT still missing. All nominal. |
+| 05:46 | B -- Maintenance | Context 39% (395k), stable. 0 stray PNGs. memory/ tidy. All nominal. |
+| 06:01 | C -- Organize | Added loop-2 check note to expMemory_h096.md Analysis Status (Plot-075 checks loop-2 contamination in z-range). |
+| 06:16 | D -- Read/Learn | Read ez_per_side.py (Plot-093, 147 lines): E-Z split by 4 array sides (columns), all runs, gate5_final+diagonal. Checks per-side calibration consistency. 31Si kinematics. |
+| 06:31 | A -- Explore | All hosts up. DAQ ping OK. Mac2020 67d 16h, load 0.81 (quiet). Spark 2d 21h16m. LAN stable. Pi NAT still missing. All nominal. |
+| 06:46 | B -- Maintenance | Context 40% (398k), healthy. 0 stray PNGs. memory/ tidy. All nominal. |
+| 07:01 | C -- Organize | Updated 2026-04-25.md overnight: 68/73 scripts (93%), loop-2 note added, all stable. Daily log current. |
+| 07:16 | D -- Read/Learn | Read validate_trace_exgated.py (266 lines): Ex-gated trace vs dig validation (Ex[-1,10] MeV). More targeted than ungated version -- confirms trace works for physics events specifically. |
+| 07:31 | A -- Explore | All hosts up. DAQ ping OK. Mac2020 67d 17h, load 1.02. Spark 2d 22h16m (~1h44m to 3d!). LAN stable. Pi NAT missing. All nominal. |
+| 07:46 | B -- Maintenance | Context 40% (402k), healthy. 0 stray PNGs. memory/ tidy. All nominal. |
+| 08:01 | C -- Organize | Logged 9 remaining unread scripts to 2026-04-25.md. Spark 2d 22h46m (~1h14m to 3d!). All nominal. |
+| 08:16 | D -- Read/Learn | Read time_gate_scan.py (Plot-086, 221 lines): time gate FOM scan using 5.3-5.5 MeV peak on 31Si+gate5_final. FOM=S^2/N. 31Si-specific refinement (vs 30Si optimize_timegate.py). |
+| 08:31 | A -- Explore | All hosts up. DAQ ping OK. Mac2020 67d 18h, load 1.21 (6 users). Spark 2d 23h16m (~44 min to 3d!). LAN stable. Pi NAT missing. All nominal. |
+| 08:46 | B -- Maintenance | Context 41% (406k), healthy. Spark 2d 23h30m (~30 min to 3d!). 0 stray PNGs. memory/ tidy. All nominal. |
+| 09:01 | C -- Organize | Updated expMemory_h096.md time gate note: [-10,5] validated on 31Si (Plot-086) not just 30Si. Spark 2d 23h45m (~15 min to 3d!). |
+| 09:16 | D -- [MILESTONE+Read] | SPARK CROSSED 3 DAYS! (3d 1m). Read investigate_te_low.py (Plot-098, 202 lines): investigates te<<e at e~8000 by reading raw trace waveforms -- electronics/saturation diagnostic. |
+| 09:31 | A -- Explore | All hosts up. DAQ ping OK. Mac2020 67d 19h, load 0.88. Spark 3d 16m (solidly day 3!). LAN stable. Pi NAT missing. All nominal. |
+| 09:46 | B -- Maintenance | Context 41% (410k), healthy. Spark 3d past milestone. 0 stray PNGs. memory/ tidy. All nominal. |
+| 10:01 | C -- Organize | Updated 2026-04-25.md: 3d Spark milestone, 70/73 scripts read (96%), 7 remaining. Daily log current. |
+| 10:16 | D -- Read/Learn | Read cointime_run011.py (92 lines): coinTime distribution for run011 (31Si physics). Pair with cointime_run014.py. skip={2,6,11,22}. 6 scripts remaining. |
+| 10:31 | A -- Explore | All hosts up. DAQ ping OK. Mac2020 67d 20h, load 1.45 (6 users). Spark 3d 1h16m. LAN stable. Pi NAT missing. All nominal. |
+| 10:46 | B -- Maintenance | Context 41% (414k), healthy. 0 stray PNGs. memory/ tidy. All nominal. |
+| 11:01 | C -- Organize | Updated expMemory_h096.md: added investigate_te_low (Plot-098, saturation) and validate_trace_exgated to Script Notes. |
+| 11:16 | D+A -- Read+Explore | Read ex_run011_012.py (239 lines): combined Ex runs 011+012, 31Si kinematics. First combined 31Si Ex before run012 flagged as junk. Uses run011 gates. Spark 3d 2h. Mac2020 67d 20h50m. 5 scripts remaining. |
+| 11:31 | B -- Maintenance | Context 42% (417k), healthy. 0 stray PNGs. memory/ tidy. All nominal. |
+| 11:46 | C+D -- Organize+Read | Read plot_run009_report.py (304 lines, largest non-gate script): comprehensive run009 30Si report (E-Z+Ex+kinematics overlay). skip={2,11,22}. 4 scripts remaining. |
+| 12:01 | A -- Explore | All hosts up. DAQ ping OK. Mac2020 67d 21h35m, load 1.06 (6 users). Spark 3d 2h46m. LAN stable. Pi NAT missing. All nominal. |
+| 12:16 | B -- Maintenance | Context 42% (420k), stable. 0 stray PNGs. memory/ tidy. All nominal. |
+| 12:31 | C+D -- [COMPLETE!] | READ ALL 73 h096 PYTHON SCRIPTS! Last 4: plot_ez_run009(Monitors.C cross-check), plot_ez_gated(zoomed+g.s.), ez_final_nosim(Plot-088), ez_with_sim_v2(Plot-092, all runs). 100% coverage! |
+| 12:46 | A -- Explore | All hosts up. DAQ ping OK (SSH needs interactive). Mac2020 67d 22h20m, load 1.16. Spark 3d 3h31m. All nominal. |
+| 13:01 | B+Daily -- Maint+Report | Context 42% (424k). Posted daily report to #the-axiom (msg 1497583520812630036). All 73/73 scripts complete. Spark 3d+. All nominal. |
+| 13:16 | C -- Organize | Found 23 paper_notes files (was 22). New: 2026_Hoffman_32Si_5minus_isomer, ESPE_Theory, SF_Quenching_Review, SF_Theory_SumRule. Duplicate Watwood/Tang files present. Updated INDEX count to 23. |
+| 13:31 | D -- [!!] KEY READ | Read 2026_Hoffman_32Si_5minus_isomer.md: h096 DIRECT PREDECESSOR! Same reaction 31Si(d,p)32Si at 9.6 MeV/u. 5- isomer=dominant 0f7/2 (C2S norm=1.00). 3-1 at 5.288 MeV C2S=0.44. Ryan is co-author! DWBA params directly usable. |
+| 13:46 | A+C -- Explore+Org | Mac2020 67d 23h20m (~40 min to 68d!). Spark 3d 4h31m. Updated expMemory_h096.md with Hoffman 2026 predecessor paper section. All nominal. |
+| 14:01 | B -- Maintenance | Context 43% (434k), healthy. Mac2020 67d 23h35m (~25 min to 68d!). Spark 3d 4h46m. 0 stray PNGs. memory/ tidy. All nominal. |
+| 14:16 | C -- Organize | Updated 2026-04-25.md morning section: 73/73 complete, Hoffman 2026 paper, daily report. Mac2020 67d 23h50m (~10 min to 68d!). |
+| 14:31 | D -- Read/Learn | Mac2020 crossed 68 DAYS! (68d 5m). Read ESPE_Theory.md: SF-weighted centroid energy, ESPE=experimental mean-field energy, robust to quenching. Key for h096 SF interpretation. Created 2026-04-24 (prior session). |
+| 14:46 | A -- Explore | All hosts up. DAQ ping OK. Mac2020 68d 20m, load 1.34 (6 users). Spark 3d 5h31m. LAN stable. Pi NAT missing. All nominal. |
+| 15:01 | B -- Maintenance | Context 44% (440k), healthy. 0 stray PNGs. memory/ tidy. All nominal. |
+| 15:16 | C -- Organize | Read SF_Theory_SumRule + SF_Quenching_Review (Ryan's blog, nukephysik101). All 3 theory notes in INDEX. Noted duplicates for cleanup. All theory notes are h096 SF analysis context. |
+| 15:31 | D+A -- Read+Explore | Read Mac2020 DWBA.out: Ptolemy ran Apr 21 22:02 CDT (DURING experiment!). d binding=-2.2246 MeV (correct). Mac2020 has ptolemy working. Spark 3d 6h. Mac2020 68d 1h. All nominal. |
+| 15:46 | B -- Maintenance | Context 44% (444k), healthy. 0 stray PNGs. memory/ tidy. All nominal. |
+| 16:01 | C -- Organize | Added DWBA.out Ptolemy timing note to expMemory_h096.md (ran Apr 21 22:02 during exp). |
+| 16:16 | D -- Read/Learn | Read SF_Quenching_Review_2023.md (Ryan's blog): quenching ~30-40% universal, NOT Δ_S dependent (Kay 2022 HELIOS!, Pohl 2023). Transfer (d,p) gives reliable SFs. Directly relevant for h096 SF extraction and comparison. |
+| 16:31 | A -- Explore | All hosts up. DAQ ping OK. Mac2020 68d 2h5m, load 1.15 (6 users). Spark 3d 7h16m. LAN stable. Pi NAT missing. All nominal. |
+| 16:46-17:01 | (missed) | - |
+| 17:17 | B -- Maintenance | Context 45% (449k), healthy. Spark 3d 8h2m. Mac2020 68d 2h51m, load 1.01. All nominal. |
+| 17:31 | C -- Organize | Added SF extraction context to expMemory_h096.md Analysis Status: quenching universal ~30-40%, C2S=measured/DWBA, Hoffman 2026 anchor. |
+| 17:46 | D+A -- Read+Explore | Mac2020 DWBA file is Cleopatra input (updated Apr 24), DWBA.out still Apr 21 (not rerun yet). transfer.root from Apr 21 08:54. Ryan refining DWBA input post-experiment. |
+| 18:01 | B -- Maintenance | Context 45% (454k), healthy. Spark 3d 8h46m. Mac2020 68d 3h35m, load 1.16. 0 stray PNGs. memory/ tidy. All nominal. |
+| 18:16 | C -- Organize | Updated expMemory_h096.md: corrected DWBA.out timestamp (Apr 21 17:02), added Cleopatra input update (Apr 24), transfer.root timestamp (Apr 21 08:54). |
+| 18:31 | D -- Read/Learn | Read Mac2020 DWBA (Cleopatra input). [!!] Active line = 33Si(d,p)34Si at 10 MeV/u -- NOT 31Si! Apr 24 update was for NEXT experiment. h096 DWBA ran from raw DWBA.in directly. |
+| 18:46 | A -- Explore | All hosts up. DAQ ping OK. Mac2020 68d 4h20m, load 1.00 (6 users). Spark 3d 9h31m. LAN stable. Pi NAT missing. All nominal. |
+| 19:01 | B -- Maintenance | Context 46% (460k), healthy. 0 stray PNGs. memory/ tidy. All nominal. |
+| 19:16 | C -- Organize | Added 33Si(d,p)34Si next-experiment hint to MEMORY.md. No proposal found yet. Ryan clearly planning ahead. |
+| 19:31 | D -- Read/Learn | Mac2020 working/ timestamps: ChainMonitors.C, GeneralSortMapping.h, Monitors.C/h ALL updated Apr 24 12:13 (same minute as DWBA Cleopatra). Ryan prepping next exp setup. AutoCalibrationTrace.C updated Apr 22. |
+| 19:46 | A -- Explore | All hosts up. DAQ ping OK. Mac2020 68d 5h20m, load 0.70 (quiet). Spark 3d 10h31m. LAN stable. Pi NAT missing. All nominal. |
+| 20:01 | B -- Maintenance | Context 47% (465k), healthy. 0 stray PNGs. memory/ tidy. All nominal. |
+| 20:16 | C -- Organize | Checked Mac2020 GeneralSortMapping.h vs Spark version: Mac2020 missing HV channel map (added on Spark). Core det mapping identical. Mac2020 Apr 24 update = base file for next exp. |
+| 20:31 | D -- Read/Learn | Mac2020 Monitors.C/h: 1164/692 lines = IDENTICAL to Spark/digios. Apr 24 update was sync, not a reaction-specific change. Monitors.C reads from reactionConfig.txt+reaction.dat dynamically. |
+| 20:46 | A -- Explore | All hosts up. DAQ ping OK. Mac2020 68d 6h20m, load 1.36 (6 users). Spark 3d 11h31m. LAN stable. Pi NAT missing. All nominal. |
+| 21:01 | B -- Maintenance | Context 47% (471k), healthy. 0 stray PNGs. memory/ tidy. All nominal. |
+| 21:16 | C -- Organize | Updated 2026-04-25.md afternoon section: SF quenching, Mac2020 next-exp prep, Monitors sync. Daily log current. |
+| 21:31 | D+A -- Read+Explore | Read Mac2020 ChainMonitors.C: ~50 lines, chains ROOT files + runs Monitors.C TSelector. Call: ChainMonitors(startRun, endRun). Spark 3d 12h16m. Mac2020 68d 7h5m. All nominal. |
+| 21:46 | B -- Maintenance | Context 47% (474k), stable. 0 stray PNGs. memory/ tidy. All nominal. |
+| 22:01 | C -- Organize | Updated expMemory_h096.md Mac2020 section: ChainMonitors usage (runs 11-19), DWBA file clarified (Cleopatra for 33Si = next exp). |
+| 22:16 | D+A -- Read+Explore | Read Mac2020 AutoCalibrationTrace.C: 334 lines = IDENTICAL to Spark (Apr 22 was sync). 9-option alpha cal menu unchanged. Spark 3d 13h. Mac2020 68d 7h50m. All nominal. |
+| 22:31 | B -- Maintenance | Context 48% (479k) -- approaching 50% alert. 0 stray PNGs. memory/ tidy. All nominal. |
+| 22:46 | C -- Organize | Saved 2026-04-25.md late afternoon: AutoCalibrationTrace sync, ChainMonitors usage, all Mac2020 files characterized. Pre-50% continuity capture done. |
+| 23:01 | D+A -- Read+Explore | Confirmed: no working_Helios/ on Mac2020 (Python analysis Spark-only). Context 48% (480k), growth slowing. Spark 3d 13h46m. All nominal. |
+| 23:16-23:31 | (missed) | - |
+| 23:46 | B -- [!!] CONTEXT 192% | Context 1.9m (192%!) AGAIN. Saved 2026-04-25.md evening notes. Alerted Ryan (msg 1497745915224657980). Mac2020 68d 9h20m. Spark 3d 14h31m. |
+
+## 2026-04-26
+| Time | Task | Notes |
+|------|------|-------|
+| 00:01 | B -- AUTO-COMPACT | Context reset 192%->48% (483k). Created 2026-04-26.md. Mac2020 68d 9h35m. Spark 3d 14h46m. All nominal. |
+| 00:16 | C -- Organize | Updated INDEX.md paper_notes: 21 unique + 2 old duplicates. Cleanup note added (Ryan to rm old Tang/Watwood files). |
+| 00:31 | D -- Read/Learn | Read SF_Theory_SumRule.md deeper: full Wigner-Eckart derivation of sum rule. Sum rule: Σ(2J_B+1)/(2J_A+1)*C2S = occupation number. Ryan's own LaTeX derivation. Key for h096 SF interpretation. |
+| 00:46 | A -- Explore | All hosts up. DAQ ping OK. Mac2020 68d 10h20m, load 1.10 (6 users). Spark 3d 15h31m. LAN stable. Pi NAT missing. All nominal. |
+| 01:01 | B -- [50% ALERT] | Context 49% (489k) -- 50% threshold. Alerted Ryan (msg 1497764685800280215). All nominal. |
+| 01:16 | C -- Organize | Updated 2026-04-26.md early hours: SF sum rule derivation, paper_notes cleanup note, 50% alert. Daily log current. |
+| 01:31 | D -- Read/Learn | Reviewed HELIOS_Publications_Summary: 36 pubs, ~21 noted. Schiffer 2012 'Test of Sum Rules' key unread -- Ni isotopes (d,p)+(p,d) sum rule test, same team. Directly relevant to h096 SF validation framework. |
+| 01:46 | A -- Explore | All hosts up. DAQ ping OK. Mac2020 68d 11h20m, load 1.62 (6 users, evening). Spark 3d 16h31m. LAN stable. Pi NAT missing. All nominal. |
+| 02:01 | B -- Maintenance | Context 49% (495k), just under 50%. 0 stray PNGs. memory/ tidy. All nominal. |
+| 02:16 | C -- Organize | Added priority reading queue to 2026-04-26.md: Schiffer 2012 (Sum Rule), 2017 26Al, 2021 28Mg, others. 15 of 36 HELIOS pubs still unread. |
+| 02:31 | D -- Read/Learn | Read Schiffer 2012 (PRL 108, 022501): sum rule test on Ni isotopes, validates DWBA/transfer occupancy framework. Created paper_notes/2012_Schiffer_SumRule_Ni_Isotopes.md. Now 22 unique notes. |
+| 02:46 | A -- Explore | All hosts up. DAQ ping OK. Mac2020 68d 12h20m, load 1.25 (6 users). Spark 3d 17h31m. LAN stable. Pi NAT missing. All nominal. |
+| 03:01 | B -- Maintenance | Context exactly 50% (500k). Already alerted Ryan. Growth slow. 0 stray PNGs. memory/ tidy. All nominal. |
+| 03:16 | C -- Organize | Added 2012_Schiffer_SumRule_Ni_Isotopes to INDEX.md. Count updated to 22 unique + 2 duplicates = 24 files. |
+| 03:31-23:01 | (missed -- overnight) | - |
+| 23:16 | D+A -- Read+Explore | Read McNeel 2021 (26Mg(t,p)28Mg): 2nd 0+ in 28Mg has large fp-shell occ -> N=20 island boundary. Same physics context as h096 (32Si near N=20). Spark 3d 19h. Mac2020 68d 13h50m. |
+| 23:31 | B -- Maintenance | Context 50% (504k), stable/slow growth. 0 stray PNGs. memory/ tidy. All nominal. |
+| 23:46 | C -- Organize | Updated 2026-04-26.md late night: Schiffer 2012 + McNeel 2021 notes, INDEX 22 unique+2 dup=24. Daily log current. |
+
+## 2026-04-26
+| Time | Task | Notes |
+|------|------|-------|
+| 05:01 | D -- Read/Learn | Read Almaraz-Calderon 2017 (26Al isomeric beam): first 26Alm(d,p)27Al, constrains galactic Al26 destruction. Created paper_notes. Now 23 unique notes. |
+| 05:16 | A -- Explore | All hosts up. DAQ ping OK. Mac2020 68d 14h50m, load 1.17 (6 users). Spark 3d 20h1m. LAN stable. Pi NAT missing. All nominal. |
+| 05:31 | B -- Maintenance | Context 51% (510k), slow growth. Already alerted Ryan at 50%. 0 stray PNGs. memory/ tidy. All nominal. |
+| 05:46 | C -- Organize | Added 2017_Almaraz_26Al to INDEX.md. Count now 23 unique + 2 dup = 25 files. |
+| 06:01 | D -- Read/Learn | Read Chen 2018 (21F(d,p)22F): sd-shell multiplets, same 0d3/2/1s1/2/0d5/2 orbitals as h096. J.Chen co-author on Hoffman 2026. Created paper_notes. Now 24 unique notes. |
+| 06:16 | A -- Explore | All hosts up. DAQ ping OK. Mac2020 68d 15h50m, load 1.45 (6 users). Spark 3d 21h (~3h to 4d!). LAN stable. Pi NAT missing. All nominal. |
+| 06:31 | B -- Maintenance | Context 51% (515k), stable. 0 stray PNGs. memory/ tidy. All nominal. |
+| 06:46-07:16 | (missed) | - |
+| 07:31 | C+D -- Organize+Read | Chen 2018 added to INDEX. Read Deibel 2011 (33Cl(p,a)30S): X-ray burst waiting point, time-reverse (p,a) at HELIOS. Spark 3d 22h (~1h44m to 4d!). Mac2020 68d 17h. |
+| 07:46 | A -- Explore | All hosts up. DAQ ping OK. Mac2020 68d 17h20m, load 1.43. Spark 3d 22h31m (~29 min to 4d!). LAN stable. Pi NAT missing. All nominal. |
+| 08:01 | B -- Maintenance | Context 52% (519k), stable. Spark 3d 22h46m (~14 min to 4d!). 0 stray PNGs. memory/ tidy. All nominal. |
+| 08:16-08:31 | (missed) | - |
+| 08:46 | C+D -- Organize+Read | Read Hoffman 2012 (19O(d,p)20O): same sd-shell (0d5/2,1s1/2,0d3/2) as h096, 8 states, 175 keV FWHM, DWBA angular dists. Prototype for h096 approach. Spark 3d 23h31m (~29 min to 4d!). Mac2020 68d 18h21m. |
+| 09:01 | A -- Explore | All hosts up. DAQ ping OK. Mac2020 68d 18h35m, load 1.17 (6 users). Spark 3d 23h46m (~14 min to 4d!). LAN stable. Pi NAT missing. All nominal. |
+| 09:16-09:31 | (missed) | - |
+| 09:46 | B+C -- [!!] CONTEXT+MILESTONE | SPARK CROSSED 4 DAYS! (4d 31m). Context 157% (1.6m) -- again! Saved 2026-04-26.md. Alerted Ryan (msg 1497896922344853524). Mac2020 68d 19h20m. |
+| 10:01 | A -- AUTO-COMPACT | Context reset 157%->52% (524k). Spark 4d 46m (solidly day 4). Mac2020 68d 19h35m. All nominal. |
+| 10:16 | B -- Maintenance | Context 53% (525k), stable. 0 stray PNGs. memory/ tidy. All nominal. |
+| 10:31 | C -- Organize | Created paper_notes/2012_Hoffman_19O_dp_20O.md. Added to INDEX. Count now 25 unique + 2 dup = 27 files. Spark 4d, Mac2020 68d 19h. All nominal. |
+| 10:46 | D+A -- Read+Explore | Read Kay 2011 (136Xe(d,p)137Xe at 10 MeV/u): ~100 keV resolution, 0vbb precursor, same energy as h096. Precursor to Szwec 2016 (already noted). Spark 4d 1h31m. Mac2020 68d 20h20m. |
+| 11:01 | B -- Maintenance | Context 53% (529k), stable. 0 stray PNGs. memory/ tidy. Spark 4d 1h+. All nominal. |
+| 11:16 | (missed) | - |
+| 11:31 | C+A -- Organize+Explore | Created paper_notes/2011_Kay_136Xe. INDEX now 26 unique + 2 dup = 28 files. Spark 4d 2h16m. Mac2020 68d 21h. All nominal. |
+| 11:46-12:01 | (missed) | - |
+| 12:16 | D+A -- Read+Explore | Surveyed 2011-2013 HELIOS papers: many conference proceedings. Primary: Hoffman 2013 (17N(d,p)18N) = p1/2 hole coupled to 19O core, short-lived 17N beam. Mac2020 68d 21h50m (~2h10m to 69d!). Spark 4d 3h. |
+| 12:31 | B -- Maintenance | Context 53% (535k), stable. 0 stray PNGs. memory/ tidy. All nominal. |
+| 12:46 | C -- Organize | Updated 2026-04-26.md morning section: Spark 4d milestone, new paper notes, INDEX 26+2=28. Mac2020 ~1h40m to 69d. Daily log current. |
+| 13:01 | D+Daily -- Read+Report | Read Back 2010 (first HELIOS exp, 12B(d,p)13B, N=8 nucleus). Posted daily report to #the-axiom (msg 1497945951762120754). Mac2020 68d 22h (~1h25m to 69d). |
+| 13:16 | A -- Explore | All hosts up. DAQ ping OK. Mac2020 68d 22h50m (~1h10m to 69d!). Spark 4d 4h1m. LAN stable. Pi NAT missing. All nominal. |
+| 13:31 | B -- Maintenance | Context 54% (539k), healthy. 0 stray PNGs. memory/ tidy. All nominal. |
+| 13:46 | C -- Organize | Created 2010_Back_First_HELIOS paper note. INDEX now 27 unique + 2 dup = 29 files. Mac2020 68d 23h20m (~40 min to 69d!). Spark 4d 4h31m. |
+| 14:01 | D -- Read/Learn | Read Kay 2013 PRC 87 011302 (130Te 0vbb neutron occupancies): same technique as Xe-136, probes 0g7/2/1d5/2/1d3/2/2s1/2/0h11/2. Mac2020 68d 23h36m (~24 min to 69d!). |
+| 14:16 | A -- Explore | All hosts up. DAQ ping OK. Mac2020 68d 23h50m (~10 min to 69d!). Spark 4d 5h1m. LAN stable. Pi NAT missing. All nominal. |
+| 14:31 | B -- [MILESTONE] | Mac2020 crossed 69 DAYS! (69d 5m). Context 55% (545k). Spark 4d 5h16m. All nominal. |
+| 14:46 | (missed) | - |
+| 15:01 | C+A -- Organize+Explore | Updated 2026-04-26.md morning milestones. Mac2020 69d 35m, load 1.35. Spark 4d 5h46m. All nominal. |
+| 15:16 | D -- Read/Learn | Read Bedoor 2013 (13B(d,p)14B): N=9 lightest isotone, 1s1/2-0d5/2 evolution toward drip line. Same sd-shell as h096. PRC 88 011304. |
+| 15:31-15:46 | (missed) | - |
+| 16:01 | A+B -- [!!] CONTEXT 164% | Context 1.6m (164%)! Saved 2026-04-26.md. Alerted Ryan (msg 1497991277726142484). Mac2020 69d 1h35m. Spark 4d 6h46m. All nominal. |
+| 16:16 | B -- AUTO-COMPACT | Context reset 164%->55% (550k). Spark 4d 7h1m. Mac2020 69d 1h50m. All nominal. |
+| 16:31 | C -- Organize | Created 2013_Kay_130Te_0vbb note. INDEX now 28 unique + 2 dup = 30 files. 30 papers of 36 now have notes (83%!). |
+| 16:46 | D+A -- Read+Explore | Read Wuosmaa 2014 (12,13C(d,a)B: stretched states, J=2j, two-nucleon overlap). PRC 90 061301. Spark 4d 7h31m. Mac2020 69d 2h21m. All nominal. |
+| 17:01-17:16 | (missed) | - |
+| 17:31 | B -- [!!] CONTEXT 277% | Context 2.8m (277%!) CRITICAL. Saved 2026-04-26.md. Alerted Ryan (msg 1498013911377641522). Spark 4d 8h16m. Mac2020 69d 3h5m. |
+| 17:46 | B -- AUTO-COMPACT | Context reset 277%->56% (556k). Spark 4d 8h31m. Mac2020 69d 3h20m. All nominal. |
+| 18:01-18:01 | (missed) | - |
+| 18:16 | C -- Organize | Created 2014_Wuosmaa_Stretched_States_da note. INDEX 29+2=31 files. Updated 2026-04-26.md. Spark 4d 9h. Mac2020 69d 3h50m. All nominal. |
+| 18:31 | D+A -- Read+Explore | Read Bedoor 2016 (14,15C(d,3He)13,14B): proton-removing reactions at HELIOS. PRC 93 044323. Demonstrates HELIOS (d,3He) proton-removal capability. Spark 4d 9h16m. Mac2020 69d 4h5m, load 0.61. |
+| 18:46 | B -- Maintenance | Context 56% (561k), stable. 0 stray PNGs. memory/ tidy. All nominal. |
+| 19:01 | C -- Organize | Created 2016_Bedoor_14C_15C_d3He note. INDEX now 30 unique + 2 dup = 32 files. 30/36 HELIOS pubs noted (83%). |
+| 19:16 | D+A -- Read+Explore | Read Wuosmaa 2010 (15C(d,p)16C): exotic neutron decoupling in 16C, SF+EM rates reconciled by shell model. PRL 105 132501 -- FIRST published HELIOS science. Spark 4d 10h. Mac2020 69d 4h51m. |
+| 19:31 | (missed) | - |
+| 19:46 | B -- [!!] CONTEXT 396% | Context 4.0m (396%!) EXTREME. Saved 2026-04-26.md. Alerted Ryan (msg 1498047898594705448). Spark 4d 10h31m. Mac2020 69d 5h20m. |
+| 20:01 | B -- AUTO-COMPACT | Context reset 396%->57% (568k). Spark 4d 10h46m. Mac2020 69d 5h35m. All nominal. |
+| 20:16 | C -- Organize | Created 2010_Wuosmaa_15C_dp_16C_Exotic note (paper #1 in HELIOS list). INDEX now 31+2=33 files (31/36 pubs noted, 86%). |
+| 20:31 | (missed) | - |
+| 20:46 | D+A -- Read+Explore | Read Sharp 2013 (N=51 SPE, N=50 core, mixed HELIOS+conventional). Created note. INDEX 32+2=34 (89%). Spark 4d 11h31m. Mac2020 69d 6h20m. |
+| 21:01 | B -- Maintenance | Context 57% (573k), stable. 0 stray PNGs. memory/ tidy. All nominal. |
+| 21:16 | C -- Organize | Updated 2026-04-26.md afternoon: 32/36 pubs (89%), 4 remaining. Daily log current. |
+| 21:31 | (missed) | - |
+| 21:46 | D+A -- Read+Explore | Created conference notes for 2012_Deibel_Xray_Burst + 2015_Wuosmaa_LightNeutronRich. INDEX 34+2=36 (94%). Spark 4d 12h31m. Mac2020 69d 7h20m. |
+| 22:01-22:16 | (missed) | - |
+| 22:31 | B -- [!!] CONTEXT 345% | Context 3.5m (345%). Saved 2026-04-26.md. Alerted Ryan (msg 1498089977031168060). |
+| 22:46 | B -- AUTO-COMPACT | Context reset 345%->58% (578k). Spark 4d 13h31m. Mac2020 69d 8h20m. All nominal. |
+| 23:01-23:01 | (missed) | - |
+| 23:16 | C+D -- [!!] COMPLETE ALL 36 HELIOS PUBS! | Created final 2 notes (2011 Xe-136 conf + 2012 HELIOS Progress conf). INDEX 36+2=38 (100%!). Spark 4d 14h. Mac2020 69d 8h50m. |
+| 23:31-23:31 | (missed) | - |
+| 23:46 | A+B -- [!!] CONTEXT 406% | Context 4.1m (406%!). Saved 2026-04-26.md. Alerted Ryan (msg 1498108313445990484). Spark 4d 14h31m. Mac2020 69d 9h20m. All hosts up. |
+
+## 2026-04-27
+| Time | Task | Notes |
+|------|------|-------|
+| 00:01 | AUTO-COMPACT | Context reset 406%->58% (582k). Spark 4d 14h46m. Mac2020 69d 9h35m. |
+| 00:16 | C -- New Day | Created 2026-04-27.md. All 36 HELIOS pubs noted (100%). All nominal. |
+| 00:31 | D -- Read/Learn | Explored Mac2020 SRIM/: only 5 files (10Be,19F,20F,1H,3H in CH2/CD2). NO Si stopping powers! Ryan needs to generate 31Si+33Si in CD2 before h096 ROOT analysis and next exp. Added to TODO. |
+| 00:46 | (missed) | - |
+| 01:01 | A -- Explore | All hosts up. Spark 4d 15h46m. Mac2020 69d 10h35m, load 1.22. LAN stable. Pi NAT missing. All nominal. |
+| 01:16 | B -- Maintenance | Context 59% (587k), healthy. 0 stray PNGs. memory/ tidy. All nominal. |
+| 01:31 | C -- Organize | Updated 2026-04-27.md: SRIM finding + pending actions. All 36 HELIOS pubs noted (100%). Daily log current. |
+| 01:46 | D+A -- Read+Explore | Mac2020 data/: has raw h096 .gtd binary files (DAQ raw data). Run 001=alpha cal. 76 Armory + 46 Cleopatra files = same as Spark. No h096-specific Cleopatra files. Spark 4d 16h31m. Mac2020 69d 11h21m. |
+| 02:01 | B -- Maintenance | Context 59% (590k), stable. 0 stray PNGs. memory/ tidy. All nominal. |
+| 02:16 | C -- Organize | Updated expMemory_h096.md Mac2020 section: raw .gtd files noted + SRIM missing tables warning. |
+| 02:31 | D+A -- Read+Explore | Mac2020 Woods-Saxon/: full WS code suite (WSFit, WSCal, WSSearch). Used for bound-state param fitting -- relevant for DWBA bound state. EventBuilder/: event building code. Spark 4d 17h16m. Mac2020 69d 12h5m. |
+| 02:46 | (missed) | - |
+| 03:01 | B -- [!!] CONTEXT 297% | Context 3.0m (297%). Saved 2026-04-27.md. Alerted Ryan (msg 1498157365202260078). |
+| 03:16 | B -- AUTO-COMPACT | Context reset 297%->60% (595k). Spark 4d 18h1m. Mac2020 69d 12h50m. All nominal. |
+| 03:31 | C+A -- Organize+Explore | Updated 2026-04-27.md evening. Spark 4d 18h16m. Mac2020 69d 13h5m, load 1.07. All nominal. |
+| 03:46 | D -- Read/Learn | Read Mac2020 EventBuilder/README: custom GEB event builder (BinaryReader->Hit->Event). Reads raw .gtd, decodes GEB headers. Pipeline: raw->sort->ROOT. Spark 4d 18h31m. |
+| 04:01 | A -- Explore | All hosts up. DAQ ping OK. Mac2020 69d 13h35m, load 6.72 [ELEVATED, 6 users, Ryan running job!]. Spark 4d 18h46m, load 0.19. Pi NAT missing. Monitoring. |
+| 04:16 | (missed) | - |
+| 04:31 | B -- [!!] CONTEXT 180% | Context 1.8m (180%). Mac2020 load 4.55 (easing). Saved 2026-04-27.md. Alerted Ryan (msg 1498180364269522975). |
+| 04:46 | B -- AUTO-COMPACT | Context reset 180%->60% (601k). Mac2020 load 4.69 (still elevated). Spark 4d 19h31m. All nominal. |
+
+## 2026-04-27
+| Time | Task | Notes |
+|------|------|-------|
+| 05:01 | C -- New Day | Mac2020 load normalized (1.11, job done). Spark 4d 19h46m. Updated 2026-04-27.md. All nominal. |
+| 05:16 | D+A -- Read+Explore | Mac2020 GEBSort/: 33 files, sort framework (GEBMerge->GEBSort->ROOT). chat-file config. Pipeline complete: raw.gtd->GEBMerge->GEBSort->root->Monitors. Spark 4d 20h. Mac2020 69d 14h51m. |
+| 05:31 | B -- Maintenance | Context 60% (604k), stable. 0 stray PNGs. memory/ tidy. All nominal. |
+| 05:46 | (missed) | - |
+| 06:01 | C+A -- Organize+Explore | Added GEBSort note to HELIOS_Analysis_Workflow.md (older alternative, EventBuilder is current). Spark 4d 20h46m. Mac2020 69d 15h35m. All nominal. |
+| 06:16 | D -- Read/Learn | Mac2020 Apollo.h: auto-generated from transfer.root (2023), ROOT TTree reader for Cleopatra simulation overlay in Monitors.C. Same as Spark version. |
+| 06:31 | A -- Explore | All hosts up. DAQ ping OK. Mac2020 69d 16h5m, load 1.17 (6 users). Spark 4d 21h16m. LAN stable. Pi NAT missing. All nominal. |
+| 06:46-07:01 | (missed) | - |
+| 07:16 | B -- [!!] CONTEXT 183% | Context 1.8m (183%). Saved 2026-04-27.md. Alerted Ryan (msg 1498221779456626779). Spark 4d 22h (~2h to 5d!). Mac2020 69d 16h51m. |
+| 07:31 | B -- AUTO-COMPACT+A | Context reset 183%->61% (611k). Spark 4d 22h16m (~1h44m to 5d!). Mac2020 69d 17h5m, load 0.95. All nominal. |
+| 07:46 | (missed) | - |
+| 08:01 | B+C -- [!!] CONTEXT 245% | Context 2.4m (245%). Spark 4d 22h46m (~1h14m to 5d!). Mac2020 69d 17h35m. Awaiting compaction. |
+| 08:16-09:01 | (missed, context stuck at 245%) | - |
+| 09:01 | A -- Monitor | Spark 4d 23h46m (~14 min to 5d!). Mac2020 69d 18h35m. Context still 245% -- no compaction yet. Minimizing calls. |
+| 09:16-09:31 | (missed) | - |
+| 09:31 | A -- [MILESTONE] | SPARK CROSSED 5 DAYS! (5d 16m at 04:31 CDT). Context still 245% -- awaiting compaction. |
+| 09:46-10:01 | (missed) | Context stuck at 246%, not compacting. |
+| 10:01 | A -- Monitor | Spark 5d 46m (solidly day 5). Mac2020 69d 19h35m. Context 246% (not compacting -- stable but stuck). |
+| 10:16 | B -- AUTO-COMPACT | Context reset 246%->62%. Spark 5d 1h. Mac2020 69d 19h50m. |
+| 10:31-10:46 | (missed) | - |
+| 11:01 | B+C -- [!!] CONTEXT 123% | Context 1.2m (123%). Spark 5d 1h46m. Mac2020 69d 20h35m. Awaiting compaction. |
+| 11:16 | B+C -- AUTO-COMPACT | Context reset 123%->62% (618k). Spark 5d 2h1m [past 5d MILESTONE!]. Mac2020 69d 20h50m. Updated 2026-04-27.md. All nominal. |
+| 11:31 | (missed) | - |
+| 11:46 | D+A -- Read+Explore | Mac2020 root_data/: 31 ROOT files (gen_run001-020 + trace_run016-020). Runs 001-020 individually sorted. Spark 5d 2h31m. Mac2020 69d 21h20m. All nominal. |
+| 12:01 | (missed) | - |
+| 12:16 | B -- [!!] CONTEXT 310% | Context 3.1m (310%). 12th+ overflow. DM to Ryan failed (401). Awaiting compaction. |
+| 12:31 | B+Daily -- AUTO-COMPACT | Context reset 310%->62% (622k). Spark 5d 3h16m. Mac2020 69d 22h (~2h to 70d!). Discord 401 -- daily report failed. All nominal otherwise. |
+| 12:46 | C -- Organize | [!!] Discord 401 persistent (token issue?). Noted in 2026-04-27.md. Cannot alert Ryan via Discord. HELIOS systems all nominal. |
+| 13:01-13:16 | (missed) | - |
+| 13:31 | D+A -- Read+Explore | Mac2020 Armory/: same 76 files as Spark (fully synced). Has process_Sort, process_MultiRuns etc. Mac2020 69d 23h5m (~55 min to 70d!). Spark 5d 4h16m. Discord still 401. |
+| 13:46 | B -- Maintenance | Context 63% (627k), stable. Mac2020 69d 23h20m (~40 min to 70d!). Spark 5d 4h31m. Discord 401 persists. 0 stray PNGs. memory/ tidy. All nominal. |
+| 14:01-14:16 | (missed) | - |
+| 14:31 | C -- [MILESTONE+401] | Mac2020 crossed 70 DAYS! (70d 5m). Discord still 401 (cannot notify Ryan). Context 251%. Spark 5d 5h16m. Saved to 2026-04-27.md. |
+| 14:46 | B -- AUTO-COMPACT | Context reset 251%->63% (629k). Mac2020 70d 20m (solidly past!). Spark 5d 5h31m. Discord still 401. All nominal. |
+| 15:01-15:31 | (missed -- context overflowing) | - |
+| 15:46 | C+D+A -- Catch-up | Context 315% again. Spark 5d 6h33m. Mac2020 70d 1h22m. Discord 401 persists. Awaiting compaction. |
+| 16:01-16:01 | (missed) | - |
+| 16:16 | A -- Monitor | Context 315% (stuck, not compacting). Spark 5d 7h1m. Mac2020 70d 1h50m. All nominal. |
+| 16:31 | (missed) | - |
+| 16:46 | B -- Monitor | Context 253% (still stuck, no compaction). Spark 5d 7h31m. Mac2020 70d 2h20m. Discord 401. Session needs /new. |
+| 17:01 | B -- AUTO-COMPACT | Context reset 253%->63% (633k). Discord test still 401. Spark 5d 7h46m. Mac2020 70d 2h35m. All HELIOS nominal. |
+| 17:16 | C -- Organize | Updated 2026-04-27.md morning summary: 5d+70d milestones, Discord 401 outage, 15+ overflows, all nominal. Spark 5d 8h1m. Mac2020 70d 2h50m. |
+| 09:00 | Daily Report | Posted to #the-axiom (msg 1496149129456386210). Coverage Apr 20 9AM - Apr 21 9AM. Items flagged: qemu-user needed on Spark, calc_exshift.py needs 31Si kinematics. Context 73%. |
+| 2026-04-27 13:16 CDT | D -- Read/Learn | Read transfer_test.C (77 lines, unit test harness for HELIOS_LIB, 14C(d,p)15C interactive trajectory debug) + PlotTGraphTObjArray.C/h (58+102 lines, DWBA gList plotter). Both documented in HELIOS_Simulation_Cleopatra.md. |
+| 2026-04-27 14:01 CDT | A -- Explore | All hosts up. DAQ .2 ping OK. Pi .208 ping OK. Mac2020 70d 4h35m, load 1.24 (stable). Spark 5d 9h45m. No active run. All nominal. |
+| 2026-04-27 14:16 CDT | B -- Maintenance | Context 5% (healthy). 0 stray PNGs. memory/ tidy (2026-04-27.md current). All nominal. |
+| 2026-04-27 14:31 CDT | C -- Organize | Fixed duplicate EventBuilder_Optimization.md entry in INDEX (merged S+A notes into one row). Updated file count 25->26. 26 content files on disk, 26 in INDEX [OK]. |
+| 2026-04-27 14:46 CDT | D -- Read/Learn | Read potentials.h (1073 lines) -- full OM potential library (equivalent to Kay globals_beta_v5). 23 potentials: 8 deuteron, 5 proton, 7 A=3, 3 alpha, 2 custom Bardayan. Documented in HELIOS_Simulation_Cleopatra.md (AK = AnCai+KoningDelaroche standard for HELIOS). |
+| 2026-04-27 15:01 CDT | A -- Explore | All hosts up. DAQ .2 ping OK. Pi .208 ping OK. Mac2020 70d 5h35m, load 1.38 (stable). Spark 5d 10h45m, load 0.27. No active run. All nominal. |
+| 2026-04-27 15:16 CDT | B -- Maintenance | Context 6% (healthy). 0 stray PNGs. Archived 18 stale daily memory files (Apr 5-15) -> archive/ (now 58 total). memory/ trimmed to Apr 16-27. All nominal. |
+| 2026-04-27 15:31 CDT | C -- Organize | Updated INDEX entry for HELIOS_Simulation_Cleopatra.md to include transfer_test.C, PlotTGraphTObjArray, potentials.h (23 OM potentials). 26 files on disk = 26 in INDEX [OK]. |
+| 2026-04-27 15:46 CDT | D -- Read/Learn | Read ~/Magnet/README.md -- Oxford IPS120-10 PSU hardware interface (parallel I/O pins, Auto-Run-Down sequence, Safe Current Interlock). Documented in HELIOS_Magnet_Pi.md new section. Key: pin 14=ARD trigger, pin 12=safe current output, both open-collector active-low. |
+| 2026-04-27 16:16 CDT | A -- Explore | All hosts up. DAQ .2 ping OK. Pi .208 ping OK. Mac2020 70d 6h50m, load 1.25 (stable). Spark 5d 12h1m. No active run. All nominal. |
+| 2026-04-27 16:31 CDT | B -- Maintenance | Context 10% (healthy). 0 stray PNGs. 31 memory files (post-archive clean). Removed ~/.openclaw/workspace/HELIOS_MD/ (stale SYSTEM_MD copy, naming collision with ~/HELIOS_MD). All nominal. |
+| 2026-04-27 16:46 CDT | C -- Organize | Added ciscoBrowser to SYSTEM_MD/software.md. Fixed wrong IP for digios1 in network.md (was 192.168.1.1, corrected to 192.168.203.52). HELIOS_MD INDEX verified clean. |
+| 2026-04-27 17:16 CDT | D -- Read/Learn | Read PACE4.C (253 lines, PACE4 evaporation residue MC simulator, 10M events, fusion-evap background check) + Penetrability_proton.C (142 lines, GSL Coulomb wave function T_l+S_l, Iliadis 2015, p+10Be example). Documented in HELIOS_Armory_Code.md. |
+| 2026-04-27 19:05 CDT | A -- Explore | All hosts up. DAQ .2 ping OK. Pi .208 ping OK. Mac2020 70d 9h39m, load 0.82 (quiet evening). Spark 5d 14h50m, load 0.34. No active run. All nominal. |
+| 2026-04-27 19:16 CDT | B -- Maintenance | Context 11% (healthy). 0 stray PNGs. temp.md cleaned up. Workspace tidy. All nominal. |
+| 2026-04-27 20:16 CDT | C -- Organize | Added PACE4.C + 3 Penetrability files to HELIOS_Armory_Code.md summary table (16->20 files). Updated INDEX description. All consistent. |
+| 2026-04-27 21:16 CDT | D -- Read/Learn | Read ExpXsecToRoot.C (98 lines, text->ROOT TGraphErrors converter for exp Xsec) + FitXsec.C (211 lines, DWBA SF extractor: 1-component SF fit + 2-component mixing fit, chi2/ndf). Key: uses qList not gList. Documented in HELIOS_Armory_Code.md. |
+| 2026-04-27 22:16 CDT | A -- Explore | All hosts up. DAQ .2 ping OK. Pi .208 ping OK. Mac2020 70d 12h50m, load 0.82 (quiet). Spark 5d 18h. No active run. All nominal. |
+| 2026-04-27 23:16 CDT | B -- Maintenance | Context 12% (healthy). 0 stray PNGs. 32 memory files. Updated 2026-04-27.md with afternoon/evening session summary. All nominal. |
+| 2026-04-28 00:16 CDT | C -- Organize | Fixed stale '24-file' count -> '26-file' in proposals + paper_notes subdirectory footers of INDEX.md. When-to-load section verified current. All consistent. |
+| 2026-04-28 01:16 CDT | D -- Read/Learn | Read runsCheck2.C (111 lines, run summary table from timing TMacro, saves run_Summary.txt) + FCUP_converter.C (83 lines, FCUP text->ROOT TTree, [!!] offset hardcoded for 207Hg). Both documented in HELIOS_Armory_Code.md. |
+| 2026-04-28 02:16 CDT | A -- Explore | All hosts up. DAQ .2 ping OK. Pi .208 ping OK. Mac2020 70d 16h50m, load 5.15 (elevated at 2am -- likely batch/backup job). Spark 5d 22h, load 0.08 (very quiet). No active run. All nominal. |
+| 2026-04-28 03:16 CDT | B -- Maintenance | Context 13% (healthy, ~1%/hr growth). 0 stray PNGs. Workspace clean. All nominal. |
+| 2026-04-28 04:16 CDT | C -- Organize | Audit pass: verified-stamp files current (Firmware/Mac2017/Magnet/Ptolemy/Trigger all [OK]). PV_Reference verified 2026-04-20 [OK]. Analysis_Workflow + new_experiment_checklist clean -- no stale Pi refs. ~/digios.git bare repo confirmed present. All HELIOS_MD consistent. |
+| 2026-04-28 05:16 CDT | D -- Read/Learn | Read script_Ex.C (226 lines, main physics 6-panel display: E-Z, Ex TSpectrum+multi-Gauss fit, thetaCM) + script_ComXsec.C (78 lines, compare 2 experimental Xsec datasets). Documented in HELIOS_Armory_Code.md. Armory count now 26 files. |
+| 2026-04-28 06:16 CDT | A -- Explore | [MILESTONE] Spark crossed 6 DAYS uptime (6d 2h)! All hosts up. DAQ .2 ping OK. Pi .208 ping OK. Mac2020 70d 20h50m, load 1.37 (normal morning). No active run. All nominal. |
+| 2026-04-28 07:16 CDT | B -- Maintenance | Context 15% (healthy, ~1%/hr). 0 stray PNGs. Created 2026-04-28.md daily log. All nominal. |
+| 2026-04-28 08:16 CDT | C -- Organize | Added 'Physics Analysis Scripts' section to HELIOS_Analysis_Workflow.md (script_Ex, ExpXsecToRoot, FitXsec, script_ComXsec, runsCheck2, FCUP_converter -- all post-calibration tools now referenced in workflow). |

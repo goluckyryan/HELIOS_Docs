@@ -207,6 +207,7 @@ A comprehensive guide for drawing Recoil Detector Telescope (RDT) particle ident
 - **Memory**: DBSCAN on >400K events requires >4 GB RAM. Spark has 122 GB -- no downsample needed. (If running on Pi/Mac with <8 GB, downsample to 400K max)
 - **Tel-by-tel**: Parameters that work for Tel 0 may not work for Tel 2 (different band structure, overlaps)
 - **Multi-band telescopes**: Tel 2 in h094 has 6 visible bands (Mg > Na > Ne > F > O > N at low E). DBSCAN fragments heavily here (64 clusters, 42% noise). Consider hand-tuning Tel 2 separately.
+- **h096 Tel 2 solution**: 31Si beam produced sparse hits in Tel 2. Used manual ellipse gate: center (E~2000, dE~1800), size 600×400 ch. Tel 0,1,3 used DBSCAN successfully. (`rdt_gate5b.py`, Plot-083)
 
 ### Cut Comparison and Ring Analysis (Advanced)
 After generating cuts at multiple tightness levels (e.g. cut1 = loose, cut2 = tight):

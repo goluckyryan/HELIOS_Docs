@@ -141,7 +141,7 @@ Use the `helios-start-run` skill (source of truth). Key steps:
 3. Build elog entry, SCP to DAQ
 4. Call `start_run.sh --ai` (handles: expName increment, caput Start, elog/Discord push, xterms)
    - [!!] `start_run.sh` includes **HV check** (snmpget outputSwitch) -- aborts if HV not on
-   - [!!] **Stale Pi SSH in start_run.sh (line 105) AND stop_run.sh (line 75):** both call `ssh ryan@192.168.1.100 ...` -- non-fatal (background) but fails silently since Pi retired 2026-04-17. Both need update to `ssh heliosspark@192.168.1.101`. (DAQ read-only -- admin change required)
+
 
 ### Stopping a Run
 

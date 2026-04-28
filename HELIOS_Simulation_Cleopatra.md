@@ -541,6 +541,131 @@ After running `Transfer` -> open Check_Simulation to verify:
 2. **ExCal** (`pExCal`): reconstructed Ex peaks should appear at correct energies
 3. If ExCal looks wrong: check `reaction.dat` constants and detector geometry
 
+## transfer_test.C -- Unit Test / Interactive Debugger
+
+**Source:** `Cleopatra/transfer_test.C` (77 lines, ROOT macro, not compiled)
+
+Interactive test harness for `HELIOS_LIB.h`. Call signature:
+```
+transfer_test(thetaCM_deg, phiCM_deg, bField_T, fromOutside_bool)
+```
+
+**Hardcoded reaction:** 14C(d,p)15C at 10 MeV/u, B field = arg.
+
+**What it does:**
+1. Sets up `TransferReaction` (A=14C, a=d, b=p, B=15C)
+2. Calls `CalReactionConstant()` and prints CM beta, slope (α·β), alpha
+3. Calls `reaction.Event(thetaCM, phiCM)` → 4-vectors for b (proton) and B (15C)
+4. Calls `helios.CalArrayHit(Pb, 1)` and `helios.CalRecoilHit(PB, 6)`
+5. Runs `DetAcceptance()` loop until hitID ≤ 1
+6. Prints trajectory via `PrintTrajectory(helios.GetTrajectory_b())`
+
+**Uses:** `../working/detectorGeo.txt` for detector geometry.
+
+**Purpose:** Debug HELIOS_LIB trajectory and acceptance for a single event. Not part of production pipeline.
+
+---
+
+## PlotTGraphTObjArray.C/h -- DWBA Angular Distribution Plotter
+
+**Source:** `Cleopatra/PlotTGraphTObjArray.C` (58 lines entry point) + `PlotTGraphTObjArray.h` (102 lines logic)
+
+**Compilation:**
+```bash
+g++ PlotTGraphTObjArray.C -o PlotTGraphTObjArray `root-config --cflags --glibs`
+```
+
+**Usage:**
+```bash
+./PlotTGraphTObjArray <root_file> [savePNG]
+```
+
+**Input:** Any ROOT file containing a `TObjArray` named `gList` of `TGraph` objects (DWBA.root output from `ExtractXSec`). Also works with `fList` (TF1 fits).
+
+**What it does:** Opens root_file, reads `gList`, plots all member TGraphs in a single canvas. Option `savePNG=1` saves canvas to PNG and exits; without it, opens interactive ROOT TApplication.
+
+**Use case:** Quick visual inspection of DWBA angular distributions from Ptolemy output, without needing to open ROOT interactively and navigate the file.
+
+---
+
+## potentials.h -- Optical Model Potential Library
+
+**Source:** `Cleopatra/potentials.h` (1073 lines)
+**Basis:** Equivalent to Kay Ben's `globals_beta_v5` parametrization set.
+
+### Global variables (set by each potential function)
+```
+v, r0, a         -- real volume (depth MeV, radius fm, diffuseness fm)
+vi, ri0, ai      -- imaginary volume
+vsi, rsi0, asi   -- imaginary surface (derivative)
+vso, rso0, aso   -- real spin-orbit
+vsoi, rsoi0, asoi -- imaginary spin-orbit
+rc0              -- Coulomb radius
+```
+All radii are reduced (actual radius = r0 * A^(1/3)).
+
+### Utility functions
+- `PrintPotential()` -- print all 15 parameters
+- `potentialRef(name)` -- return citation string for a 1-char code
+- `CallPotential(name, A, Z, E, Zproj)` -- dispatcher: call the right function by code letter
+
+### Potential catalogue (1-char codes)
+
+**Deuteron potentials:**
+
+| Code | Function | Reference | Energy range | Mass range |
+|---|---|---|---|---|
+| `A` | `AnCaiPotential` | An & Cai (2006) PRC 73 054605 | E < 183 MeV | 12 < A < 238 |
+| `H` | `HSSPotential` | Han, Shi, Shen (2006) PRC 74 044615 | E < 200 MeV | 12 < A < 209 |
+| `B` | `BojowaldPotential` | Bojowald et al. (1988) PRC 38 1153 | 50-80 MeV | 27 < A < 208 |
+| `D` | `DaehnickPotential` | Daehnick, Childs, Vrcelj (1980) PRC 21 2253 (REL) | 11.8-80 MeV | 27 < A < 238 |
+| `C` | `DaehnickPotential` | Daehnick, Childs, Vrcelj (1980) PRC 21 2253 (NON-REL) | 11.8-80 MeV | 27 < A < 238 |
+| `L` | `LohrPotential` | Lohr & Haeberli (1974) | 9-13 MeV | A > 40 |
+| `Q` | `PereyPereyPotential` | Perey & Perey (1963) | 12-25 MeV | A > 40 |
+| `Z` | `ZhangPangLouPotential` | Zhang, Pang, Lou (2016) PRC 94 014619 | 5-170 MeV | A < 18 |
+
+**Proton potentials:**
+
+| Code | Function | Reference | Energy range | Mass range |
+|---|---|---|---|---|
+| `K` | `KoningPotential` | Koning & Delaroche (2009) | 0.001-200 MeV | 24 < A < 209 |
+| `V` | `VarnerPotential` | Varner et al. CH89 (1991) | 16-65 MeV | 4 < A < 209 |
+| `M` | `MenetPotential` | Menet et al. (1971) | 30-60 MeV | A > 40 |
+| `G` | `BecchettiPotential` | Becchetti & Greenlees (1969) | E < 50 MeV | A > 40 |
+| `P` | `PereyPotential` | Perey (1963) | E < 20 MeV | 30 < A < 100 |
+
+**A=3 potentials (³He / triton):**
+
+| Code | Function | Reference |
+|---|---|
+| `x` | `XuPotential` | Xu, Guo, Han, Shen (2011) |
+| `l` | `LiangPotential` | Liang, Li, Cai (2009) |
+| `p` | `PangPotential` | Pang et al. (2009), isospin dep. |
+| `c` | `LiLiangCaiPotential` | Li, Liang, Cai (2007) -- tritons |
+| `t` | `TrostPotential` | Trost et al. (1987) |
+| `h` | `HyakutakePotential` | Hyakutake et al. (1980) |
+| `b` | `BecchettiA3Potential` | Becchetti & Greenlees (1971), isospin dep. |
+
+**Alpha potentials:**
+
+| Code | Function | Reference |
+|---|---|
+| `s` | `SuAndHanPotential` | Su & Han (2015) |
+| `a` | `AvrigeanuPotential` | Avrigeanu et al. (2009) |
+| `f` | `BassaniPicardPotential` | Bassani & Picard (1969), fixed params, A=90 |
+
+**Custom / Bardayan:**
+
+| Code | Function | Notes |
+|---|---|
+| `X` | `CustomXPotential` | Bardayan PRC 78 052801(R) (2008) |
+| `Y` | `CustomYPotential` | Bardayan PRC 78 052801(R) (2008) |
+
+### HELIOS standard combinations
+- **AK** = An-Cai (deuteron, code `A`) + Koning-Delaroche (proton, code `K`) -- default for (d,p) at 10 MeV/u
+- Codes are combined as 2-char strings in `InFileCreator`: first char = beam/exit OM, second = residual
+- `CallPotential()` dispatches by single char; `InFileCreator` splits the 2-char string
+
 ## See Also
 
 - `HELIOS_Ptolemy_Build_Notes.md`  --  Ptolemy build notes for Spark/ARM64 and Mac2020 (x86-64)

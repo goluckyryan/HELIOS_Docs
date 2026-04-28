@@ -22,6 +22,16 @@ Notes on key analysis library files across the digios pipeline.
 | `Cali_e_single.C` | `Armory/` | Single-detector alpha re-calibration (option 4): interactive per-detector energy cal; uses FindMatchingPair for 228Th peak matching; user manually saves result (no auto-write) |
 | `Analyzer.h` / `Analyzer.C` | `working/` | Final physics analysis TSelector (reads calibrated tree) |
 | `rootlogon.C` | `working/` | ROOT style configuration (auto-loaded on startup) |
+| `PACE4.C` | `Armory/` | Fusion-evaporation background simulator: reads PACE4 yield table, 10M-event MC through HELIOS geometry, produces E-Z + Ex plots |
+| `Penetrability_proton.C` | `Armory/` | Coulomb barrier penetrability T_l + shift factor S_l via GSL Coulomb wave functions (p+10Be example, Iliadis 2015) |
+| `Penetrability_simple.C` | `Armory/` | Simplified penetrability calculator (no GSL) |
+| `Penetrability_Bessel.C` | `Armory/` | Penetrability via Bessel function method |
+| `ExpXsecToRoot.C` | `Armory/` | Convert text experimental Xsec (angle/xsec/errors) to ROOT TGraphErrors in xList |
+| `FitXsec.C` | `Armory/` | Fit experimental angular dist with DWBA (1 or 2 components) to extract SF (C²S); chi²/ndf output |
+| `runsCheck2.C` | `Armory/` | Run summary table: reads timing TMacro from gen_run*.root, prints #events/size/duration per run, saves run_Summary.txt |
+| `FCUP_converter.C` | `Armory/` | Convert FCUP current log (text) to ROOT TTree with DAQ-synchronized timestamps; [!!] offset hardcoded for 207Hg |
+| `script_Ex.C` | `Armory/` | Main physics display: 6-panel canvas (E-Z, Ex spectrum+fit, thetaCM dist); TSpectrum peak find + multi-Gaussian fit |
+| `script_ComXsec.C` | `Armory/` | Compare two experimental angular distributions (xList format) on log-scale canvas |
 
 ## `Cali_xf_xn_to_e.C` -- XF+XN → E Linearity Calibration
 
@@ -535,3 +545,250 @@ inspection before running the full `Cali_e_trace` calibration. Runs on raw gen_t
 - **Typical workflow:** `Cali_littleTree_trace` -> inspect temp.root -> adjust cuts/params -> `Cali_e_trace`
 
 _Cali_littleTree_trace.h added: 2026-04-18._
+
+---
+
+## PACE4.C -- Evaporation Residue Background Simulator
+
+**Source:** `Armory/PACE4.C` (253 lines, ROOT macro)
+**Purpose:** Simulate the E-Z distribution of evaporation residues (from fusion-evaporation) that can contaminate HELIOS transfer data.
+
+### What it does
+1. Reads a **PACE4 output table** (`pace4_82Se_12C_short.txt`) -- PACE4 is a statistical model code that predicts evaporation residue yields as a function of lab angle (0-180 deg, 10 deg bins) and energy (MeV)
+2. Builds a 2D histogram + TGraph2D of yield(theta, KE) and creates a TF2 interpolator (`paceDist`)
+3. Runs a **10M-event MC** sampling from the PACE4 distribution:
+   - Samples (theta, KE) from the PACE4 yield distribution
+   - Passes each event through `HELIOS::CalArrayHit()` + `DetAcceptance()`
+   - For accepted hits: reconstructs Ex and thetaCM via `CalExThetaCM()`
+4. Produces output in `PACE4.root`: E-Z plot, Ex spectrum, Ex vs thetaCM -- showing where evaporation residues appear in HELIOS data space
+
+### Physics context
+- Used to check whether fusion-evaporation background from beam+target overlaps with transfer reaction peaks in Ex
+- Example: 82Se + 12C fusion products mimicking (d,p) protons
+- PACE4 code: statistical evaporation model (similar to GEMINI, HIVAP)
+- Input file format: energy bins × angle bins table, pipe-delimited
+
+### Inputs
+- `pace4_82Se_12C_short.txt` -- PACE4 output (experiment-specific)
+- `reactionConfig.txt` + `detectorGeo.txt` -- standard HELIOS config
+
+### Output
+- `PACE4.root` -- 6-panel canvas: PACE4 dist, smoothed dist, generated angles, E-Z, Ex-thetaCM, Ex
+
+---
+
+## Penetrability_proton.C / Penetrability_simple.C / Penetrability_Bessel.C -- Coulomb Barrier Penetrability Calculators
+
+**Source:** `Armory/Penetrability_proton.C` (142 lines), `Penetrability_simple.C` (121 lines), `Penetrability_Bessel.C` (131 lines)
+**Purpose:** Calculate proton Coulomb barrier penetrability T_l(E) and shift factor S_l(E) for R-matrix/resonance analysis.
+
+### Penetrability_proton.C (full Coulomb wave function method)
+**Reaction hardcoded:** p + 10Be → 11B (Sp = 11.228 MeV, r = 4.1 fm, Z1=1, Z2=4)
+**Energy range:** Ex = 11.23 to 14.40 MeV (proton energy above Sp)
+**Method:** Uses **GSL** (`gsl_sf_coulomb_wave_FG_e`) to compute F_l(η,ρ) and G_l(η,ρ) exactly
+
+Key formulas (Iliadis 2015 conventions):
+```
+k   = sqrt(2 * μ * E) / (ℏc)          [wave number, fm⁻¹]
+η   = 0.1574854 * Z1*Z2 * sqrt(μ/E)   [Sommerfeld parameter]
+ρ   = 0.218735 * r * sqrt(μ*E)         [dimensionless radius]
+T_l = k*r / (F_l² + G_l²)             [penetrability]
+S_l = r * (F_l*F_l' + G_l*G_l') / (F_l² + G_l²)  [shift factor]
+```
+
+**Output:** Two ROOT canvases -- T_l(E) (log scale) and S_l(E) for L=0,1,2,3
+
+### Use case
+R-matrix analysis of resonances near proton threshold. Essential for:
+- Computing partial widths: Γ_p = 2*P_l * γ_p²
+- Boundary condition shifts in R-matrix fits
+- Astrophysical reaction rate calculations near threshold
+
+_PACE4.C and Penetrability files documented: 2026-04-27._
+
+---
+
+## ExpXsecToRoot.C -- Experimental Cross-Section Converter
+
+**Source:** `Armory/ExpXsecToRoot.C` (98 lines, ROOT macro)
+**Purpose:** Convert a plain-text experimental cross-section file into a ROOT file containing a `TObjArray` of `TGraphErrors` (same format as Ptolemy DWBA output from `ExtractXSec`).
+
+### Input file format
+Text file with `#` delimiters separating states, 4 columns per point:
+```
+# (start new state/TGraph)
+// comment lines ignored
+theta_CM   dtheta_CM   xsec   dxsec
+...
+```
+Note: angular errors are read but forced to 0 (avoids strange chi-square in fitting).
+
+### Output
+Saves `<inputfile>.root` with `TObjArray* xList` containing one `TGraphErrors` per state.
+
+### Use case
+Pre-processing step before `FitXsec.C` — converts published experimental data into the same ROOT format as DWBA calculations so they can be directly compared/fitted.
+
+---
+
+## FitXsec.C -- DWBA Spectroscopic Factor Extractor
+
+**Source:** `Armory/FitXsec.C` (211 lines, ROOT macro)
+**Purpose:** Fit experimental angular distributions with DWBA calculations to extract spectroscopic factors (SF = C²S).
+
+### Call signature
+```
+FitXsec(expXsec, ID, ptolemy, [ID2=-1], [ID3=-1])
+```
+- `expXsec` -- ROOT file from `ExpXsecToRoot.C` (contains `xList`)
+- `ID` -- which state in xList to fit (0-based)
+- `ptolemy` -- ROOT file from `ExtractXSec` (contains `qList` of DWBA TGraphs)
+- `ID2`, `ID3` -- optional: fit with 1 or 2 DWBA components
+
+### Fitting procedure
+**Single-component fit:** minimize χ² of `data = SF * DWBA(θ)` over SF ∈ [0,10]
+- Uses ROOT `TF1` with 1 free parameter (SF)
+- Reports: SF ± dSF, χ²/ndf per DWBA curve
+
+**Two-component fit** (when ID2+ID3 specified, or n=2 curves):
+- Fits `data = A * f1(θ) + B * f2(θ)` with 2 free SFs
+- Used for **configuration mixing**: A = sd-shell fraction, B = pf-shell fraction
+- Reports A, B, χ²/ndf
+
+### Output
+Canvas with log-scale angular distribution plot, overlaid DWBA curves scaled by SF, LaTeX labels with SF values.
+
+### Physics context
+- **Primary use:** Extract C²S from (d,p) angular distributions
+- **Two-component use:** Quantify sd/pf shell mixing (e.g., h096 32Si 0⁺ states)
+- χ²/ndf warning printed if Xsec errors are zero (common for old published data)
+- `qList` (not `gList`) -- note different TObjArray name from ExtractXSec default
+
+_ExpXsecToRoot.C + FitXsec.C documented: 2026-04-27._
+
+---
+
+## runsCheck2.C -- Run Summary Table Generator
+
+**Source:** `Armory/runsCheck2.C` (111 lines, ROOT macro)
+**Purpose:** Read timing metadata from `gen_runNNN.root` files and print/save a summary table of all runs.
+
+### Call signature
+```
+runsCheck2([prefix="gen"], [runID=-1])
+```
+- `prefix` -- file prefix (only `"gen"` supported; trace not implemented)
+- `runID=-1` -- all runs; `runID>0` -- single run
+
+### What it does
+1. Lists `../root_data/gen_run*.root` files via shell `ls`
+2. Opens each ROOT file, reads embedded `TMacro* timing` object (3 lines: firstTS, lastTS, nEvents)
+3. Converts timestamps (units: 10 ns ticks → seconds) and computes duration
+4. Prints table: filename, #events, size(MB), start-TS, end-TS, duration(s/min/hr)
+5. If `runID=-1`: saves full table to `run_Summary.txt`
+
+### Key detail
+- Timestamps stored as `ULong64_t` in 10 ns units (divide by 1e8 for seconds)
+- `timing` TMacro is embedded in ROOT file by the DAQ sort step
+- Exits ROOT after completion (`gROOT->ProcessLine(".q")`)
+
+### Use case
+Quick audit of a run campaign: which runs were how long, how many events, any suspiciously short runs.
+
+---
+
+## FCUP_converter.C -- Faraday Cup Log Converter
+
+**Source:** `Armory/FCUP_converter.C` (83 lines, ROOT macro)
+**Purpose:** Convert a plain-text Faraday Cup (FCUP) current log into a ROOT TTree with synchronized timestamps.
+
+### Call signature
+```
+FCUP_converter(FCUPFile)
+```
+
+### Input format
+Text file with lines: `<timestamp> <current_value>` where timestamp is a date-time string (variable format: 26-char or 18-char depending on day).
+
+### What it does
+1. Parses each line: splits at character 26 (or 18 for single-digit days) into timestamp + fCup value
+2. Converts date-time string to absolute 10 ns timestamp units
+3. Applies a **hardcoded offset** to align FCUP timestamps with DAQ timestamps (calibrated for 207Hg experiment, run41 reference point)
+4. Fills ROOT TTree with branches: `f_t` (ULong64_t timestamp) + `f` (Float_t fCup current)
+5. Saves as `<inputfile>.root`
+
+### [!!] Important note
+- The timestamp offset is **hardcoded for 207Hg experiment** (`offset1` + `offset2` anchored to run41)
+- For other experiments, this offset must be recalibrated before use
+- Only fills entries where `day >= 10` (filters early/test data from that run)
+
+### Use case
+Synchronize beam current (FCUP) with DAQ events for integrated charge normalization and cross-section calculation.
+
+_runsCheck2.C + FCUP_converter.C documented: 2026-04-28._
+
+---
+
+## script_Ex.C -- Main Physics Display Script
+
+**Source:** `Armory/script_Ex.C` (226 lines, ROOT macro)
+**Purpose:** Master display script for final physics analysis -- produces 6-panel canvas with E-Z plot, Ex spectrum, peak fitting, and thetaCM distributions.
+
+### Inputs
+- `A_gen_run<N>.root` -- calibrated analysis tree (from `Analyzer.C`)
+- `transfer.root` -- Cleopatra simulation (provides `fxList` kinematic lines + `gList` DWBA curves)
+- `rdtCuts.root` -- RDT graphical cuts (`cutList` TObjArray of `TCutG`)
+
+### Canvas layout (2x3)
+| Panel | Content |
+|---|---|
+| 1 | rdtID vs detID (2D, with RDT gate applied) |
+| 2 | Ex spectrum (background-subtracted, TSpectrum peak find) |
+| 3 | E vs Z plot with kinematic lines (fxList + gList overlaid) |
+| 4 | Background-subtracted Ex with multi-Gaussian fit |
+| 5 | thetaCM distributions for first 3 peaks (±3σ gate) |
+| 6 | (unused) |
+
+### Peak fitting
+- Uses `TSpectrum::Search()` (sigma=1, threshold=0.1) to find up to 16 peaks
+- `TSpectrum::Background()` for background estimation (40 iterations)
+- Multi-Gaussian fit (`fpeaks`): 3 params per peak (norm, mean, sigma)
+- Prints: count, Ex position ± error, sigma ± error per peak
+
+### Gate structure
+```
+gate_RDT = "(cut0||cut1||cut2||cut3) && -20 < coin_t && coin_t < 40"
+detGate  = "&& detID != 11"  // exclude dead detector
+```
+
+### Key design
+- `fxList` = kinematic lines from transfer.root (TF1 array, one per Ex state)
+- `gList` = DWBA angular distribution curves
+- thetaCM gated at ±3σ around each fitted peak
+- Hardcoded file names (experiment-specific -- edit per run)
+
+---
+
+## script_ComXsec.C -- Compare Two Experimental Cross-Sections
+
+**Source:** `Armory/script_ComXsec.C` (78 lines, ROOT macro)
+**Purpose:** Overlay two experimental angular distributions (from different publications/datasets) for comparison.
+
+### Call signature
+```
+script_ComXsec(id)
+```
+- `id` -- index into xList (which state/peak to compare)
+
+### Hardcoded inputs (209Pb example)
+- `Xsec209Pb_NPA.root` -- first dataset (NPA publication)
+- `Xsec209Pb_PR.root` -- second dataset (PR publication)
+- Both must contain `xList` TObjArray of `TGraphErrors` (from ExpXsecToRoot)
+
+### Output
+Log-scale canvas with both datasets overlaid, auto-ranged axes, legend.
+
+### Use case
+Check consistency between published datasets before fitting with DWBA.
+
+_script_Ex.C + script_ComXsec.C documented: 2026-04-28._

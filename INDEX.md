@@ -3,7 +3,7 @@
 Lightweight map of HELIOS system reference files.
 All files located in `~/HELIOS_MD/`.
 
-**Search:** `grep -ril "keyword" ~/HELIOS_MD/*.md` (no RAG needed  --  25 files, ~107KB)
+**Search:** `grep -ril "keyword" ~/HELIOS_MD/*.md` (no RAG needed  --  26 files, ~110KB)
 
 ## Files
 
@@ -20,9 +20,9 @@ All files located in `~/HELIOS_MD/`.
 | `HELIOS_PV_Reference.md` | EPICS PV list  --  digitizer IOC PVs, thresholds, HV, timing |
 | `HELIOS_Experiment_Flow.md` | HELIOS experiment flow at ATLAS/ANL -- pre-beam prep, beam tuning, RAISOR, checkout, physics running, teardown |
 | `HELIOS_Experiment_Switch.md` | Non-interactive procedure for switching experiment branches on DAQ + Mac2020 |
-| `HELIOS_Simulation_Cleopatra.md` | Cleopatra/Ptolemy + Transfer MC -- InFileCreator, DWInFileCreator, ExtractXSec, Check_Simulation, Simulation_Helper, alpha.C |
-| `HELIOS_Armory_Code.md` | Armory code reference  --  16 files: full calibration pipeline + analysis selectors + fitting library |
-| `EventBuilder_Optimization.md` | EventBuilder_S benchmark notes  --  run011 performance, version comparison, Spark optimization results |
+| `HELIOS_Simulation_Cleopatra.md` | Cleopatra/Ptolemy + Transfer MC -- InFileCreator, DWInFileCreator, ExtractXSec, Check_Simulation, Simulation_Helper, alpha.C, transfer_test.C, PlotTGraphTObjArray, potentials.h (23 OM potentials, AK standard) |
+| `HELIOS_Armory_Code.md` | Armory code reference  --  26 files: full calibration pipeline + analysis selectors + fitting library + PACE4 + Penetrability + ExpXsecToRoot/FitXsec (SF) + runsCheck2 + FCUP_converter + script_Ex (main display) + script_ComXsec |
+| `EventBuilder_Optimization.md` | EventBuilder benchmark + optimization notes  --  run011 performance (EventBuilder_S), data flow diagrams, mmap/LZ4/Reset improvements (EventBuilder_A, 2026-04-18) |
 | `HELIOS_LIB_Reference.md` | HELIOS_LIB.h reference  --  TransferReaction, HELIOS trajectory, TargetScattering, Decay, Knockout, Isotope, constant.h, FindThetaCM |
 | `HELIOS_Ptolemy_Build_Notes.md` | Ptolemy build notes  --  ARM64 (Spark/Jetson) and x86-64 (Mac2020) ([OK] verified 2026-04-12) |
 | `HELIOS_Magnet_Pi.md` | Magnet Pi (.208)  --  Oxford 601-048T serial monitor, LHe level, shield temp, status flags ([OK] verified 2026-04-16) |
@@ -35,7 +35,6 @@ All files located in `~/HELIOS_MD/`.
 | `HELIOS_InfluxDB_Schema.md` | InfluxDB schema on Mac2017 -- measurements, tags, example queries (read-only from Spark) |
 | `heartbeat-log.md` | Heartbeat task log (compact; full archive pre-2026-04-05 in heartbeat-log-archive-20260405.md) |
 | `heartbeat-log-archive-20260405.md` | Archived verbose heartbeat entries prior to 2026-04-05 |
-| `EventBuilder_Optimization.md` | EventBuilder_A optimization notes  --  data flow diagrams, timing breakdown, mmap/LZ4/Reset improvements (2026-04-18) |
 
 ## When to load each
 
@@ -75,7 +74,7 @@ These live in `~/.openclaw/workspace/` and are loaded separately:
 
 ## Subdirectory: `proposals/`
 
-Experiment proposals and notes. Not counted in the 24-file total above.
+Experiment proposals and notes. Not counted in the 26-file total above.
 
 | File | Contents |
 |---|---|
@@ -84,13 +83,18 @@ Experiment proposals and notes. Not counted in the 24-file total above.
 
 ## Subdirectory: `paper_notes/`
 
-Detailed notes on individual HELIOS/ISS publications and theory references. 22 notes as of 2026-04-24. Not counted in the 24-file total above.
+Detailed notes on individual HELIOS/ISS publications and theory references. 36 unique notes + 2 older duplicates = 38 files. **ALL 36/36 HELIOS pubs now have notes (100% COMPLETE as of 2026-04-26)!** Not counted in the 26-file total above.
+Theory notes (Ryan's blog): ESPE_Theory.md, SF_Theory_SumRule.md, SF_Quenching_Review_2023.md (created 2026-04-24).
+[Cleanup needed]: rm 2020_Tang_First_Exploration_Neutron_Shell.md + 2025_Watwood_32Si_proton_vacancy.md (superseded by newer versions)
 
 | File | Paper |
 |---|---|
 | `2010_Lighthall_HELIOS_Commissioning.md` | Lighthall 2010 -- HELIOS commissioning (NIM A622) |
+| `2012_Hoffman_19O_dp_20O.md` | Hoffman 2012 -- 19O(d,p)20O: prototype for h096; sd-shell (d5/2,s1/2,d3/2), 175 keV FWHM, 8 states, same team |
+| `2012_Schiffer_SumRule_Ni_Isotopes.md` | Schiffer 2012 -- sum rule test on Ni isotopes; validates DWBA/transfer occupancy framework (Macfarlane-French sum rule satisfied) |
 | `2013_Kay_Quenching_Cross_Sections.md` | Kay 2013 -- quenching of transfer cross sections |
 | `2016_Szwec_Valence_Neutrons_136Xe_0vbb.md` | Szwec 2016 -- valence neutron occupancies in 136Xe->136Ba (0vββ decay NME constraint via (d,p)+(p,d)+(a,3He)+(3He,a)) |
+| `2017_Almaraz_26Al_Astrophysics.md` | Almaraz-Calderon 2017 -- first 26Alm(d,p)27Al with isomeric beam; constrains galactic 26Al destruction; mirror symmetry |
 | `2017_Freeman_100Mo_0vbb_Occupancies.md` | Freeman 2017 -- valence nucleon occupancies in 100Mo->100Ru 0vbb system via (d,p)+(p,d)+(3He,a)+(3He,d); theory discrepancies; Munich Q3D |
 | `2017_Talwar_HighJ_Neutrons_137Xe.md` | Talwar 2017 -- high-j (h9/2, i13/2) neutron SFs in 137Xe via 136Xe(a,3He) at RCNP; isotonic chain N=83, 133Sn prediction |
 | `2018_Santiago-Gonzalez_19F_Isomeric_Beam.md` | Santiago-Gonzalez 2018 -- single-particle character of 19F rotational band via isomeric 18mF beam at HELIOS (B=2.85 T) |

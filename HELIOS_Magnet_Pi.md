@@ -121,6 +121,45 @@ Resolution: not documented (presumably fixed since magnet is currently at 2.85T)
 - This Pi controls the magnet and cryogenics -- hands off
 - Only Ryan may authorize changes
 
+## Oxford IPS120-10 Power Supply Hardware Interface
+
+**Source:** `~/Magnet/README.md` + Oxford IPS120-10 Operator's Handbook Rev 13 (86pp)
+
+The HELIOS magnet uses an **Oxford IPS120-10** superconducting magnet power supply (120 A, 10 V).
+
+### Parallel I/O Interface (rear panel, 15-way D-type, "PARALLEL I/O" / SK2)
+
+Two key hardware interlocks:
+
+| Pin | Signal | Direction | Function |
+|---|---|---|---|
+| **12** | Safe Current Interlock | Output | Active-low (sinks ~10mA) when current within safe limits; high-Z when unsafe |
+| **14** | Auto-Run-Down | Input | Logic 1 (+5V ref pin 8) triggers emergency de-energise |
+| 7 | +5V | Power | Reference for interlock circuits |
+| 8 | 0V | Ground | |
+
+### Auto-Run-Down Sequence (§9)
+Triggered by Pin 14 high, or LHe level meter:
+1. Unclamp if clamped
+2. Sweep leads to last persistent current (if switch heater was off)
+3. Wait 20s → turn switch heater on
+4. De-energise in low-voltage mode (±1V)
+5. Wait 20s → clamp output + turn off switch heater
+6. **Operator locked out until external signal cleared**
+
+⚠️ Only works if PSU is left powered on. Designed to protect magnet if LHe level drops critically low.
+
+### Safe Current Interlock (§5.16.1)
+- Output transistor sinks current (open-collector) when safe
+- Current limits set via Test Mode §11.10 or read via serial `X` command
+- NOT shown on front panel display
+
+### Related docs in `~/Magnet/`
+- `Oxford_IPS120-10_Manual.pdf` -- full operator handbook (JLab copy)
+- `Oxford_IPS120-10_Datasheet.pdf` -- IPS120-10 / IPS125-9 datasheet
+- `Oxford_Mercury_iPS_Manual.pdf` -- Mercury iPS manual (169pp)
+- `page16_parallel_interface.png` through `page47_fault_conditions.png` -- extracted key pages
+
 ## See Also
 
 - `~/HELIOSMagControl/README.md` -- full command reference and flag documentation
