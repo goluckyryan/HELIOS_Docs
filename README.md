@@ -87,14 +87,16 @@ Spark has two network interfaces:
 
 | Interface | IP | Role |
 |---|---|---|
-| `enP7s7` (eth0) | 192.168.1.101 (static) | HELIOS LAN -- DAQ, VME, HV, etc. |
-| `wlP9s9` (Wi-Fi) | 130.202.139.x (DHCP) | ANL wireless -- internet, Discord, GitHub, elog |
+| `enP7s7` (eth0) | 192.168.1.101 (static) | HELIOS LAN + **primary internet** (via Cisco → OneNet) |
+| `wlP9s9` (Wi-Fi) | -- | **Disabled** as of 2026-04-27 (MT7925 unstable on Linux) |
 
-- **LAN gateway:** 192.168.1.1 (Cisco router) -- no default route; only local subnet
-- **Internet gateway:** 130.202.139.1 via Wi-Fi (DHCP, ANL eduroam/wireless)
-- **DNS:** systemd-resolved (stub at 127.0.0.53), search domain `phy.anl.gov`
-- **If Wi-Fi drops:** LAN operations continue normally; internet automatically falls back to eth0 via 192.168.1.1 (metric 700, permanent in NM profile "heliosSubnet")
-- **[!!] LAN fallback is OUTBOUND ONLY** — Cisco router does NAT but does not accept inbound connections. Discord websocket breaks when Wi-Fi is down (confirmed 2026-04-18 — required external agent to restore Wi-Fi). Outbound-only tasks still work: curl, apt, GitHub, elog, web fetches.
+- **LAN gateway:** 192.168.1.1 (Cisco RV180, metric 700 default route)
+- **Internet:** eth0 via Cisco → ANL OneNet (192.168.203.x) -- primary as of 2026-04-27
+- **DNS:** 192.168.203.1 (OneNet) added to wired connection + systemd-resolved stub
+- **Pi .208 NAT:** retired 2026-04-24 -- no longer a gateway
+- **Full network details:** `~/SYSTEM_MD/network.md`
+
+_Updated 2026-04-29: Wi-Fi disabled, OneNet/Cisco now primary internet path._
 
 ## Related Resources
 

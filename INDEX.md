@@ -21,8 +21,8 @@ All files located in `~/HELIOS_MD/`.
 | `HELIOS_Experiment_Flow.md` | HELIOS experiment flow at ATLAS/ANL -- pre-beam prep, beam tuning, RAISOR, checkout, physics running, teardown |
 | `HELIOS_Experiment_Switch.md` | Non-interactive procedure for switching experiment branches on DAQ + Mac2020 |
 | `HELIOS_Simulation_Cleopatra.md` | Cleopatra/Ptolemy + Transfer MC -- InFileCreator, DWInFileCreator, ExtractXSec, Check_Simulation, Simulation_Helper, alpha.C, transfer_test.C, PlotTGraphTObjArray, potentials.h (23 OM potentials, AK standard) |
-| `HELIOS_Armory_Code.md` | Armory code reference  --  26 files: full calibration pipeline + analysis selectors + fitting library + PACE4 + Penetrability + ExpXsecToRoot/FitXsec (SF) + runsCheck2 + FCUP_converter + script_Ex (main display) + script_ComXsec |
-| `EventBuilder_Optimization.md` | EventBuilder benchmark + optimization notes  --  run011 performance (EventBuilder_S), data flow diagrams, mmap/LZ4/Reset improvements (EventBuilder_A, 2026-04-18) |
+| `HELIOS_Armory_Code.md` | Armory code reference  --  43/47 files documented: full calibration pipeline + analysis selectors + PACE4 + Penetrability + FitXsec (SF) + script_Ex + Monitors_Util (~30 fns) + testTraceFit (trapezoid filter) + more. 4 remaining are trivial .C wrappers for documented .h files. |
+| `EventBuilder_Optimization.md` | EventBuilder benchmark + optimization notes  --  run011 performance (EventBuilder_S), data flow diagrams, mmap/LZ4/Reset improvements (EventBuilder_A, 2026-04-18) + GEBHeader/Event/Hit data structures (Hit.h, 2026-04-29) |
 | `HELIOS_LIB_Reference.md` | HELIOS_LIB.h reference  --  TransferReaction, HELIOS trajectory, TargetScattering, Decay, Knockout, Isotope, constant.h, FindThetaCM |
 | `HELIOS_Ptolemy_Build_Notes.md` | Ptolemy build notes  --  ARM64 (Spark/Jetson) and x86-64 (Mac2020) ([OK] verified 2026-04-12) |
 | `HELIOS_Magnet_Pi.md` | Magnet Pi (.208)  --  Oxford 601-048T serial monitor, LHe level, shield temp, status flags ([OK] verified 2026-04-16) |

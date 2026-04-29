@@ -312,3 +312,43 @@ Larger time window = more hits merged per event = fewer, larger events.
 - `BinaryReader.h` — mmap support (with ifstream fallback)
 - `Hit.h` — unchanged
 - `makefile` — unchanged
+
+---
+
+## Data Structures (Hit.h / Event class)
+
+**Source:** `EventBuilder/Hit.h` (287 lines)
+
+### GEBHeader
+Global Event Buffer header (16 bytes):
+- `type` (uint32) -- payload type identifier
+- `payload_length_byte` (uint32) -- payload size in bytes
+- `timestamp` (uint64) -- event timestamp
+
+### Event class
+Decoded digitizer hit. Key fields:
+
+| Field | Type | Description |
+|---|---|---|
+| `channel` | unsigned | Channel ID (0-9 per board) |
+| `board` | unsigned | Board ID |
+| `timestamp` | uint64 | Timestamp in 10 ns ticks |
+| `pre_rise_energy` | uint32 | Energy before rise (baseline) |
+| `post_rise_energy` | uint32 | Energy after rise (signal) -- primary energy |
+| `traceLength` | uint16 | Number of trace samples |
+| `trace` | vector<uint16> | Raw ADC trace waveform |
+| `flags` | uint16 | Bit flags: ext disc(0), peak valid(1), offset(2), sync err(3), gen err(4), pileup(5/6) |
+| `baseline` | uint32 | Baseline value |
+| `m1/m2_begin/end_sample` | uint16 | Integration window markers |
+| `peak_sample` | uint16 | Sample index of peak |
+| `cfd_sample_0/1/2` | uint16 | CFD timing samples |
+
+**Key:** `post_rise_energy - pre_rise_energy` = net pulse energy (what becomes `e[]` in gen_tree).
+
+### Hit class (wrapper)
+Stores `GEBHeader` + raw payload bytes. `Decode()` method parses payload into `Event`.
+
+### id convention
+`id = board_id * 10 + channel_id` -- matches `GeneralSortMapping.h` channel numbering.
+
+_Hit.h data structures documented: 2026-04-29._

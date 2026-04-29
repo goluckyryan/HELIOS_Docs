@@ -1,6 +1,7 @@
 # HELIOS Armory Code Reference
 
 Notes on key analysis library files across the digios pipeline.
+**Coverage: 43/47 files documented** (2026-04-29). Remaining 4 are trivial .C entry-point wrappers for documented .h files: Apollo.C, Cali_e_trace.C, Cali_littleTree_trace.C, Check_caliResult.C.
 
 ## Files Covered
 
@@ -32,6 +33,19 @@ Notes on key analysis library files across the digios pipeline.
 | `FCUP_converter.C` | `Armory/` | Convert FCUP current log (text) to ROOT TTree with DAQ-synchronized timestamps; [!!] offset hardcoded for 207Hg |
 | `script_Ex.C` | `Armory/` | Main physics display: 6-panel canvas (E-Z, Ex spectrum+fit, thetaCM dist); TSpectrum peak find + multi-Gaussian fit |
 | `script_ComXsec.C` | `Armory/` | Compare two experimental angular distributions (xList format) on log-scale canvas |
+| `Check_rdtGate.C` | `Armory/` | Verify RDT dE-E cuts: 4-panel 2D histograms with TCutG overlaid per RDT pair |
+| `readCaliResult.C` | `Armory/` | Inspect caliResult.root for single detector: raw/corrected E-col + TGraph2D distance distribution |
+| `SaveTH1IntoText.C` | `Armory/` | Utility: dump TH1F to 2-column text file (bin center, content) |
+| `FitCoinTime.C` | `Armory/` | Research: agglomerative single-linkage clustering for coinTime band separation (prototype, not production) |
+| `Check_alignment.C` | `Armory/` | E-Z alignment checker: overlay alpha data vs simulation per detector column to find Z-offset issues |
+| `Monitors_Util.C` | `Armory/` | ~30 named display functions for interactive monitoring (rawe, ecal, eCalVz, excite, ExThetaCM, recoils, etc.) |
+| `Check_Xsec.C` | `Armory/` | Overlay exp thetaCM vs DWBA text table; 1 or 2 component fit; requires checkResult.root from Check_e_z.C |
+| `generateHistogram.C` | `Armory/` | Synthetic 12-peak test spectrum for AutoFit.C unit testing (not production) |
+| `script_alpha.C` | `Armory/` | Legacy 901-line standalone alpha calibration pipeline -- predecessor to AutoCalibrationTrace; [!!] hardcoded, use AutoCali instead |
+| `Cali_ex.C` | `Armory/` | X-dependent energy flatness correction: divides strip into 10 sections, fits pol2 vs X, writes correction_e_flat.dat |
+| `Cali_gamma.C` | `Armory/` | Gamma detector (HPGe+NaI) energy calibration; TSpectrum peak match to reference lines; gamma coincidence experiments only |
+| `script_FCUP.C` | `Armory/` | Display FCUP beam current vs time per run; [!!] runTime table hardcoded for 207Hg experiment |
+| `readTrace_S.C` | `Armory/` | Raw trace waveform reader/visualizer for diagnostic trace inspection |
 
 ## `Cali_xf_xn_to_e.C` -- XF+XN → E Linearity Calibration
 
@@ -792,3 +806,293 @@ Log-scale canvas with both datasets overlaid, auto-ranged axes, legend.
 Check consistency between published datasets before fitting with DWBA.
 
 _script_Ex.C + script_ComXsec.C documented: 2026-04-28._
+
+---
+
+## Check_rdtGate.C -- RDT Cut Verification Display
+
+**Source:** `Armory/Check_rdtGate.C` (105 lines, ROOT macro)
+**Purpose:** Visual check that RDT graphical cuts are correctly placed on the dE-E PID plots.
+
+### Call signature
+```
+Check_rdtGate(dataList, rdtCut, [eRange=6000], [deRange=4000], [treeName="gen_tree"], [gate=""])
+```
+- `dataList` -- ROOT file glob (e.g. `"../root_data/gen_run*.root"`)
+- `rdtCut` -- ROOT file with `cutList` TObjArray of `TCutG` objects
+
+### Output
+4-panel canvas (2×2): one panel per RDT detector pair (rdt[0]/rdt[1], rdt[2]/rdt[3], rdt[4]/rdt[5], rdt[6]/rdt[7]) showing dE vs E 2D histogram with the corresponding graphical cut overlaid.
+
+### Use case
+After creating cuts with `RDTCutCreator.C` or `CutCreator.C`, verify they sit correctly on the data before using in physics analysis.
+
+---
+
+## readCaliResult.C -- Calibration Result Inspector
+
+**Source:** `Armory/readCaliResult.C` (35 lines, ROOT macro)
+**Purpose:** Display calibration result for a single detector from `caliResult.root`.
+
+### Call signature
+```
+readCaliResult(detID)
+```
+
+### Output
+3-panel canvas: (1) raw E vs column plot, (2) corrected E vs column with kinematic line overlay, (3) TGraph2D distance distribution (top-view) used by `Cali_compareF.C` MC search.
+
+### Use case
+Diagnose why a specific detector's kinematic auto-calibration succeeded or failed.
+
+---
+
+## SaveTH1IntoText.C -- Histogram to Text Exporter
+
+**Source:** `Armory/SaveTH1IntoText.C` (24 lines, ROOT macro)
+**Purpose:** Utility function -- dump a TH1F to a two-column text file (bin center, bin content).
+
+### Call signature
+```
+SaveTH1IntoText(hist, fileName)
+```
+
+### Output format
+```
+  x_center    content
+  ...         ...
+```
+14.8f tab 9.6f per line. Used to export Ex spectra or rate histograms for external plotting tools.
+
+_Check_rdtGate.C + readCaliResult.C + SaveTH1IntoText.C documented: 2026-04-28._
+
+---
+
+## FitCoinTime.C -- Coincidence Time Clustering Algorithm (Research Tool)
+
+**Source:** `Armory/FitCoinTime.C` (233 lines, ROOT macro)
+**Purpose:** Research/development tool for agglomerative single-linkage clustering of coincidence time data. Used to separate overlapping coinTime bands (e.g., two states at different coinTime offsets).
+
+### Algorithm
+1. Generates test data: parabolic coinTime vs X distribution with Gaussian smearing + discrete offset outliers
+2. Builds N×N distance matrix D between data points
+3. Applies **agglomerative single-linkage clustering**: iteratively merges closest pair, reduces matrix
+4. Helper functions: `PrintD()` (matrix display), `ReduceDMatrix()` (merge step), `FindMin()` (find closest pair)
+
+**Status:** Research prototype -- not part of production pipeline. Actual coinTime correction uses `GetCoinTimeCorrectionCutG.C` or `Cali_coinTime_alpha.C`.
+
+---
+
+## Check_alignment.C -- E-Z Alignment Checker (Alpha + Simulation)
+
+**Source:** `Armory/Check_alignment.C` (119 lines, ROOT macro)
+**Purpose:** Verify detector Z-position alignment by overlaying alpha source E-Z data with simulation kinematic lines.
+
+### Call signature
+```
+Check_alignment(rootfileAlpha)
+```
+- `rootfileAlpha` -- calibrated alpha run tree (e.g. `A_gen_run107.root`)
+- Also reads `transfer.root` (hardcoded) for simulation comparison
+
+### Output
+Multi-panel canvas (6×1 default, 4×1 for single detector): each panel shows E vs Z for one detector column (4 rows overlaid in different colors) from alpha data. Simulation tree overlaid for comparison.
+
+### Use case
+Detect Z-offset mismatches or column-to-column shifts before kinematic calibration. If alpha peaks don't align at the expected Z positions, there's a geometry or mapping issue.
+
+**Mode options:** `mode=0` (all detectors), `mode=1` (single detID)
+
+---
+
+## Monitors_Util.C -- Interactive Monitoring Utility Library
+
+**Source:** `Armory/Monitors_Util.C` (557 lines, ROOT macro)
+**Purpose:** Collection of ~30 named display functions for interactive ROOT session monitoring. Loaded alongside `Monitors.C` for quick histogram inspection.
+
+### Function catalogue
+
+| Function | Displays |
+|---|---|
+| `rawID()` | Raw detector ID distribution |
+| `rawe([logy])` | Raw energy per channel |
+| `rawring([logy])` | Raw ring detector signals |
+| `rawxf/rawxn([logy])` | Raw XF/XN position signals |
+| `eVring()` | Energy vs ring |
+| `xfVxn()` | XF vs XN (position correlation) |
+| `eVxs()` | Energy vs X_sum (xf+xn) |
+| `ecal()` / `ecal2()` | Calibrated energy |
+| `xfCalVxnCal()` | Calibrated XF vs XN |
+| `eVx()` | Energy vs X position |
+| `ringVx()` | Ring vs X |
+| `eCalVxCal()` / `eCalVxCalG()` | Calibrated E vs X (with/without gate) |
+| `eCalVzRowG()` | E vs Z per row (gated) |
+| `excite()` | Ex spectrum |
+| `ExThetaCM()` | Ex vs thetaCM |
+| `ExVxCal()` | Ex vs calibrated X |
+| `elum()` | ELUM detector |
+| `apollo()` | Apollo (Cleopatra kinematics overlay) |
+| `recoils([logz])` | RDT recoil plots |
+| `tac()` | TAC timing signals |
+| `ic()` | Ion chamber signals |
+| `eCalVz()` | E-Z plot (final calibrated) |
+
+**Utility functions:** `newCanvas()`, `FindBesCanvasDivision(nPad)`, `listDraws()`, `Count1DH()`
+
+**Design:** All functions assume a pre-loaded TTree named `tree` in the current ROOT session (from Monitors.C workflow).
+
+_FitCoinTime.C + Check_alignment.C + Monitors_Util.C documented: 2026-04-28._
+
+---
+
+## Check_Xsec.C -- Angular Distribution Cross-Section Checker
+
+**Source:** `Armory/Check_Xsec.C` (158 lines, ROOT macro)
+**Purpose:** Overlay experimental thetaCM distribution with DWBA predictions from a text table, with optional 2-component fit.
+
+### Inputs (hardcoded)
+- `checkResult.root` -- must be pre-generated by `Check_e_z.C` (contains `hThetaList` TObjArray + ExPos/ExSigma arrays)
+- DWBA text table (Xsec.txt format from Ptolemy/ExtractXSec)
+
+### Key parameters (edit in script)
+- `ExID` -- which state to display (0-based index into hThetaList)
+- `scale` -- scale factor for DWBA curves (manual normalization)
+- `fitCol[2]` -- which columns in Xsec.txt to use as f1, f2
+
+### Output
+Canvas: experimental thetaCM histogram + 1 or 2 DWBA curves overlaid. For 2-component fit: reports A, B coefficients.
+
+**Note:** Predecessor to `FitXsec.C` -- less automated, requires manual `checkResult.root` input.
+
+---
+
+## generateHistogram.C -- Synthetic Spectrum Generator (Test/Demo)
+
+**Source:** `Armory/generateHistogram.C` (38 lines, ROOT macro)
+**Purpose:** Generate a synthetic multi-peak spectrum using `AutoFit.C`'s `nGaussPol` function for testing the fitting library.
+
+**Hardcoded:** 12 Gaussians with known positions (0.0 to 6.609 MeV) and sigma=0.05 MeV. Samples a TH1F from the TF1 and calls `clickFit` for interactive fitting.
+
+**Use case:** Unit test / demo for `AutoFit.C` fitting routines. Not used in production analysis.
+
+---
+
+## script_alpha.C -- Legacy Alpha Calibration Script (Pre-AutoCalibrationTrace)
+
+**Source:** `Armory/script_alpha.C` (901 lines, ROOT macro)
+**Purpose:** Earlier self-contained alpha calibration pipeline -- predecessor to the modular `AutoCalibrationTrace.C` + Armory system.
+
+### Architecture
+Standalone script with its own calibration loaders and Ex reconstruction:
+
+| Function | Purpose |
+|---|---|
+| `LoadDetGeoAndReactionConfigFile()` | Read detectorGeo.txt + reactionConfig.txt |
+| `LoadECorr()` / `LoadXFXNCorr()` etc. | Load all correction files (same format as Armory) |
+| `LoadReactionPars()` | Compute kinematic constants (alpha, beta, gamma, mass) |
+| `CalExTheta(Hit&)` | Inline Ex/thetaCM reconstruction (same math as HELIOS_LIB.h) |
+| `PlotKELines()` | Draw kinematic lines on E-Z plot |
+| `script_alpha()` | Main: chains alpha ROOT files, applies corrections, plots E-Z + Ex |
+| `Check(id)` | Single-detector check plot |
+| `DrawGraph(id)` / `DrawCut(id)` | Graphical utilities |
+
+**Status:** Legacy -- superseded by `AutoCalibrationTrace.C` + modular Armory. Kept for reference and single-shot debugging.
+
+**[!!] Difference from production:** Contains hardcoded corrections and global variables that must be manually updated per experiment. Use `AutoCalibrationTrace.C` for standard workflow.
+
+_Check_Xsec.C + generateHistogram.C + script_alpha.C documented: 2026-04-28._
+
+---
+
+## Cali_ex.C -- Energy Flatness Calibration (X-dependent correction)
+
+**Source:** `Armory/Cali_ex.C` (343 lines, ROOT macro)
+**Purpose:** Correct residual energy non-flatness as a function of X position (energy "tilt" across the detector strip).
+
+**Input:** `temp.root` (from Cali_e_trace/littleTree), known reference energies (e.g. 0.00, 0.798, 1.242 MeV for a specific reaction).
+**Output:** `correction_e_flat.dat` -- per-detector X-dependent energy correction coefficients.
+**Method:** Divides each detector's X range into `numSec=10` sections, fits peak position per section, fits pol2 vs X, writes correction. Uses `AutoFit.C` peak fitting.
+**Note:** Step for experiments where E-X flatness matters (high-resolution runs). Not always needed.
+
+---
+
+## Cali_gamma.C -- Gamma Detector Energy Calibration
+
+**Source:** `Armory/Cali_gamma.C` (409 lines, ROOT macro)
+**Purpose:** Calibrate gamma detectors (HPGe + NaI) against known gamma energies.
+
+**Call signature:** `Cali_gamma(tree, [runID=0], [threshold=0.05])`
+**Hardcoded detectors:** 4 detectors (HPGe-1/2/3 + NaI), linear calibration coefficients per detector, energy range 20-7200 keV.
+**Method:** TSpectrum peak finding on gamma spectra, match to reference lines, display calibrated vs raw.
+**Use case:** HELIOS gamma coincidence experiments (e.g. with NaI or HPGe arrays in coincidence with silicon). Not standard for pure transfer reactions.
+
+---
+
+## script_FCUP.C -- Faraday Cup Rate vs Run Display
+
+**Source:** `Armory/script_FCUP.C` (200 lines, ROOT macro)
+**Purpose:** Display beam current (FCUP) as a function of time for a given run, using pre-loaded run timing table.
+
+**Call signature:** `script_FCUP([runID=41])`
+**Hardcoded:** `runTime[40][2]` array with {duration, startTime} for runs 25-64 (207Hg experiment). Uses `FCUP_converter.C` output.
+**Use case:** Beam current monitoring and integrated charge calculation for cross-section normalization. [!!] Timing table is experiment-specific -- must be recalibrated for new experiments.
+
+---
+
+## readTrace_S.C -- Raw Trace Reader / Visualizer
+
+**Source:** `Armory/readTrace_S.C` (287 lines, ROOT macro)
+**Purpose:** Read and display raw digitizer traces from trace ROOT files for diagnostic purposes.
+
+**Call signature:** `readRawTrace(fileName, [minDetID=0], [maxDetID=1000], [print=false])`
+**Input:** Trace ROOT file (trace_runNNN.root format)
+**Output:** Canvas with raw waveforms per detector; optional text printout of trace values.
+**Use case:** Debug trace acquisition, verify trace lengths, check pulse shapes, diagnose trace fitting issues before running `Cali_coinTime_alpha.C`.
+
+_Cali_ex.C + Cali_gamma.C + script_FCUP.C + readTrace_S.C documented: 2026-04-28._
+
+---
+
+## FitCoinTime2.C -- Coincidence Time Clustering v2 (Least Squares)
+
+**Source:** `Armory/FitCoinTime2.C` (384 lines, ROOT macro)
+**Purpose:** Second iteration of coinTime clustering algorithm -- uses least-squares (Lsq struct) instead of agglomerative distance matrix.
+
+**Algorithm:** Generates 500-point test data (linear coinTime + Gaussian noise + discrete offset). Defines `Lsq` struct tracking chi-square, count, mean-square per cluster. Applies `BubbleSort` on cluster quality, iterates up to `maxIteration=1000` times with `threshold=0.02` distance cutoff.
+**Status:** Research prototype -- not production. Superseded by `GetCoinTimeCorrectionCutG.C` and `Cali_coinTime_alpha.C` for actual use.
+
+---
+
+## Cali_gamma_histogram.C -- Gamma Histogram Calibration Helper
+
+**Source:** `Armory/Cali_gamma_histogram.C` (228 lines, ROOT macro)
+**Purpose:** Helper function called by `Cali_gamma.C` -- processes a single gamma histogram for peak finding and calibration display.
+
+**Call signature:** `Cali_gamma_histogram(hist, [threshold=0.1])`
+**Input:** Pre-filled `TH1F*` gamma spectrum
+**Output:** 3-panel canvas (1 column × 3 rows): raw spectrum, background-subtracted, fitted peaks with TSpectrum.
+**Note:** Companion to `Cali_gamma.C`; not called directly in normal workflow.
+
+---
+
+## Check_Simulation.C -- Transfer Simulation Output Viewer
+
+**Already documented in:** `HELIOS_Simulation_Cleopatra.md` (Check_Simulation section).
+
+Summary: 650-line ROOT macro; visualizes `transfer.root` output in 15-panel canvas (E-Z, recoil XY/RZ, thetaCM, ExCal, ELUM, hitID). Called by `Simulation_Helper.C` "Plot Simulation" button and by `Transfer.C` with `isPlot=1`.
+
+---
+
+## testTraceFit.C -- Trace Fitting Algorithm Tester
+
+**Source:** `Armory/testTraceFit.C` (355 lines, ROOT macro)
+**Purpose:** Development/test script for digital pulse shaping algorithms on raw digitizer traces.
+
+**Implements:**
+- `TrapezoidFilter(TGraph* trace)` -- trapezoidal shaping filter (Jordanov & Knoll 1994, NIM A353): baseline correction → moving difference → accumulator → trapezoid output. Parameters: riseTime=10 ch, flatTop=4 ch, decayTime=2000 ch, baseLineEnd=80.
+- Tests filter on real trace data from trace ROOT files
+- Compares trapezoid energy vs standard trace energy
+
+**Use case:** Evaluate alternative energy extraction from traces (vs standard peak/CFD methods). Research tool -- not in production calibration pipeline.
+
+_FitCoinTime2.C + Cali_gamma_histogram.C + Check_Simulation.C (ref) + testTraceFit.C documented: 2026-04-29. Armory coverage now 43/47 (.C companions Apollo.C, Cali_e_trace.C, Cali_littleTree_trace.C, Check_caliResult.C all trivial entry-point wrappers for documented .h files)._

@@ -4,7 +4,7 @@
 **Authors:** C. R. Hoffman, G. L. Wilson, J. Chen, B. P. Kay, T. L. Tang, S. R. Carmichael, M. Gott, S. Lesher, M. S. Martin, G. E. Morgan, J. Wu
 **Date:** Draft dated February 20, 2026 (pre-publication)
 **Affiliation:** ANL Physics Division + LSU, Notre Dame, Wisconsin-La Crosse
-**Status:** [!!] Draft — not yet published. Handle with discretion.
+**Status:** [!!] Submitted — not yet published. No public PDF available. Handle with discretion.
 
 ---
 

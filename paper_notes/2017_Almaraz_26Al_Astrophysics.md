@@ -2,7 +2,8 @@
 
 **Citation:** S. Almaraz-Calderon, K.E. Rehm, N. Gerken, M.L. Avila, B.P. Kay, R. Talwar et al., PRL 119, 072701 (2017)
 **DOI:** 10.1103/PhysRevLett.119.072701
-**Read:** 2026-04-26 (from HELIOS_Publications_Summary)
+**PDF:** `~/publications/2017_Almaraz_26Alm_dp27Al.pdf`
+**Read:** 2026-04-26 (notes); PDF obtained 2026-04-28
 
 ---
 

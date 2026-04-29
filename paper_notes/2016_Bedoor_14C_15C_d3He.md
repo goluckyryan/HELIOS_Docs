@@ -2,7 +2,8 @@
 
 **Citation:** S. Bedoor, A.H. Wuosmaa, M. Albers et al., Phys.Rev.C 93, 044323 (2016)
 **DOI:** 10.1103/PhysRevC.93.044323
-**Read:** 2026-04-26 (from HELIOS_Publications_Summary)
+**PDF:** `~/publications/2016_Bedoor_14C15C_d3He.pdf`
+**Read:** 2026-04-26 (notes); PDF obtained 2026-04-28
 
 ---
 
