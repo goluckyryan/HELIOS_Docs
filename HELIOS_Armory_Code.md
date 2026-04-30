@@ -30,7 +30,7 @@ Notes on key analysis library files across the digios pipeline.
 | `ExpXsecToRoot.C` | `Armory/` | Convert text experimental Xsec (angle/xsec/errors) to ROOT TGraphErrors in xList |
 | `FitXsec.C` | `Armory/` | Fit experimental angular dist with DWBA (1 or 2 components) to extract SF (C²S); chi²/ndf output |
 | `runsCheck2.C` | `Armory/` | Run summary table: reads timing TMacro from gen_run*.root, prints #events/size/duration per run, saves run_Summary.txt |
-| `FCUP_converter.C` | `Armory/` | Convert FCUP current log (text) to ROOT TTree with DAQ-synchronized timestamps; [!!] offset hardcoded for 207Hg |
+| `FCUP_converter.C` | `Armory/` | ~~Convert FCUP current log to ROOT TTree~~ **RELIC** -- hardcoded 207Hg offsets, not maintained. Dismiss. |
 | `script_Ex.C` | `Armory/` | Main physics display: 6-panel canvas (E-Z, Ex spectrum+fit, thetaCM dist); TSpectrum peak find + multi-Gaussian fit |
 | `script_ComXsec.C` | `Armory/` | Compare two experimental angular distributions (xList format) on log-scale canvas |
 | `Check_rdtGate.C` | `Armory/` | Verify RDT dE-E cuts: 4-panel 2D histograms with TCutG overlaid per RDT pair |
@@ -44,7 +44,7 @@ Notes on key analysis library files across the digios pipeline.
 | `script_alpha.C` | `Armory/` | Legacy 901-line standalone alpha calibration pipeline -- predecessor to AutoCalibrationTrace; [!!] hardcoded, use AutoCali instead |
 | `Cali_ex.C` | `Armory/` | X-dependent energy flatness correction: divides strip into 10 sections, fits pol2 vs X, writes correction_e_flat.dat |
 | `Cali_gamma.C` | `Armory/` | Gamma detector (HPGe+NaI) energy calibration; TSpectrum peak match to reference lines; gamma coincidence experiments only |
-| `script_FCUP.C` | `Armory/` | Display FCUP beam current vs time per run; [!!] runTime table hardcoded for 207Hg experiment |
+| `script_FCUP.C` | `Armory/` | ~~Display FCUP beam current vs time~~ **RELIC** -- hardcoded 207Hg run table, not maintained. Dismiss. |
 | `readTrace_S.C` | `Armory/` | Raw trace waveform reader/visualizer for diagnostic trace inspection |
 
 ## `Cali_xf_xn_to_e.C` -- XF+XN → E Linearity Calibration

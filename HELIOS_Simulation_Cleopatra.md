@@ -673,3 +673,5 @@ All radii are reduced (actual radius = r0 * A^(1/3)).
 - `HELIOS_Calibration.md`  --  exShift iteration, X-scale, and transfer.root usage
 - `new_experiment_checklist.md`  --  Cleopatra setup steps at the start of a new experiment
 - `expMemory_h095.md` / `expMemory_h094.md`  --  experiment-specific Cleopatra configs and results
+- `HELIOS_WoodsSaxon.md`  --  Woods-Saxon bound-state solver (C++, digios) for generating WF inputs to Ptolemy
+- `codes/woods_saxon.py`  --  Python WS solver (Numerov) for Coulomb energy calculations

@@ -352,3 +352,42 @@ Stores `GEBHeader` + raw payload bytes. `Decode()` method parses payload into `E
 `id = board_id * 10 + channel_id` -- matches `GeneralSortMapping.h` channel numbering.
 
 _Hit.h data structures documented: 2026-04-29._
+
+---
+
+## BinaryReader.h -- Raw Data File Reader
+
+**Source:** `EventBuilder/BinaryReader.h` (397 lines)
+**Purpose:** Low-level binary file reader for HELIOS raw `.gtd` data files. Supports both standard `ifstream` and high-performance `mmap` I/O.
+
+### File naming convention (parsed by BinaryReader)
+Filename format: `<expName>_run_<RUN>.<digID>` where:
+- `runID` -- run number (parsed from filename)
+- `DigID` -- digitizer ID, last 3 digits of extension (e.g. `gtd01` → 01)
+- `fileIndex` -- file segment index (2nd-last 3 digits) for multi-segment files
+
+### Key methods
+
+| Method | Purpose |
+|---|---|
+| `Open(filename)` | Open file, parse runID/DigID/fileIndex, map if mmap enabled |
+| `Scan([quick], [debug])` | Count total hits in file (sets `totalNumHits`) |
+| `ReadNextNHitsFromFile()` | Read next batch of hits into `hits[]` array |
+| `GetHits()` / `GetHit(i)` | Access the hit array |
+| `ResetFile()` | Seek to beginning, reset all counters |
+| `GetGlobalEarliestTime()` | First timestamp in file |
+| `GetGlobalLastTime()` | Last timestamp in file |
+| `GetMemoryUsageBytes()` | Current memory used by hits array |
+
+### mmap vs ifstream
+- mmap path: `mmap()` + `MAP_PRIVATE | MAP_POPULATE` -- OS maps entire file into virtual memory, sequential reads via pointer arithmetic (`mmapPos`)
+- ifstream fallback: standard `file.read()` -- used when mmap unavailable
+- mmap is significantly faster for large files (avoids repeated system call overhead)
+- Destructor: `munmap()` + `close()` -- always cleans up
+
+### Hit storage
+- Pre-allocated `Hit* hits` array of size `maxHitSize`
+- `hitSize` tracks how many valid hits are in current batch
+- `hitID` tracks position within current batch
+
+_BinaryReader.h documented: 2026-04-29._

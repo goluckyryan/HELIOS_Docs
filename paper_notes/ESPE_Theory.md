@@ -87,5 +87,7 @@ WS parameters (neutron mass): $V_0=-60.9$ MeV, $r_0=1.13$ fm, $a_0=0.69$ fm, $V_
 - `SF_Theory_SumRule.md` -- sum rule derivation
 - `SF_Quenching_Review_2023.md` -- quenching discussion; ESPE mentioned in Part II
 - `2021_Szwec_SnIsotopes_Occupancies.md` -- ESPE systematics in Sn chain
+- `2022_Schiffer_SPE_NucleonNumber.md` -- **key**: universal logarithmic ESPE dependence on nucleon number across A=16-208; 33 orbitals; np slopes -21 MeV vs T=1 slopes -4 MeV; Schiffer's last paper
+- `1976_Schiffer_True_EffectiveInteraction_RMP.md` -- foundational empirical TBME survey (monopole M0 = J-weighted average of V(J))
 
-_Created: 2026-04-24_
+_Created: 2026-04-24 | Updated: 2026-04-30_

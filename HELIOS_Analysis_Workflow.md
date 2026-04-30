@@ -423,7 +423,7 @@ After `Analyzer.C` produces the calibrated analysis tree, these scripts are used
 | `Armory/FitXsec.C` | Fit experimental angular distribution with DWBA to extract C²S (1 or 2 component) |
 | `Armory/script_ComXsec.C` | Compare two experimental Xsec datasets on log-scale canvas |
 | `Armory/runsCheck2.C` | Print run summary table (events, duration, timestamps) from gen_run*.root |
-| `Armory/FCUP_converter.C` | Convert FCUP beam current log to ROOT TTree ([!!] offset hardcoded for 207Hg) |
+| `Armory/FCUP_converter.C` | ~~FCUP log converter~~ **RELIC** -- hardcoded 207Hg, not maintained. Dismiss. |
 
 Full documentation of all Armory scripts: `HELIOS_Armory_Code.md`
 

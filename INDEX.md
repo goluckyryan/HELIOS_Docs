@@ -3,7 +3,7 @@
 Lightweight map of HELIOS system reference files.
 All files located in `~/HELIOS_MD/`.
 
-**Search:** `grep -ril "keyword" ~/HELIOS_MD/*.md` (no RAG needed  --  26 files, ~110KB)
+**Search:** `grep -ril "keyword" ~/HELIOS_MD/*.md` (no RAG needed  --  28 files, ~120KB)
 
 ## Files
 
@@ -22,6 +22,8 @@ All files located in `~/HELIOS_MD/`.
 | `HELIOS_Experiment_Switch.md` | Non-interactive procedure for switching experiment branches on DAQ + Mac2020 |
 | `HELIOS_Simulation_Cleopatra.md` | Cleopatra/Ptolemy + Transfer MC -- InFileCreator, DWInFileCreator, ExtractXSec, Check_Simulation, Simulation_Helper, alpha.C, transfer_test.C, PlotTGraphTObjArray, potentials.h (23 OM potentials, AK standard) |
 | `HELIOS_Armory_Code.md` | Armory code reference  --  43/47 files documented: full calibration pipeline + analysis selectors + PACE4 + Penetrability + FitXsec (SF) + script_Ex + Monitors_Util (~30 fns) + testTraceFit (trapezoid filter) + more. 4 remaining are trivial .C wrappers for documented .h files. |
+| `Coulomb_Displacement_Energy.md` | Coulomb displacement energy theory: CDE calculation (uniform sphere vs WS), isospin decomposition for non-closed-shell cores, TBME Coulomb corrections, 11Be/11B worked example |
+| `HELIOS_WoodsSaxon.md` | Woods-Saxon potential solver: RK4 Schrödinger solver, WS.h class, WSFit/WSSearch parameter fitting, 9 nucleus energy files, LCRC SLURM parallel search |
 | `EventBuilder_Optimization.md` | EventBuilder benchmark + optimization notes  --  run011 performance (EventBuilder_S), data flow diagrams, mmap/LZ4/Reset improvements (EventBuilder_A, 2026-04-18) + GEBHeader/Event/Hit data structures (Hit.h, 2026-04-29) |
 | `HELIOS_LIB_Reference.md` | HELIOS_LIB.h reference  --  TransferReaction, HELIOS trajectory, TargetScattering, Decay, Knockout, Isotope, constant.h, FindThetaCM |
 | `HELIOS_Ptolemy_Build_Notes.md` | Ptolemy build notes  --  ARM64 (Spark/Jetson) and x86-64 (Mac2020) ([OK] verified 2026-04-12) |
@@ -48,6 +50,10 @@ All files located in `~/HELIOS_MD/`.
 - Firmware versions (digitizer) -> `HELIOS_Firmware_Inventory.md`
 - Trigger MISC_STAT bit map -> `HELIOS_Trigger_MISC_STAT.md`
 - DWBA, Ptolemy, kinematics simulation -> `HELIOS_Simulation_Cleopatra.md`
+- Woods-Saxon single-particle energies, bound-state wavefunctions, WS parameter fitting -> `HELIOS_WoodsSaxon.md`
+- Coulomb displacement energy, IAS, isospin decomposition, TBME Coulomb correction -> `Coulomb_Displacement_Energy.md`
+- TBME extraction code (Schiffer-True, monopole, Pandya) -> `codes/tbme_estimator.py` + `codes/README.md`
+- WS numerical solver Python (Numerov, bound states, Coulomb energy) -> `codes/woods_saxon.py`
 - Armory/working analysis code (calibration pipeline, fitting, analysis selectors) -> `HELIOS_Armory_Code.md`
 - EventBuilder performance / version benchmarks -> `EventBuilder_Optimization.md`
 - DWBA theory (ZR formulation, 9j/CG, radial integral, mass rescaling) -> `paper_notes/DWBA_ZR_Mathematics_Reference.md`
@@ -72,9 +78,19 @@ These live in `~/.openclaw/workspace/` and are loaded separately:
 
 > These are auto-loaded per channel (USER.md). Do not duplicate their content in HELIOS_MD.
 
+## Subdirectory: `codes/`
+
+Small Python scripts for nuclear structure calculations. Not counted in the 28-file total above.
+
+| File | Contents |
+|---|---|
+| `README.md` | Full documentation for both scripts |
+| `tbme_estimator.py` | Extract TBMEs from experimental data (Schiffer-True 1976 method): monopole, fragmented strength centroid, Coulomb correction (Slater F^k), Pandya transform |
+| `woods_saxon.py` | Solve radial Schrödinger eq. (Numerov), WS bound-state energies + wavefunctions, Coulomb energy from WS charge distribution |
+
 ## Subdirectory: `proposals/`
 
-Experiment proposals and notes. Not counted in the 26-file total above.
+Experiment proposals and notes. Not counted in the 28-file total above.
 
 | File | Contents |
 |---|---|
@@ -83,7 +99,7 @@ Experiment proposals and notes. Not counted in the 26-file total above.
 
 ## Subdirectory: `paper_notes/`
 
-Detailed notes on individual HELIOS/ISS publications and theory references. 36 unique notes + 2 older duplicates = 38 files. **ALL 36/36 HELIOS pubs now have notes (100% COMPLETE as of 2026-04-26)!** Not counted in the 26-file total above.
+Detailed notes on individual HELIOS/ISS publications and theory references. 36 HELIOS pubs (100% complete) + theory/non-HELIOS notes = 42 files total. Includes: 1976_Schiffer_True (TBME), 2022_Schiffer_SPE (nucleon number), Coulomb/ESPE/SF theory notes. Not counted in the 28-file total above.
 Theory notes (Ryan's blog): ESPE_Theory.md, SF_Theory_SumRule.md, SF_Quenching_Review_2023.md (created 2026-04-24).
 [Cleanup needed]: rm 2020_Tang_First_Exploration_Neutron_Shell.md + 2025_Watwood_32Si_proton_vacancy.md (superseded by newer versions)
 
@@ -114,5 +130,13 @@ Theory notes (Ryan's blog): ESPE_Theory.md, SF_Theory_SumRule.md, SF_Quenching_R
 | `SF_Theory_SumRule.md` | SF theory: sum rule derivation (Glendenning Ch.7), simple picture, occupation number, quenching context |
 | `SF_Quenching_Review_2023.md` | SF quenching review: full timeline 1993→2024, Gade plot, Kay 2022, Pohl 2023, observability debate (Ryan's blog) |
 | `ESPE_Theory.md` | Effective Single Particle Energy: definition, ESPE formula, ¹²C worked example, connection to sum rule and WS mean field |
+| `Coulomb_Displacement_Energy.md` | Coulomb displacement energy: WS wave function approach, isospin decomposition of CDE, TBME Coulomb correction (oscillator vs WS vs uniform sphere). Source: Ryan's blog (nukephysik101.wordpress.com). |
+| `helios_mcp_design.md` | MCP server design: 3-tier access control (Knowledge/Intelligence/Control), tool list per level, architecture, implementation phases. Ryan 2026-04-30. |
 
 Full publication list: `~/publications/HELIOS_Publications_Summary.md` (36 papers)
+
+## codes/
+
+| File | Description |
+|---|---|
+| `codes/tbme_estimator.py` | Python script: extract diagonal TBMEs from binding energies + excitation energies, per Schiffer-True 1976 (Rev. Mod. Phys. 48, 191). Includes monopole calculation and Pandya transform stub. |
