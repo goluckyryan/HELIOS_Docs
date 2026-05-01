@@ -3,7 +3,7 @@
 Lightweight map of HELIOS system reference files.
 All files located in `~/HELIOS_MD/`.
 
-**Search:** `grep -ril "keyword" ~/HELIOS_MD/*.md` (no RAG needed  --  28 files, ~120KB)
+**Search:** `grep -ril "keyword" ~/HELIOS_MD/*.md` (no RAG needed  --  31 files, ~133KB)
 
 ## Files
 
@@ -20,9 +20,11 @@ All files located in `~/HELIOS_MD/`.
 | `HELIOS_PV_Reference.md` | EPICS PV list  --  digitizer IOC PVs, thresholds, HV, timing |
 | `HELIOS_Experiment_Flow.md` | HELIOS experiment flow at ATLAS/ANL -- pre-beam prep, beam tuning, RAISOR, checkout, physics running, teardown |
 | `HELIOS_Experiment_Switch.md` | Non-interactive procedure for switching experiment branches on DAQ + Mac2020 |
-| `HELIOS_Simulation_Cleopatra.md` | Cleopatra/Ptolemy + Transfer MC -- InFileCreator, DWInFileCreator, ExtractXSec, Check_Simulation, Simulation_Helper, alpha.C, transfer_test.C, PlotTGraphTObjArray, potentials.h (23 OM potentials, AK standard) |
+| `HELIOS_Simulation_Cleopatra.md` | Cleopatra/Ptolemy + Transfer MC -- InFileCreator, DWInFileCreator, ExtractXSec, Check_Simulation, Simulation_Helper, potentials.h (23 OM potentials, AK standard) + PtolemyGUI standalone wrapper (ROOT + Python GUI) |
 | `HELIOS_Armory_Code.md` | Armory code reference  --  43/47 files documented: full calibration pipeline + analysis selectors + PACE4 + Penetrability + FitXsec (SF) + script_Ex + Monitors_Util (~30 fns) + testTraceFit (trapezoid filter) + more. 4 remaining are trivial .C wrappers for documented .h files. |
 | `Coulomb_Displacement_Energy.md` | Coulomb displacement energy theory: CDE calculation (uniform sphere vs WS), isospin decomposition for non-closed-shell cores, TBME Coulomb corrections, 11Be/11B worked example |
+| `HELIOS_PtolemyPlusPlus.md` | Ptolemy++ (~/Ptolemy_AI/): C++ DWBA, 16.5k lines, <0.01% error vs Fortran Ptolemy, validates elastic + (d,p)/(d,n)/(p,d) transfers; preferred modern replacement |
+| `HELIOS_Raphael_DWBA.md` | Raphael: Ryan's Python ZR-DWBA implementation (2152 lines, 8 modules) -- solveSE, boundState, distortedWave, dwba_zr; ~30s/d-orbital; ZR only; development status |
 | `HELIOS_WoodsSaxon.md` | Woods-Saxon potential solver: RK4 Schrödinger solver, WS.h class, WSFit/WSSearch parameter fitting, 9 nucleus energy files, LCRC SLURM parallel search |
 | `EventBuilder_Optimization.md` | EventBuilder benchmark + optimization notes  --  run011 performance (EventBuilder_S), data flow diagrams, mmap/LZ4/Reset improvements (EventBuilder_A, 2026-04-18) + GEBHeader/Event/Hit data structures (Hit.h, 2026-04-29) |
 | `HELIOS_LIB_Reference.md` | HELIOS_LIB.h reference  --  TransferReaction, HELIOS trajectory, TargetScattering, Decay, Knockout, Isotope, constant.h, FindThetaCM |
@@ -51,6 +53,8 @@ All files located in `~/HELIOS_MD/`.
 - Trigger MISC_STAT bit map -> `HELIOS_Trigger_MISC_STAT.md`
 - DWBA, Ptolemy, kinematics simulation -> `HELIOS_Simulation_Cleopatra.md`
 - Woods-Saxon single-particle energies, bound-state wavefunctions, WS parameter fitting -> `HELIOS_WoodsSaxon.md`
+- Ryan's Python DWBA implementation (Raphael), ZR formalism, code architecture -> `HELIOS_Raphael_DWBA.md`
+- **Ptolemy++ C++ DWBA** (<0.01% Fortran, production-quality, ~/Ptolemy_AI/) -> `HELIOS_PtolemyPlusPlus.md`
 - Coulomb displacement energy, IAS, isospin decomposition, TBME Coulomb correction -> `Coulomb_Displacement_Energy.md`
 - TBME extraction code (Schiffer-True, monopole, Pandya) -> `codes/tbme_estimator.py` + `codes/README.md`
 - WS numerical solver Python (Numerov, bound states, Coulomb energy) -> `codes/woods_saxon.py`
@@ -63,6 +67,8 @@ All files located in `~/HELIOS_MD/`.
 - RDT cuts, FOM, ML vs hand-drawn -> `rdtCut_guideline.md`
 - Terminal server port map, VME consoles -> `HELIOS_TerminalServer.md`
 - Mac2017 system state -> `HELIOS_Mac2017.md`
+- DAQ startup sequence (digitizer, trigger, timestamp) -> `HELIOS_DAQ_Startup.md`
+- InfluxDB schema, Grafana queries (Mac2017) -> `HELIOS_InfluxDB_Schema.md`
 - Magnet Pi (.208) readout, liquid helium -> `HELIOS_Magnet_Pi.md`
 
 ## Related Files (not in HELIOS_MD  --  in workspace)
@@ -80,7 +86,7 @@ These live in `~/.openclaw/workspace/` and are loaded separately:
 
 ## Subdirectory: `codes/`
 
-Small Python scripts for nuclear structure calculations. Not counted in the 28-file total above.
+Small Python scripts for nuclear structure calculations. Not counted in the 31-file total above.
 
 | File | Contents |
 |---|---|
@@ -90,7 +96,7 @@ Small Python scripts for nuclear structure calculations. Not counted in the 28-f
 
 ## Subdirectory: `proposals/`
 
-Experiment proposals and notes. Not counted in the 28-file total above.
+Experiment proposals and notes. Not counted in the 31-file total above.
 
 | File | Contents |
 |---|---|
@@ -99,7 +105,7 @@ Experiment proposals and notes. Not counted in the 28-file total above.
 
 ## Subdirectory: `paper_notes/`
 
-Detailed notes on individual HELIOS/ISS publications and theory references. 36 HELIOS pubs (100% complete) + theory/non-HELIOS notes = 42 files total. Includes: 1976_Schiffer_True (TBME), 2022_Schiffer_SPE (nucleon number), Coulomb/ESPE/SF theory notes. Not counted in the 28-file total above.
+Detailed notes on individual HELIOS/ISS publications and theory references. 40 files total: 36 dated pub notes (34 HELIOS + 1976_Schiffer_True + 2022_Schiffer_SPE) + 4 theory notes (DWBA_ZR, ESPE_Theory, SF_Theory_SumRule, SF_Quenching_Review). Not counted in the 31-file total above.
 Theory notes (Ryan's blog): ESPE_Theory.md, SF_Theory_SumRule.md, SF_Quenching_Review_2023.md (created 2026-04-24).
 [Cleanup needed]: rm 2020_Tang_First_Exploration_Neutron_Shell.md + 2025_Watwood_32Si_proton_vacancy.md (superseded by newer versions)
 

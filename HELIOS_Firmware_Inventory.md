@@ -85,5 +85,5 @@ done
 ## See Also
 
 - `HELIOS_Trigger_MISC_STAT.md` -- bit-level register decode (differs between firmware versions)
-- `~/dgs-doc/deep_fpga_RTRG.md` -- DGS RTRG firmware documentation
-- `~/dgs-doc/deep_fpga_MTRG_MAIN.md` -- DGS MTRG firmware documentation
+- `~/dgs-doc/deep_fpga_RTRG.md` -- DGS RTRG firmware documentation [!!] dir not present on Spark (was on Pi)
+- `~/dgs-doc/deep_fpga_MTRG_MAIN.md` -- DGS MTRG firmware documentation [!!] dir not present on Spark

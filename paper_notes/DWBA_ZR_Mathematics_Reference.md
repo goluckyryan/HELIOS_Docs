@@ -167,4 +167,6 @@ kaka.PlotDCSUnpolarized()
 - Location: `~/PtolemyGUI/Raphael/`
 - NOT used in production analysis -- Ptolemy Fortran binary is faster and more accurate (FR)
 
+**See also:** `HELIOS_Raphael_DWBA.md` -- full architecture + performance reference for the Raphael Python DWBA implementation.
+
 _Documented: 2026-04-19 (Spark). Source: ~/PtolemyGUI/Raphael/ZR_DWBA_Mathematics.md_

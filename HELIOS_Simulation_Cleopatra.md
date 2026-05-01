@@ -541,6 +541,35 @@ After running `Transfer` -> open Check_Simulation to verify:
 2. **ExCal** (`pExCal`): reconstructed Ex peaks should appear at correct energies
 3. If ExCal looks wrong: check `reaction.dat` constants and detector geometry
 
+## PtolemyGUI -- Standalone GUI Wrapper for DWBA Calculations
+
+**Location:** `~/PtolemyGUI/`
+**Reference:** Ptolemy: Macfarlane & Pieper, ANL-76-11 Rev. 1, ANL (1978)
+
+Standalone wrapper around Ptolemy that provides a GUI for DWBA input creation, execution, and result display. Two implementations:
+
+### CERN ROOT version (`PtolemyGUI/CERN_root/`)
+- Run: `./PtolemyGUI` from working directory
+- Reads DWBA config file, uses `InFileCreator.h` to create `DWBA.in`
+- Runs Ptolemy, reads output with `ExtractXsec.h`
+- **Output:** `DWBA.in`, `DWBA.output`, `DWBA.Xsec.txt`, `DWBA.Ex.txt`, `DWBA.root`
+- Plots result with `PlotTGraphTObjArray.h`
+- Uses `Cleopatra/potentials.h` for optical model potentials
+
+### Python version (`PtolemyGUI/PyGUIQt6/`)
+- Run: `./PtolemyGUIPy.py` (requires PyQt6 + venv)
+- Uses Python `inFileCreator` + `ExtractXsecPy.py` (Python ports of C++ tools)
+- Output: `Xsec.txt` -- plotted with Matplotlib
+- **Note:** "Does not work anywhere" (per README) -- limited portability
+
+### Mac OS support
+- Docker container available: see `Cleopatra/install_ptolemy_mac.txt`
+- Core Ptolemy binary is Linux-only
+
+**Relationship to digios workflow:** PtolemyGUI is a standalone tool for quick interactive DWBA calculations. The digios `Cleopatra/` workflow is for batch/scripted DWBA as part of the full analysis pipeline.
+
+---
+
 ## transfer_test.C -- Unit Test / Interactive Debugger
 
 **Source:** `Cleopatra/transfer_test.C` (77 lines, ROOT macro, not compiled)
@@ -675,3 +704,6 @@ All radii are reduced (actual radius = r0 * A^(1/3)).
 - `expMemory_h095.md` / `expMemory_h094.md`  --  experiment-specific Cleopatra configs and results
 - `HELIOS_WoodsSaxon.md`  --  Woods-Saxon bound-state solver (C++, digios) for generating WF inputs to Ptolemy
 - `codes/woods_saxon.py`  --  Python WS solver (Numerov) for Coulomb energy calculations
+- `HELIOS_Raphael_DWBA.md`  --  Ryan's Python ZR-DWBA implementation (alternative to Ptolemy, development)
+- `~/PtolemyGUI/frecsoTools/`  --  FRESCO input file creator (C++, 297 lines) + output extractor (Python, 245 lines); parallel to Ptolemy InFileCreator but for coupled-channels FRESCO code
+- `~/PtolemyGUI/dwuck4/`  --  DWUCK4 Fortran code (alternative DWBA, 4 source files + documentation)

@@ -2,6 +2,7 @@
 
 **Citation:** N. Watwood et al., Phys. Rev. C **112**, 054304 (2025)
 **DOI:** 10.1103/4lzs-mv3l
+**PDF:** `~/publications/2025_Watwood_Valence_1s0d_proton_vacancy.pdf`
 **Documented:** 2026-04-18
 
 ---

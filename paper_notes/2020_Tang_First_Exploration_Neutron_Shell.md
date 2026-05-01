@@ -3,6 +3,8 @@
 **Authors:** T.L. Tang, B.P. Kay, C.R. Hoffman, J.P. Schiffer, D.K. Sharp, L.P. Gaffney, S.J. Freeman, M.R. Mumpower, et al.
 **Journal:** Phys. Rev. Lett. 124, 062502 (2020)
 **arXiv:** 2001.00976
+**PDF:** `~/publications/2020_Tang_First_Exploration_of_Neutron.pdf`
+**Instrument:** ISS — ISOLDE Solenoidal Spectrometer (CERN, sister instrument to HELIOS)
 **Reaction:** 206Hg(d,p)207Hg in inverse kinematics
 **Facility:** ISOLDE Solenoidal Spectrometer (ISS) at CERN
 
