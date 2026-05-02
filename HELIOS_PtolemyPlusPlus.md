@@ -47,6 +47,7 @@ A C++ translation/reimplementation of the Fortran [Ptolemy](https://www.phy.anl.
 - CM frame output only (no lab-frame Jacobian yet)
 - No tensor analyzing powers (elastic)
 - Relativistic vs non-relativistic kinematics difference vs Fortran: ~1% at forward angles
+- **Elastic solver: no epsilon algorithm** (Wynn/Shanks acceleration) -- causes poor convergence at backward angles (θ > 90°). Fortran Ptolemy has this; C++ implementation pending. For HELIOS (forward angles θ_CM < 50°), this is not an issue.
 
 ---
 
@@ -92,7 +93,32 @@ Same input format as Fortran Ptolemy:
 
 Input file format identical to Ptolemy (GRDSET, InelDc namelist cards).
 
+**[!!] r0target convention:** Always specify `r0target` in PARAMETERSET when using Cleopatra-generated inputs. Cleopatra always writes `r0target` (radius = r0 × A_target^(1/3)). Without it, Ptolemy uses R0DEFAULT (sum-of-radii), giving different cross sections for heavy projectiles. For (d,p) this makes no difference (A_d=2), but always include it for consistency.
+
+```
+PARAMETERSET dpsb r0target lstep=1 lmin=0 lmax=40 asymptopia=30
+```
+
 ---
+
+## Documentation (`~/Ptolemy_AI/docs/`)
+
+| File | Lines | Contents |
+|---|---|---|
+| `PTOLEMY_CODE_MAP.md` | 321 | **Subroutine map + full math reference**: CONTRL→DATAIN→BOUND→WAVSET→GRDSET→INELDC→SFROMI→XSECTN flow, all formulas (SFROMI, BETCAL, A12, CUBMAP), reference kinematics for 16O(d,p)17O |
+| `PTOLEMY_MANUAL.md` | 934 | Full user manual (input card format, all keywords, examples) |
+| `PTOLEMY_THEORY.md` | 645 | Theoretical background (DWBA derivation, ZR vs FR) |
+| `PTOLEMY_INELASTIC.md` | 844 | Inelastic scattering extension |
+| `PTOLEMY_OUTPUT.md` | 508 | Output format reference |
+| `EPSILON_ALGORITHM.md` | 249 | Numerical epsilon/convergence algorithm |
+
+**Key formula from CODE_MAP.md:**
+```
+SFROMI = FACTOR × ATERM × i^(Li+Lo+2Lx+1) / √(2Li+1) × I(Li,Lo,Lx)
+FACTOR = 2√(k_a·k_b / Ecm_a·Ecm_b)
+```
+
+**[!!] VSO deuteron convention (from MANUAL §11.1):** Ptolemy divides L·S coupling by 2S (doubled spin). For deuterons (S=1), VSO is effectively halved. Published AK parametrizations have this baked in — do NOT double-correct.
 
 ## Additional Files
 
@@ -109,6 +135,18 @@ Input file format identical to Ptolemy (GRDSET, InelDc namelist cards).
 
 ---
 
+## Zero-Range vs Finite-Range (from PTOLEMY_THEORY.md §5)
+
+| Aspect | Zero-Range (Raphael/DWUCK4) | Finite-Range (Ptolemy/Ptolemy++) |
+|---|---|---|
+| Integral | 1D radial | 2D radial + angular |
+| Projectile structure | Point (D₀δ) | Full φ_P(r) wavefunction |
+| Computational cost | N_r | N_r² × N_θ |
+| Recoil effects | Approximate | Exact |
+| Accuracy for (d,p) | **10-30% off** | Correct |
+
+**For HELIOS (d,p) reactions: always use finite-range (Ptolemy++)**, not zero-range approximation.
+
 ## Relationship to Other DWBA Tools
 
 | Tool | Language | Type | Status | Location |
@@ -120,6 +158,26 @@ Input file format identical to Ptolemy (GRDSET, InelDc namelist cards).
 | DWUCK4 | Fortran | ZR-DWBA | Legacy | `~/PtolemyGUI/dwuck4/` |
 
 **Ptolemy++ is the preferred modern replacement for Fortran Ptolemy for HELIOS analysis.**
+
+---
+
+## Reading Ptolemy Output (from PTOLEMY_OUTPUT.md)
+
+Key output columns in the angular distribution table:
+
+| Column | Meaning |
+|---|---|
+| **C.M. ANGLE** | CM scattering angle θ (degrees) |
+| **C.M. MB** | Transfer dσ/dΘ (mb/sr) -- **the main result** |
+| **/RUTH** | Transfer dσ/dΘ / Rutherford |
+| HIGH L % ERROR | Estimated truncation error from L > Lmax |
+| Lx = N columns | DCS by transferred L -- shows which L dominates |
+
+**TOTAL:** = integrated transfer σ (mb)
+
+**Bound state depth search:** If V is not fixed, Ptolemy iterates V until correct B.E. + node count. Lines: `FOR V = XX, E = YY, WAVEFUNCTION HAS N NODES BUT M ARE DESIRED. WILL TRY A NEW V:`
+
+**Full output guide:** `~/Ptolemy_AI/docs/PTOLEMY_OUTPUT.md` (508 lines)
 
 ---
 

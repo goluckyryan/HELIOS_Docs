@@ -697,6 +697,7 @@ All radii are reduced (actual radius = r0 * A^(1/3)).
 
 ## See Also
 
+- `HELIOS_PtolemyPlusPlus.md`  --  **Ptolemy++ C++ DWBA** (<0.01% Fortran error, ~/Ptolemy_AI/); includes bound-state sensitivity study (r0 changes SF by ~3x)
 - `HELIOS_Ptolemy_Build_Notes.md`  --  Ptolemy build notes for Spark/ARM64 and Mac2020 (x86-64)
 - `HELIOS_Analysis_Workflow.md`  --  full analysis pipeline (where Cleopatra fits in)
 - `HELIOS_Calibration.md`  --  exShift iteration, X-scale, and transfer.root usage

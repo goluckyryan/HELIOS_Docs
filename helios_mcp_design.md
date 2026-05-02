@@ -123,6 +123,14 @@ helios-mcp/
 - ~200 lines Python
 
 ### Phase 2 — Synthesis notes
+
+> **Status (2026-05-02):** Several synthesis-quality notes already exist in `paper_notes/` and `HELIOS_MD/`:
+> - `ESPE_Theory.md` ✓, `SF_Theory_SumRule.md` ✓, `SF_Quenching_Review_2023.md` ✓
+> - `Coulomb_Displacement_Energy.md` ✓ (full CDE theory + isospin decomposition)
+> - `paper_notes/1976_Schiffer_True_RMP.md` ✓, `paper_notes/2022_Schiffer_SPE_NucleonNumber.md` ✓
+> - `HELIOS_PtolemyPlusPlus.md` ✓ (bound-state SF systematic, ZR vs FR)
+> Phase 2 can be completed by creating the `synthesis/` dir and linking/copying the relevant sections.
+
 - Write `~/HELIOS_MD/synthesis/` directory:
   - `SF_quenching.md` — quenching debate: data, models, my take
   - `ESPE_evolution.md` — shell evolution, tensor force, Schiffer arc 1976→2022

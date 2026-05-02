@@ -12,17 +12,24 @@ Contains:
 - `docs/` -- manual, code map, theory docs
 - `data/` -- AV18 potential, mass tables
 
-## Pre-Built Binary
+## Pre-Built Binaries
 
-`~/digios/analysis/Cleopatra/ptolemy` -- x86 32-bit static binary (the production reference)
+### Ptolemy++ (C++, **PREFERRED on Spark**)
+`~/Ptolemy_AI/ptolemy++` -- native ARM64 C++ binary, <0.01% error vs Fortran Ptolemy
+- Runs natively on Spark (ARM64), no QEMU needed
+- Same input format as Fortran Ptolemy
+- **See `HELIOS_PtolemyPlusPlus.md` for full documentation**
+- Build: `cd ~/Ptolemy_AI && make`
+
+### Fortran Ptolemy (x86 32-bit, legacy)
+`~/digios/analysis/Cleopatra/ptolemy` -- x86 32-bit static binary (original Fortran)
 - Runs on all Linux platforms via QEMU user-mode emulation (`binfmt_misc` + `qemu-i386`)
 - On Pi5: ~8x slower than native (QEMU overhead) but produces correct results
-- This is the only verified-correct binary for production use
 
 **[!!] Spark status (verified 2026-04-20):** `qemu-i386` NOT installed on Spark.
-`ptolemy` gives "Exec format error" -- cannot run directly.
-To fix: `sudo apt install qemu-user` (installs `qemu-i386` for x86 user-mode emulation).
-Until then: run Ptolemy on Mac2020 (x86-64) via SSH, or install qemu-user on Spark.
+`ptolemy` (Fortran) gives "Exec format error" -- cannot run directly.
+**Resolution: Use `ptolemy++` instead** (same input, native ARM64, <0.01% error).
+Alternative: `sudo apt install qemu-user` or run on Mac2020 (x86-64) via SSH.
 
 ## Build Test Results (2026-04-12)
 

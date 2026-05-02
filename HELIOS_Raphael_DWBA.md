@@ -125,7 +125,7 @@ sympy (wigner_9j)
 
 ## Current Limitations
 
-- **Zero-range only** (no finite-range) -- angular distributions agree with experiment at this level
+- **Zero-range only** (no finite-range) -- [!!] ZR is **10-30% inaccurate** for (d,p) reactions vs full finite-range. Use Ptolemy++ for production HELIOS analysis. -- angular distributions agree with experiment at this level
 - **Single-nucleon transfer only** -- (d,p), (p,d); not yet (p,t), (d,α), etc.
 - **No inelastic scattering** (yet)
 - **No polarization**
