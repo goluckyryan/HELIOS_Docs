@@ -132,6 +132,14 @@ FACTOR = 2√(k_a·k_b / Ecm_a·Ecm_b)
 | `fortran/` | Reference Fortran Ptolemy source |
 | `compare64/` | 64-bit comparison utilities |
 | `mass_lookup.cpp` | Mass table lookup utility |
+| `data/av18-phi-v` | AV18 deuteron wavefunction table (S+D state, 516 grid points); SPAM = 0.97069, P_S = 0.9422 |
+| `data/reid-phi-v` | Reid soft-core deuteron wavefunction table (alternative to AV18) |
+| `data/mass20.txt` | AME2020 mass table |
+
+**Additional source files:**
+- `src/dwba/thiele_cf.cpp` (101 lines) -- Thiele continued fraction interpolation for Coulomb wave function extrapolation (ported from Fortran `CCNFRC/CCONTF`)
+- `src/input/InputGenerator.cpp` (257 lines) -- C++ Ptolemy input file generator (alternative to digios `InFileCreator.h`; same orbital format `"0d5/2"`, AK potentials)
+- `src/dwba/stubs.cpp` (2 lines) -- placeholder stubs
 
 ---
 
@@ -146,6 +154,29 @@ FACTOR = 2√(k_a·k_b / Ecm_a·Ecm_b)
 | Accuracy for (d,p) | **10-30% off** | Correct |
 
 **For HELIOS (d,p) reactions: always use finite-range (Ptolemy++)**, not zero-range approximation.
+
+## Inelastic Scattering Support
+
+**Reference:** `~/Ptolemy_AI/docs/PTOLEMY_INELASTIC.md` (844 lines)
+
+Ptolemy++ supports inelastic DWBA for collective excitation (e.g. 206Hg(d,d')206Hg*(4+)).
+
+**Key difference from transfer:**
+- Transfer: 2D radial integral (r_α, r_β)
+- Inelastic: 1D radial integral (via INRDIN/INGRST) -- much faster
+
+**Coupling:** Deformed WS form factor (nuclear + Coulomb). Input via BETA/BELX keywords.
+
+**7 BETCAL bugs found and fixed during development** (Sessions 17-25, 2026-04):
+1. CG loop accumulation (all (Li,Lo) pairs)
+2. Associated Legendre without Condon-Shortley phase
+3. Coulomb phase addition (σ_in + σ_out)
+4. Sqrt-factorial normalization order
+5. FACTOR = 0.5/k_in (not k_out)
+6. CG argument ordering
+7. MX=0 vs MX>0 weight factor
+
+**Validation:** 0.033% mean DCS error vs Fortran (verified 2026-04-06 via FTN_SM debug injection).
 
 ## Relationship to Other DWBA Tools
 

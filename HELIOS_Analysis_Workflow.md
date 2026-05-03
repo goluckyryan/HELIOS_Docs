@@ -220,6 +220,15 @@ ls -la correction_e.dat
 - Normal: `analysis/root_data/gen_run{RUN}.root`
 - With trace: `analysis/root_data/trace_run{RUN}.root`
 
+### `process_Slurm` (LCRC batch processing)
+
+For large datasets, use LCRC:
+```
+process_Slurm [RunNum1] [RunNum2] [time] [Merge] [EventBuild] [GeneralSort]
+```
+Submits SLURM batch jobs on Bebop cluster to process run ranges in parallel. EventBuild=2 includes trace. GeneralSort=n runs `GeneralSortTraceProof.C` with n workers.
+**Note:** Globus transfer to LCRC currently **disabled** in stop_run.sh -- manual transfer needed.
+
 ### Step 3  --  `ChainMonitors.C` (ROOT monitoring)
 
 - Runs `Monitors.C` histograms over sorted ROOT files
@@ -408,6 +417,9 @@ Every generated plot must have an index number so it can be easily referenced la
 - [!!] Do not use `GLBL:DIG:*` PVs  --  use individual `VMExx:MDIGn:*` PVs directly
 - Globus transfer to LCRC is currently **disabled** in stop_run.sh
 - AutoProcess on Mac2020 is triggered by DAQ's AutoStartStop for online monitoring during long runs
+  - Script: `~/digios/AutoProcess <firstRun> <Run> <isEndRun>` (called by DAQ on Mac2020)
+  - Does: `process_Download` → `process_Sort` → `ChainMonitors.C` per run
+  - For end of multi-run: also runs `ChainMonitors.C(firstRun, Run)` for full chain
 - Mac2020 hostname: `phywl094.phy.anl.gov`
 
 ---

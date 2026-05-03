@@ -9,6 +9,9 @@ Full checklist for setting up a new HELIOS experiment from scratch  --  covers D
 Follow `HELIOS_Experiment_Switch.md` for the detailed procedure. Summary:
 
 ### Step 1  --  DAQ (digios1, 192.168.1.2)
+
+> **Automation shortcut:** `~/digios/SetUpNewExp <expName>` on DAQ or Mac2020 automates steps 2-7 below (git branch, expName.sh, mkdir, InfluxDB notify, git commit+push). Use it! Manual steps below for reference/recovery.
+
 - [ ] **Check disk space** on `/media/DIGIOSDATA6`: `df -h /media/DIGIOSDATA6`  --  must have sufficient free space for the experiment (3-day run ~ few hundred GB typical). Flag if <500 GB free. **Record the result (size/used/free/date) in `expMemory_<expName>.md` under a "Storage" section.**
 - [ ] `git fetch origin && git checkout -b <expName>` (branch from master)
 - [ ] **Edit** `expName.sh`: set `expName=<expName>`, `daqDataPath=/media/DIGIOSDATA6`, `LastRunNum=0`

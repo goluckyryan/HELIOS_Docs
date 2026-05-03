@@ -1,6 +1,6 @@
 # Ptolemy Build Notes
 
-[OK] Verified 2026-04-12 -- build tests on Pi5/ARM64 (now Spark/Jetson, same arch) and Mac2020 (x86-64)
+[OK] Verified 2026-05-02 -- Ptolemy++ (native ARM64 C++) is PREFERRED binary on Spark; Fortran Ptolemy (32-bit x86) requires qemu-i386 or Mac2020
 
 ## Source Repository
 

@@ -35,7 +35,10 @@ HELIOS is a solenoidal spectrometer at the ATLAS facility (Argonne Tandem Linac 
 |------|-------------|
 | [HELIOS_Analysis_Workflow.md](HELIOS_Analysis_Workflow.md) | ROOT analysis pipeline, Armory macros, TSelector framework |
 | [HELIOS_Simulation_Cleopatra.md](HELIOS_Simulation_Cleopatra.md) | Cleopatra/Ptolemy DWBA + Transfer MC -- InFileCreator, DWInFileCreator, ExtractXSec, Check_Simulation, alpha.C, Simulation_Helper GUI |
-| [HELIOS_Ptolemy_Build_Notes.md](HELIOS_Ptolemy_Build_Notes.md) | Ptolemy build notes -- Spark/ARM64 and Mac2020 (x86-64) ([OK] 2026-04-12) |
+| [HELIOS_Ptolemy_Build_Notes.md](HELIOS_Ptolemy_Build_Notes.md) | Ptolemy build notes -- **Ptolemy++ (C++, preferred)** + Fortran Ptolemy (32-bit x86, requires qemu on ARM64) ([OK] 2026-05-02) |
+| [HELIOS_PtolemyPlusPlus.md](HELIOS_PtolemyPlusPlus.md) | **Ptolemy++ C++ DWBA** (~/Ptolemy_AI/): <0.01% vs Fortran, native ARM64, inelastic+transfer, bound-state SF systematic (r0→3x) |
+| [HELIOS_WoodsSaxon.md](HELIOS_WoodsSaxon.md) | Woods-Saxon potential solver: C++ (digios WSFit/WSSearch) + Python (woods_saxon.py Numerov) |
+| [HELIOS_Raphael_DWBA.md](HELIOS_Raphael_DWBA.md) | Raphael Python ZR-DWBA (~/PtolemyGUI/Raphael/): 2152 lines, development-quality [ZR 10-30% off for (d,p)] |
 | [HELIOS_Armory_Code.md](HELIOS_Armory_Code.md) | Armory/working code reference -- 13 files: full calibration pipeline (Cali_xf_xn, Cali_compareF, Cali_scale_x, Cali_xf_xn_to_e, Cali_e_trace, AutoFit, Analyzer, rootlogon, etc.) |
 | [HELIOS_LIB_Reference.md](HELIOS_LIB_Reference.md) | HELIOS_LIB.h reference -- TransferReaction, HELIOS trajectory, Isotope (AME2020), constant.h, FindThetaCM |
 

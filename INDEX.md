@@ -24,7 +24,7 @@ All files located in `~/HELIOS_MD/`.
 | `HELIOS_Armory_Code.md` | Armory code reference  --  43/47 files documented: full calibration pipeline + analysis selectors + PACE4 + Penetrability + FitXsec (SF) + script_Ex + Monitors_Util (~30 fns) + testTraceFit (trapezoid filter) + more. 4 remaining are trivial .C wrappers for documented .h files. |
 | `Coulomb_Displacement_Energy.md` | Coulomb displacement energy theory: CDE calculation (uniform sphere vs WS), isospin decomposition for non-closed-shell cores, TBME Coulomb corrections, 11Be/11B worked example |
 | `helios_mcp_design.md` | HELIOS MCP server design (helios-mcp): 3-tier access (Knowledge/Intelligence/Control), tools list, auth, implementation plan |
-| `HELIOS_PtolemyPlusPlus.md` | Ptolemy++ (~/Ptolemy_AI/): C++ DWBA, 16.5k lines, <0.01% error vs Fortran Ptolemy, validates elastic + (d,p)/(d,n)/(p,d) transfers; preferred modern replacement |
+| `HELIOS_PtolemyPlusPlus.md` | Ptolemy++ (~/Ptolemy_AI/): C++ DWBA+inelastic, 16.5k lines, <0.01% error vs Fortran; bound-state SF systematic (r0→3x); ZR vs FR (10-30% off); preferred native ARM64 replacement for Fortran Ptolemy |
 | `HELIOS_Raphael_DWBA.md` | Raphael: Ryan's Python ZR-DWBA implementation (2152 lines, 8 modules) -- solveSE, boundState, distortedWave, dwba_zr; ~30s/d-orbital; ZR only; development status |
 | `HELIOS_WoodsSaxon.md` | Woods-Saxon potential solver: RK4 Schrödinger solver, WS.h class, WSFit/WSSearch parameter fitting, 9 nucleus energy files, LCRC SLURM parallel search |
 | `EventBuilder_Optimization.md` | EventBuilder benchmark + optimization notes  --  run011 performance (EventBuilder_S), data flow diagrams, mmap/LZ4/Reset improvements (EventBuilder_A, 2026-04-18) + GEBHeader/Event/Hit data structures (Hit.h, 2026-04-29) |
@@ -58,6 +58,7 @@ All files located in `~/HELIOS_MD/`.
 - **Ptolemy++ C++ DWBA** (<0.01% Fortran, production-quality, ~/Ptolemy_AI/) -> `HELIOS_PtolemyPlusPlus.md`
 - Coulomb displacement energy, IAS, isospin decomposition, TBME Coulomb correction -> `Coulomb_Displacement_Energy.md`
 - TBME extraction code (Schiffer-True, monopole, Pandya) -> `codes/tbme_estimator.py` + `codes/README.md`
+- HELIOS MCP server design (3-tier Knowledge/Intelligence/Control API) -> `helios_mcp_design.md`
 - WS numerical solver Python (Numerov, bound states, Coulomb energy) -> `codes/woods_saxon.py`
 - Armory/working analysis code (calibration pipeline, fitting, analysis selectors) -> `HELIOS_Armory_Code.md`
 - EventBuilder performance / version benchmarks -> `EventBuilder_Optimization.md`

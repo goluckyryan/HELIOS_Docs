@@ -14,7 +14,7 @@
 - `/System/Volumes/Data`: 1.6 TB used / 1.9 TB  --  **83% full** [!!]
 - Time Machine snapshots active
 - Uptime: 51 days (as of 2026-04-08)
-- [OK] Verified 2026-04-19  --  direct SSH; up 62d 39m, load 4.92/3.67/3.81 (InfluxDB+Grafana running), disk 3% used (328Gi free)
+- [OK] Verified 2026-05-02  --  direct SSH; up 75d 1h53m, load 3.34 (normal), disk 2% used (693Gi free); InfluxDB+Grafana running
 
 ## Role
 
