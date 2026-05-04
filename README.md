@@ -39,7 +39,7 @@ HELIOS is a solenoidal spectrometer at the ATLAS facility (Argonne Tandem Linac 
 | [HELIOS_PtolemyPlusPlus.md](HELIOS_PtolemyPlusPlus.md) | **Ptolemy++ C++ DWBA** (~/Ptolemy_AI/): <0.01% vs Fortran, native ARM64, inelastic+transfer, bound-state SF systematic (r0→3x) |
 | [HELIOS_WoodsSaxon.md](HELIOS_WoodsSaxon.md) | Woods-Saxon potential solver: C++ (digios WSFit/WSSearch) + Python (woods_saxon.py Numerov) |
 | [HELIOS_Raphael_DWBA.md](HELIOS_Raphael_DWBA.md) | Raphael Python ZR-DWBA (~/PtolemyGUI/Raphael/): 2152 lines, development-quality [ZR 10-30% off for (d,p)] |
-| [HELIOS_Armory_Code.md](HELIOS_Armory_Code.md) | Armory/working code reference -- 13 files: full calibration pipeline (Cali_xf_xn, Cali_compareF, Cali_scale_x, Cali_xf_xn_to_e, Cali_e_trace, AutoFit, Analyzer, rootlogon, etc.) |
+| [HELIOS_Armory_Code.md](HELIOS_Armory_Code.md) | Armory/working code reference -- **43/47 files** documented: full calibration pipeline, FitXsec (SF extraction), script_Ex (main display), Monitors_Util (~30 fns), PACE4, Penetrability, FCUP_converter, runsCheck2, etc. |
 | [HELIOS_LIB_Reference.md](HELIOS_LIB_Reference.md) | HELIOS_LIB.h reference -- TransferReaction, HELIOS trajectory, Isotope (AME2020), constant.h, FindThetaCM |
 
 ### Systems & Hardware

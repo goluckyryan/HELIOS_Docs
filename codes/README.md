@@ -149,4 +149,42 @@ Both WS and uniform sphere results are printed for comparison.
 
 ---
 
+## pdf_extract.py
+
+**Purpose:** Extract PDF pages as high-quality PNG images for linking in paper notes.
+
+**Inspired by:** MinerU's `pdf_reader.py` (opendatalab/MinerU) -- stripped to bare essentials.
+**Dependencies:** `pypdfium2` (PDFium, same engine as Chrome), `Pillow` -- both in `~/venv`
+
+```bash
+# Extract all pages at 150 dpi
+~/venv/bin/python3 ~/HELIOS_MD/codes/pdf_extract.py ~/publications/PAPER.pdf
+
+# Specific pages only
+~/venv/bin/python3 ~/HELIOS_MD/codes/pdf_extract.py paper.pdf --pages 2,3
+
+# Higher resolution
+~/venv/bin/python3 ~/HELIOS_MD/codes/pdf_extract.py paper.pdf --dpi 200
+
+# Custom output dir
+~/venv/bin/python3 ~/HELIOS_MD/codes/pdf_extract.py paper.pdf --outdir ~/HELIOS_MD/pictures/mydir/
+```
+
+**Output:** `~/HELIOS_MD/pictures/<pdf_stem>/page-001.png`, `page-002.png`, ...
+
+**Link in paper notes:**
+```markdown
+![Fig 1 -- E-Z plot](../pictures/2010_Wuosmaa_15Cdp16C/page-002.png)
+*Fig 1: Proton energy vs z for the 15C(d,p)16C reaction.*
+```
+
+**What it does vs MinerU:** Renders PDF pages using pypdfium2 (PDFium) AND extracts the text layer as Markdown. No ML models, no OCR models, no cloud, no torch. Strips ~95% of MinerU's codebase. Works for digitally-created PDFs (APS, AIP journals). Scanned PDFs need OCR (not implemented).
+
+**Output per PDF:**
+- `page-NNN.png` -- full-page images (for figure reference)
+- `text.md` -- full extracted text as Markdown (searchable, quotable)
+- `summary.md` -- page list with image thumbnails + text previews
+
+---
+
 _Created: 2026-04-29 | Author: Master HELIOS_

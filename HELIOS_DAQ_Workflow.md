@@ -148,7 +148,7 @@ Use the `helios-start-run` skill (source of truth). Key steps:
 Use the `helios-stop-run` skill (source of truth). Key steps:
 1. Collect stop reason
 2. Build stop elog comment, SCP to DAQ
-3. Call `stop_run.sh --ai` (handles: caput Stop, Grafana screenshot, elog/Discord push, kill xterms)
+3. Call `stop_run.sh --ai` (handles: caput Stop, writes `totalFileSize` to expName.sh, 2s flush wait, kill xterms via PID grep, Grafana screenshot, elog/Discord push)
 
 ### Quick Status Check
 
@@ -191,6 +191,11 @@ Two modes:
 **Pre-req:** `xhost +192.168.1.2` on Mac2020 (once per XQuartz session).
 
 `gtReceiver4` binary: `/home/helios/gtReceiver_digios/gtReceiver4` (NOT in PATH).
+Call: `gtReceiver4 <iocN> <filename.gtdNN> <max_size_bytes> <GEB_type>`
+- Max file size: **2,000,000,000 bytes (2 GB)** -- file rolls over at this size
+- GEB type: **14** (DGS digitizer data format)
+- 4 instances: ioc1-4 → `.gtd01-.gtd04` files
+- DISPLAY: set to `192.168.1.164:0` (Mac2020) in `--ai` mode
 
 ### Method B: tcpReceiver on Mac2020 (DROPPED 2026-04-24)
 
@@ -250,7 +255,7 @@ Mac2020: `~/experiments/{expName}/data` + `root_data`
 | `start_run.sh` / `stop_run.sh` | Run control (use `--ai` flag from Spark) |
 | `helios_setup_trigger` | Trigger router setup |
 | `helios_setup_digitizer_4sidesArray` | Digitizer defaults |
-| `start_run_Mac.sh` / `stop_run_Mac.sh` | Mac2020-side run control: SCP expName.sh from DAQ, GenElog+GenElogExtra -> elogFull.txt -> post to ANL elog -> Discord. stop saves elog ID for reply attachment. Run via SSH from DAQ. |
+| `start_run_Mac.sh` / `stop_run_Mac.sh` | Mac2020-side run control. **Start:** SCP expName.sh → GenElog.py + GenElogExtra.py → elogFull.txt → post to elog (ID→~/elogID.txt) → Discord. **Stop:** (parallel) Grafana screenshot + elog download, then append stop info, then (parallel) elog edit with Grafana attachment + Discord. Signals DAQ completion via `touch /tmp/elog_done` on DAQ. Run via SSH from DAQ. |
 | `GenElog.py` | Main elog HTML body: run number, timestamp, comment, B-field, array/RDT positions, trigger settings. Usage: `GenElog.py start` -> ~/elog.txt |
 | `GrafanaWeb.sh` | Grafana screenshot (macOS): `screencapture -D2 ~/grafanaElog.jpg` (monitor 2). Called by stop_run_Mac.sh on Mac2017. Web push disabled. |
 | `GrafanaElog.sh` | Legacy Linux Grafana screenshot (gnome-screenshot). Mostly commented out -- superseded by GrafanaWeb.sh |

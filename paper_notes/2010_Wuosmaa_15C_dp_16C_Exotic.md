@@ -59,4 +59,10 @@
 - Wuosmaa is HELIOS co-developer (also Lighthall 2010 commissioning paper)
 - Physics lesson: EM transitions alone can be misleading; transfer reactions give independent wavefunction info
 
-_Created: 2026-04-26 | Updated with full details: 2026-04-28_
+## Figures
+
+**Page 2** (key figures):
+![Page 2 -- E-Z plot and excitation spectrum](../pictures/2010_Wuosmaa_15Cdp16C/page-2.png)
+*Fig 1(a): Proton energy vs z for ¹⁵C(d,p)¹⁶C. Diagonal lines = different excited states in ¹⁶C. Fig 1(b): ¹⁶C excitation-energy spectrum -- 0⁺, 2⁺, 0⁺₂, and the unresolved 2⁺/3⁺ doublet near 4 MeV.*
+
+_Created: 2026-04-26 | Updated with full details: 2026-04-28 | Figures extracted: 2026-05-03_
